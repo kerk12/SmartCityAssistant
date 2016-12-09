@@ -8,6 +8,9 @@ import android.location.LocationManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -18,11 +21,16 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 
+import java.net.MalformedURLException;
+import java.util.HashMap;
+import java.util.Map;
+
 public class SmartSchedulePlanner extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
     LocationManager lm = null;
-
+    EditText MapOrigin;
+    Button GetDirectionsButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,6 +39,26 @@ public class SmartSchedulePlanner extends FragmentActivity implements OnMapReady
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+        MapOrigin = (EditText) findViewById(R.id.MapOrigin);
+        GetDirectionsButton = (Button) findViewById(R.id.SubmitButton);
+
+        GetDirectionsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String mapOrigin = MapOrigin.getText().toString();
+                Map<String, String> mapDirs = new HashMap<String, String>();
+                mapDirs.put("origin", mapOrigin);
+                MapHelper helper = new MapHelper(mapDirs, getApplicationContext());
+                try {
+                    helper.getDirections();
+                } catch (InstantiationException e) {
+                    e.printStackTrace();
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
     }
 
 
