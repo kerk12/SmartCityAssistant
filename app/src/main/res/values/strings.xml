@@ -11,4 +11,5 @@
     <string name="SchedulePlanner_Description">Διαμορφώστε το πρόγραμμα της ημέρας σας!</string>
     <string name="SmartHomeManager_Description">Διαχειριστείτε εύκολα και γρήγορα τις συσκευές του σπιτιού σας με την άκρη των δακτύλων σας!</string>
     <string name="OnlineOrder_Description">Παραγγείλτε γρήγορα φαγητό ή καφέ μέσα από μια μεγάλη λίστα ηλεκτρονικών καταστημάτων!</string>
+    <string name="title_activity_smart_schedule_planner">Smart Schedule Planner</string>
 </resources>
