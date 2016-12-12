@@ -48,6 +48,7 @@ public class SmartSchedulePlanner extends FragmentActivity implements OnMapReady
                 String mapOrigin = MapOrigin.getText().toString();
                 Map<String, String> mapDirs = new HashMap<String, String>();
                 mapDirs.put("origin", mapOrigin);
+                mapDirs.put("destination", "Acropolis");
                 MapHelper helper = new MapHelper(mapDirs, getApplicationContext());
                 try {
                     helper.getDirections();
