@@ -56,9 +56,10 @@ public class MapHelper {
                 origin=Monastiraki
                 destination=Cap+Cap
             */
-            //sb.append(entry.getKey() + "="+ entry.getValue().replaceAll(" ", "+"));
+            sb.append(entry.getKey() + "="+ entry.getValue().replaceAll(" ", "+"));
         }
-        sb.append("&key="+c.getResources().getString(R.string.google_maps_key));
+        //DO NOT USE WITHOUT https://...
+        //sb.append("&key="+c.getResources().getString(R.string.google_maps_key));
 
         return sb.toString();
     }
