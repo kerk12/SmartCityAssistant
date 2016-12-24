@@ -38,7 +38,7 @@ public class MapHelper {
     private boolean configured = false;
     private List<LatLng> travel = null;
     private String result;
-
+    private boolean calculated = false;
 
     /**
      * Public constructor for the MapHelper Class. It is required that the class is instantiated.
@@ -154,15 +154,27 @@ public class MapHelper {
         }
     }
 
+    private void CalculatePolyline() throws InterruptedException, MalformedURLException, TimeoutException, InstantiationException, ExecutionException {
+        getDirectionsAsPolyline();
+    }
+
     public List<LatLng> getRoute() throws InterruptedException, MalformedURLException, TimeoutException, InstantiationException, ExecutionException {
-        boolean success = false;
-        success = getDirectionsAsPolyline();
-
-
-        if (success){
-            return travel;
+        if (!calculated){
+            CalculatePolyline();
         }
-        return null;
+        return travel;
+    }
 
+    public PolylineOptions getRoutePolyline() throws InterruptedException, MalformedURLException, TimeoutException, InstantiationException, ExecutionException {
+        if (!calculated){
+            CalculatePolyline();
+        }
+        if (travel != null) {
+            PolylineOptions options = new PolylineOptions();
+            for (LatLng point : travel) {
+                options.add(point);
+            }
+            return options;
+        } else return null;
     }
 }

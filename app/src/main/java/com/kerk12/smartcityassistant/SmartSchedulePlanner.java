@@ -66,8 +66,9 @@ public class SmartSchedulePlanner extends FragmentActivity implements OnMapReady
                 //TODO Get input from the user...
                 mapDirs.put("destination", "Acropolis");
                 MapHelper helper = new MapHelper(mapDirs, getApplicationContext());
+                Polyline tr;
                 try {
-                    travel = helper.getRoute();
+                    tr = mMap.addPolyline(helper.getRoutePolyline());
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 } catch (MalformedURLException e) {
@@ -79,15 +80,7 @@ public class SmartSchedulePlanner extends FragmentActivity implements OnMapReady
                 } catch (ExecutionException e) {
                     e.printStackTrace();
                 }
-                Polyline tr;
-                if (travel != null){
-                    PolylineOptions options = new PolylineOptions();
-                    for (LatLng point : travel){
-                        options.add(point);
-                    }
-                    options.color(Color.BLUE);
-                    tr = mMap.addPolyline(options);
-                }
+
 
             }
         });
