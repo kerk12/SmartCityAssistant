@@ -154,35 +154,15 @@ public class MapHelper {
         }
     }
 
-    public void getTravel(){
+    public List<LatLng> getRoute() throws InterruptedException, MalformedURLException, TimeoutException, InstantiationException, ExecutionException {
         boolean success = false;
-        try {
-            success = getDirectionsAsPolyline();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (TimeoutException e) {
-            e.printStackTrace();
-        }
+        success = getDirectionsAsPolyline();
+
 
         if (success){
-            Polyline tr;
-            if (travel != null){
-                PolylineOptions options = new PolylineOptions();
-                for (LatLng point : travel){
-                    options.add(point);
-                }
-                options.color(Color.BLUE);
-                tr = SmartSchedulePlanner.mMap.addPolyline(options);
-            }
-
+            return travel;
         }
-
+        return null;
 
     }
 }

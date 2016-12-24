@@ -13,21 +13,20 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
-import com.google.maps.android.PolyUtil;
 
 import java.net.MalformedURLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeoutException;
 
 public class SmartSchedulePlanner extends FragmentActivity implements OnMapReadyCallback {
 
@@ -54,9 +53,31 @@ public class SmartSchedulePlanner extends FragmentActivity implements OnMapReady
                 String mapOrigin = MapOrigin.getText().toString();
                 Map<String, String> mapDirs = new HashMap<String, String>();
                 mapDirs.put("origin", mapOrigin);
+                //TODO Get input from the user...
                 mapDirs.put("destination", "Acropolis");
                 MapHelper helper = new MapHelper(mapDirs, getApplicationContext());
-                helper.getTravel();
+                try {
+                    travel = helper.getRoute();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                } catch (TimeoutException e) {
+                    e.printStackTrace();
+                } catch (InstantiationException e) {
+                    e.printStackTrace();
+                } catch (ExecutionException e) {
+                    e.printStackTrace();
+                }
+                Polyline tr;
+                if (travel != null){
+                    PolylineOptions options = new PolylineOptions();
+                    for (LatLng point : travel){
+                        options.add(point);
+                    }
+                    options.color(Color.BLUE);
+                    tr = mMap.addPolyline(options);
+                }
 
             }
         });
