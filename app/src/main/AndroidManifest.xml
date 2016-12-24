@@ -36,7 +36,7 @@
 
         <activity
             android:name=".SmartSchedulePlanner"
-            android:label="@string/title_activity_smart_schedule_planner"></activity>
+            android:label="@string/title_activity_smart_schedule_planner" />
     </application>
 
 </manifest>

@@ -6,13 +6,20 @@ import android.graphics.Color;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 
+import com.google.android.gms.common.api.Status;
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
+import com.google.android.gms.location.places.ui.PlaceSelectionListener;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -35,6 +42,9 @@ public class SmartSchedulePlanner extends FragmentActivity implements OnMapReady
     EditText MapOrigin;
     Button GetDirectionsButton;
     private List<LatLng> travel;
+    private FloatingActionButton addWaypointButton;
+    private FrameLayout addWaypointL;
+    PlaceAutocompleteFragment addWaypointFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,6 +91,36 @@ public class SmartSchedulePlanner extends FragmentActivity implements OnMapReady
 
             }
         });
+
+        addWaypointL = (FrameLayout) findViewById(R.id.AddWaypointContainer);
+        addWaypointFragment = new PlaceAutocompleteFragment();
+
+        addWaypointFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
+            @Override
+            public void onPlaceSelected(Place place) {
+                Log.d("AddWaypoint", place.getAddress().toString());
+                addWaypointL.setVisibility(View.GONE);
+                getFragmentManager().beginTransaction().detach(addWaypointFragment).commit();
+            }
+
+            @Override
+            public void onError(Status status) {
+
+            }
+        });
+
+        addWaypointButton = (FloatingActionButton) findViewById(R.id.AddWaypointButton);
+        addWaypointButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                AddWaypointDialog wpDialog = new AddWaypointDialog();
+//                wpDialog.show(getFragmentManager(), "Add Waypoint");
+                getFragmentManager().beginTransaction().add(R.id.AddWaypointContainer,addWaypointFragment).commit();
+                addWaypointL.setVisibility(View.VISIBLE);
+            }
+        });
+
+
 
     }
 

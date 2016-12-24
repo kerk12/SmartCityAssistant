@@ -1,6 +1,8 @@
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 <LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:map="http://schemas.android.com/apk/res-auto"
+
     xmlns:tools="http://schemas.android.com/tools"
      android:layout_height="match_parent"
     android:layout_width="match_parent"
@@ -26,6 +28,30 @@
             android:id="@+id/SubmitButton"
             android:text="Get Directions"
             />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:id="@+id/AddWaypointContainer">
+            <fragment android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:name="com.google.android.gms.location.places.ui.PlaceAutocompleteFragment"
+                android:id="@+id/AddPlaceFr"
+                xmlns:android="http://schemas.android.com/apk/res/android" />
+        </FrameLayout>
     </LinearLayout>
 
+
+
 </LinearLayout>
+    <android.support.design.widget.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:layout_gravity="bottom|right"
+        android:src="@drawable/add"
+        android:id="@+id/AddWaypointButton">
+
+    </android.support.design.widget.FloatingActionButton>
+</android.support.design.widget.CoordinatorLayout>
