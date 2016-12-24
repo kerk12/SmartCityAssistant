@@ -2,6 +2,7 @@ package com.kerk12.smartcityassistant;
 
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
@@ -19,18 +20,23 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
+import com.google.maps.android.PolyUtil;
 
 import java.net.MalformedURLException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class SmartSchedulePlanner extends FragmentActivity implements OnMapReadyCallback {
 
-    private GoogleMap mMap;
+    public static GoogleMap mMap;
     LocationManager lm = null;
     EditText MapOrigin;
     Button GetDirectionsButton;
+    private List<LatLng> travel;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,13 +56,8 @@ public class SmartSchedulePlanner extends FragmentActivity implements OnMapReady
                 mapDirs.put("origin", mapOrigin);
                 mapDirs.put("destination", "Acropolis");
                 MapHelper helper = new MapHelper(mapDirs, getApplicationContext());
-                try {
-                    helper.getDirections();
-                } catch (InstantiationException e) {
-                    e.printStackTrace();
-                } catch (MalformedURLException e) {
-                    e.printStackTrace();
-                }
+                helper.getTravel();
+
             }
         });
 

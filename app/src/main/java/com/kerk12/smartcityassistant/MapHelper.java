@@ -1,8 +1,18 @@
 package com.kerk12.smartcityassistant;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.util.Log;
+
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Polyline;
+import com.google.android.gms.maps.model.PolylineOptions;
+import com.google.maps.android.PolyUtil;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -11,7 +21,11 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 /**
  * Created by kerk12 on 9/12/2016.
@@ -22,6 +36,9 @@ public class MapHelper {
     private Map<String, String> reqMap = null;
     private Context c = null;
     private boolean configured = false;
+    private List<LatLng> travel = null;
+    private String result;
+
 
     /**
      * Public constructor for the MapHelper Class. It is required that the class is instantiated.
@@ -96,6 +113,7 @@ public class MapHelper {
             try {
                 String content = getDirections(urls[0]);
                 Log.d("DirectionsGetter", content);
+                result = content;
                 return content;
             } catch (IOException e) {
                 //TODO whatever...
@@ -107,16 +125,64 @@ public class MapHelper {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
+
+
         }
     }
-    public String getDirections() throws InstantiationException, MalformedURLException {
-        if (!configured){
-            throw new InstantiationException("Please configure the MapHelper class first");
-        }
+    private boolean getDirectionsAsPolyline() throws InstantiationException, MalformedURLException, ExecutionException, InterruptedException, TimeoutException {
         String url = makeGet();
         Log.d("MapHelper", url);
         URL directionsURL = new URL(url);
-        new DirectionsGetter().execute(directionsURL);
-        return null;
+        DirectionsGetter task = new DirectionsGetter();
+        task.execute(directionsURL);
+        result = task.get(10000, TimeUnit.MILLISECONDS);
+
+        JSONObject directions = null;
+
+        try {
+            directions = new JSONObject(result);
+
+
+            JSONArray routes = directions.getJSONArray("routes");
+            JSONObject defRoute = routes.getJSONObject(0);
+            String enc_Polyline = defRoute.getJSONObject("overview_polyline").getString("points");
+            travel = PolyUtil.decode(enc_Polyline);
+            return true;
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public void getTravel(){
+        boolean success = false;
+        try {
+            success = getDirectionsAsPolyline();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (TimeoutException e) {
+            e.printStackTrace();
+        }
+
+        if (success){
+            Polyline tr;
+            if (travel != null){
+                PolylineOptions options = new PolylineOptions();
+                for (LatLng point : travel){
+                    options.add(point);
+                }
+                options.color(Color.BLUE);
+                tr = SmartSchedulePlanner.mMap.addPolyline(options);
+            }
+
+        }
+
+
     }
 }
