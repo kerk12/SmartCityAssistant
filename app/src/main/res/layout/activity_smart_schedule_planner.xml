@@ -14,20 +14,14 @@
         android:layout_height="match_parent"
         tools:context="com.kerk12.smartcityassistant.SmartSchedulePlanner" />
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:orientation="vertical">
-        <EditText
-            android:layout_width="400dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/MapOrigin"/>
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/SubmitButton"
-            android:text="Get Directions"
-            />
+        <android.support.v7.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/SchedulePlannerRecyclerview"/>
 
         <FrameLayout
             android:layout_width="match_parent"

@@ -11,18 +11,38 @@ import java.util.concurrent.TransferQueue;
  */
 
 public class TravelWaypoint {
-    private String mName;
-    private LatLng mLocation;
+    private String Name;
+    private LatLng Location;
     private boolean isFinalDestination = false;
 
+    public void setFinalDestination(boolean finalDestination) {
+        isFinalDestination = finalDestination;
+    }
+
+    public LatLng getLocation() {
+        return Location;
+    }
+
+    public void setLocation(LatLng location) {
+        Location = location;
+    }
+
+    public String getName() {
+        return Name;
+    }
+
+    public void setName(String name) {
+        Name = name;
+    }
+
     public TravelWaypoint(String Name, LatLng Location){
-        mName= Name;
-        mLocation = Location;
+        this.Name= Name;
+        this.Location = Location;
     }
 
     public TravelWaypoint(String Name, LatLng Location, boolean isFinalDestination){
-        mName= Name;
-        mLocation = Location;
+        this.Name= Name;
+        this.Location = Location;
         this.isFinalDestination = isFinalDestination;
     }
 
