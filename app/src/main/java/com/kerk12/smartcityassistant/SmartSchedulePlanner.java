@@ -1,34 +1,25 @@
 package com.kerk12.smartcityassistant;
 
-import android.*;
 import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
-import android.net.Uri;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.google.android.gms.appindexing.Action;
-import com.google.android.gms.appindexing.AppIndex;
-import com.google.android.gms.appindexing.Thing;
-import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
@@ -38,14 +29,12 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
-import com.google.android.gms.vision.text.Text;
 
 import java.net.MalformedURLException;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeoutException;
 
@@ -65,6 +54,9 @@ public class SmartSchedulePlanner extends FragmentActivity implements OnMapReady
     private CheckBox isFinalDestination;
 
     private Polyline route;
+    private List<MarkerOptions> markers;
+
+    private Place selectedPlace = null;
 
     private class SPAdapter extends RecyclerView.Adapter<SPAdapter.ViewHolder> {
 
@@ -104,6 +96,35 @@ public class SmartSchedulePlanner extends FragmentActivity implements OnMapReady
         public void RefreshDataset() {
             mList = TravelPlanner.getWaypoints();
             notifyDataSetChanged();
+        }
+    }
+
+    private void UpdateMap(){
+        if (TravelPlanner.getNumOfWaypoints() >= 1){
+            markers = TravelPlanner.getRouteMarkers();
+            for (MarkerOptions mop: markers){
+                mMap.addMarker(mop);
+            }
+        }
+        if (TravelPlanner.getNumOfWaypoints() >= 2) {
+            try {
+                MapHelper helper = new MapHelper(TravelPlanner.makeHelperHashMap(), getApplicationContext());
+                PolylineOptions opt = helper.getRoutePolyline();
+                //TODO set the color and the start and end markers
+                route = mMap.addPolyline(opt);
+            } catch (TravelPlanner.NoWaypointsSetException e) {
+                e.printStackTrace();
+            } catch (InstantiationException e) {
+                e.printStackTrace();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            } catch (TimeoutException e) {
+                e.printStackTrace();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -162,39 +183,8 @@ public class SmartSchedulePlanner extends FragmentActivity implements OnMapReady
             @Override
             public void onPlaceSelected(Place place) {
                 //Log.d("AddWaypoint", place.getAddress().toString());
-                TravelWaypoint wayp;
-                if (!TravelPlanner.ExistsFinalDestination()) {
-                    wayp = new TravelWaypoint(place.getName().toString(), place.getLatLng(), isFinalDestination.isChecked());
-                } else {
-                    wayp = new TravelWaypoint(place.getName().toString(), place.getLatLng());
-                }
-                TravelPlanner.AddWaypoint(wayp);
+                selectedPlace = place;
 
-                //addWaypointL.setVisibility(View.GONE);
-                //getFragmentManager().beginTransaction().detach(addWaypointFragment).commit();
-                SPRecyclerView.setAdapter(new SPAdapter(TravelPlanner.getWaypoints()));
-                SPRecyclerView.invalidate();
-
-                if (TravelPlanner.getNumOfWaypoints() >= 2) {
-                    try {
-                        MapHelper helper = new MapHelper(TravelPlanner.makeHelperMap(), getApplicationContext());
-                        PolylineOptions opt = helper.getRoutePolyline();
-                        //TODO set the color and the start and end markers
-                        route = mMap.addPolyline(opt);
-                    } catch (TravelPlanner.NoWaypointsSetException e) {
-                        e.printStackTrace();
-                    } catch (InstantiationException e) {
-                        e.printStackTrace();
-                    } catch (ExecutionException e) {
-                        e.printStackTrace();
-                    } catch (TimeoutException e) {
-                        e.printStackTrace();
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    } catch (MalformedURLException e) {
-                        e.printStackTrace();
-                    }
-                }
             }
 
             @Override
@@ -207,15 +197,27 @@ public class SmartSchedulePlanner extends FragmentActivity implements OnMapReady
         addWaypointButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                AddWaypointDialog wpDialog = new AddWaypointDialog();
-                //getFragmentManager().beginTransaction().add(R.id.AddWaypointContainer, addWaypointFragment).commit();
-                //((EditText)addWaypointFragment.getView().findViewById(R.id.place_autocomplete_search_input)).setText("");
+                if (selectedPlace == null){
+                    Toast.makeText(getApplicationContext(),getResources().getString(R.string.NoSelectedPlace), Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                TravelWaypoint wayp;
+                if (!TravelPlanner.ExistsFinalDestination()) {
+                    wayp = new TravelWaypoint(selectedPlace.getName().toString(), selectedPlace.getLatLng(), isFinalDestination.isChecked());
+                } else {
+                    wayp = new TravelWaypoint(selectedPlace.getName().toString(), selectedPlace.getLatLng());
+                }
+                TravelPlanner.AddWaypoint(wayp);
 
+                SPRecyclerView.setAdapter(new SPAdapter(TravelPlanner.getWaypoints()));
+                SPRecyclerView.invalidate();
+
+                UpdateMap();
                 if (TravelPlanner.ExistsFinalDestination()) {
                     isFinalDestination.setEnabled(false);
                 }
-
-                //addWaypointL.setVisibility(View.VISIBLE);
+                addWaypointFragment.setText("");
+                selectedPlace = null;
             }
         });
 

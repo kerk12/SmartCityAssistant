@@ -23,6 +23,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
@@ -171,8 +172,16 @@ public class MapHelper {
         }
         if (travel != null) {
             PolylineOptions options = new PolylineOptions();
+            Random rnd = new Random();
+            int color = Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));
             for (LatLng point : travel) {
                 options.add(point);
+                /*
+                    Get a random color and add it to the route.
+                    Taken from:
+                    http://stackoverflow.com/questions/5280367/android-generate-random-color-on-click
+                 */
+                options.color(color);
             }
             return options;
         } else return null;

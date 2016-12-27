@@ -18,4 +18,6 @@
     <string name="AddPlace">Add Waypoint</string>
     <string name="isFinalDestination">Είναι ο τελικός σας προορισμός;</string>
 
+    <string name="NoSelectedPlace">Δεν έχετε επιλέξει προορισμό.</string>
+
 </resources>

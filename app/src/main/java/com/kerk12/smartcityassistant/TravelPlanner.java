@@ -1,6 +1,8 @@
 package com.kerk12.smartcityassistant;
 
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -28,9 +30,14 @@ public class TravelPlanner {
 
     }
 
-    public static List<TravelWaypoint> getWaypoints(){
-        if ( waypoints == null){
+    private static void initializeTravelPlanner(){
+        if ( waypoints == null) {
             waypoints = new ArrayList<TravelWaypoint>();
+        }
+    }
+
+    public static List<TravelWaypoint> getWaypoints(){
+            initializeTravelPlanner();
             //DEBUG ONLY
 //            TravelWaypoint point1, point2, point3;
 //            point1 = new TravelWaypoint("Point 1", new LatLng(12.123,12.123));
@@ -39,8 +46,13 @@ public class TravelPlanner {
 //            waypoints.add(point1);
 //            waypoints.add(point2);
 //            waypoints.add(point3);
+        if (ExistsFinalDestination()) {
+            List<TravelWaypoint> newWaypList = waypoints;
+            newWaypList.add(finalDestination);
+            return newWaypList;
+        } else {
+            return waypoints;
         }
-        return waypoints;
     }
 
     private static String LatLngAsString(LatLng latlng){
@@ -92,7 +104,7 @@ public class TravelPlanner {
 
     }
 
-    public static Map<String, String> makeHelperMap() throws NoWaypointsSetException {
+    public static Map<String, String> makeHelperHashMap() throws NoWaypointsSetException {
         Map<String, String> mMap = new HashMap<String, String>();
         mMap.put("origin", LatLngAsString(waypoints.get(0).getLocation()));
         StringBuilder waypBuilder = new StringBuilder();
@@ -120,6 +132,17 @@ public class TravelPlanner {
             mMap.put("destination", LatLngAsString(waypoints.get(limit).getLocation()));
         }
         return mMap;
+    }
+
+    public static List<MarkerOptions> getRouteMarkers(){
+        List<MarkerOptions> mList = new ArrayList<MarkerOptions>();
+        for (TravelWaypoint wayp: getWaypoints()){
+            MarkerOptions mops = new MarkerOptions();
+            mops.position(wayp.getLocation());
+            mops.title(wayp.getName());
+            mList.add(mops);
+        }
+        return mList;
     }
 
 }
