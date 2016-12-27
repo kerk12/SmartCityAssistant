@@ -135,7 +135,7 @@ public class MapHelper {
         URL directionsURL = new URL(url);
         DirectionsGetter task = new DirectionsGetter();
         task.execute(directionsURL);
-        result = task.get(10000, TimeUnit.MILLISECONDS);
+        result = task.get();
 
         JSONObject directions = null;
 

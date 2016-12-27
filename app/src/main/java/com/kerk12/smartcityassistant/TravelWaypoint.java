@@ -4,6 +4,8 @@ import com.google.android.gms.maps.model.LatLng;
 
 import org.w3c.dom.NameList;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.TransferQueue;
 
 /**
@@ -49,5 +51,6 @@ public class TravelWaypoint {
     public boolean isFinalDestination(){
         return this.isFinalDestination;
     }
+
 
 }

@@ -1,11 +1,14 @@
 package com.kerk12.smartcityassistant;
 
+import android.*;
+import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
@@ -17,10 +20,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
+import com.google.android.gms.appindexing.Action;
+import com.google.android.gms.appindexing.AppIndex;
+import com.google.android.gms.appindexing.Thing;
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
@@ -45,7 +53,7 @@ public class SmartSchedulePlanner extends FragmentActivity implements OnMapReady
 
     public static GoogleMap mMap;
     LocationManager lm = null;
-//    EditText MapOrigin;
+    //    EditText MapOrigin;
 //    Button GetDirectionsButton;
     private List<LatLng> travel;
     private FloatingActionButton addWaypointButton;
@@ -54,24 +62,29 @@ public class SmartSchedulePlanner extends FragmentActivity implements OnMapReady
     private RecyclerView SPRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager SPMan;
+    private CheckBox isFinalDestination;
+
+    private Polyline route;
 
     private class SPAdapter extends RecyclerView.Adapter<SPAdapter.ViewHolder> {
 
         private List<TravelWaypoint> mList;
 
-        public SPAdapter(List<TravelWaypoint> waypoints){
+        public SPAdapter(List<TravelWaypoint> waypoints) {
             mList = waypoints;
         }
 
         protected class ViewHolder extends RecyclerView.ViewHolder {
 
             public TextView WaypointName;
+
             public ViewHolder(View itemView) {
                 super(itemView);
                 WaypointName = (TextView) itemView.findViewById(R.id.waypoint_name);
             }
         }
-        public SPAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+
+        public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.sp_recycler_item, parent, false);
 
             ViewHolder vh = new ViewHolder(v);
@@ -79,13 +92,18 @@ public class SmartSchedulePlanner extends FragmentActivity implements OnMapReady
         }
 
         @Override
-        public void onBindViewHolder(SPAdapter.ViewHolder holder, int position) {
+        public void onBindViewHolder(ViewHolder holder, int position) {
             holder.WaypointName.setText(mList.get(position).getName());
         }
 
         @Override
         public int getItemCount() {
             return mList.size();
+        }
+
+        public void RefreshDataset() {
+            mList = TravelPlanner.getWaypoints();
+            notifyDataSetChanged();
         }
     }
 
@@ -133,15 +151,50 @@ public class SmartSchedulePlanner extends FragmentActivity implements OnMapReady
         SPRecyclerView.setAdapter(mAdapter);
 
 
-        addWaypointL = (FrameLayout) findViewById(R.id.AddWaypointContainer);
-        addWaypointFragment = new PlaceAutocompleteFragment();
+        addWaypointFragment = (PlaceAutocompleteFragment) getFragmentManager().findFragmentById(R.id.AddPlaceFr);
+
+        isFinalDestination = (CheckBox) findViewById(R.id.isFinalDestinationCB);
+        isFinalDestination.setText(getResources().getString(R.string.isFinalDestination));
+        isFinalDestination.setTextColor(getResources().getColor(R.color.colorPrimary));
+
 
         addWaypointFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
             @Override
             public void onPlaceSelected(Place place) {
-                Log.d("AddWaypoint", place.getAddress().toString());
-                addWaypointL.setVisibility(View.GONE);
-                getFragmentManager().beginTransaction().detach(addWaypointFragment).commit();
+                //Log.d("AddWaypoint", place.getAddress().toString());
+                TravelWaypoint wayp;
+                if (!TravelPlanner.ExistsFinalDestination()) {
+                    wayp = new TravelWaypoint(place.getName().toString(), place.getLatLng(), isFinalDestination.isChecked());
+                } else {
+                    wayp = new TravelWaypoint(place.getName().toString(), place.getLatLng());
+                }
+                TravelPlanner.AddWaypoint(wayp);
+
+                //addWaypointL.setVisibility(View.GONE);
+                //getFragmentManager().beginTransaction().detach(addWaypointFragment).commit();
+                SPRecyclerView.setAdapter(new SPAdapter(TravelPlanner.getWaypoints()));
+                SPRecyclerView.invalidate();
+
+                if (TravelPlanner.getNumOfWaypoints() >= 2) {
+                    try {
+                        MapHelper helper = new MapHelper(TravelPlanner.makeHelperMap(), getApplicationContext());
+                        PolylineOptions opt = helper.getRoutePolyline();
+                        //TODO set the color and the start and end markers
+                        route = mMap.addPolyline(opt);
+                    } catch (TravelPlanner.NoWaypointsSetException e) {
+                        e.printStackTrace();
+                    } catch (InstantiationException e) {
+                        e.printStackTrace();
+                    } catch (ExecutionException e) {
+                        e.printStackTrace();
+                    } catch (TimeoutException e) {
+                        e.printStackTrace();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    } catch (MalformedURLException e) {
+                        e.printStackTrace();
+                    }
+                }
             }
 
             @Override
@@ -155,13 +208,16 @@ public class SmartSchedulePlanner extends FragmentActivity implements OnMapReady
             @Override
             public void onClick(View v) {
 //                AddWaypointDialog wpDialog = new AddWaypointDialog();
-//                wpDialog.show(getFragmentManager(), "Add Waypoint");
-                getFragmentManager().beginTransaction().add(R.id.AddWaypointContainer,addWaypointFragment).commit();
-                addWaypointL.setVisibility(View.VISIBLE);
+                //getFragmentManager().beginTransaction().add(R.id.AddWaypointContainer, addWaypointFragment).commit();
+                //((EditText)addWaypointFragment.getView().findViewById(R.id.place_autocomplete_search_input)).setText("");
+
+                if (TravelPlanner.ExistsFinalDestination()) {
+                    isFinalDestination.setEnabled(false);
+                }
+
+                //addWaypointL.setVisibility(View.VISIBLE);
             }
         });
-
-
 
     }
 
@@ -182,7 +238,7 @@ public class SmartSchedulePlanner extends FragmentActivity implements OnMapReady
         // Add a marker in Sydney and move the camera
         LatLng sydney = new LatLng(-34, 151);
 
-        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
             //    ActivityCompat#requestPermissions
             // here to request the missing permissions, and then overriding
