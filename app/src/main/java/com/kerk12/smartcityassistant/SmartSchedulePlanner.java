@@ -264,4 +264,10 @@ public class SmartSchedulePlanner extends FragmentActivity implements OnMapReady
         }
 
     }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        finish();
+    }
 }
