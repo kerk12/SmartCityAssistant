@@ -19,6 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -73,11 +74,19 @@ public class SmartSchedulePlanner extends FragmentActivity implements OnMapReady
         protected class ViewHolder extends RecyclerView.ViewHolder {
 
             public TextView WaypointName;
+            public ImageView up, down;
 
             public ViewHolder(View itemView) {
                 super(itemView);
+                up = (ImageView) itemView.findViewById(R.id.send_up);
+                down = (ImageView) itemView.findViewById(R.id.send_down);
+                up.setImageResource(R.drawable.arrow_up);
+                down.setImageResource(R.drawable.arrow_down);
                 WaypointName = (TextView) itemView.findViewById(R.id.waypoint_name);
+
             }
+
+
         }
 
         public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -90,6 +99,12 @@ public class SmartSchedulePlanner extends FragmentActivity implements OnMapReady
         @Override
         public void onBindViewHolder(ViewHolder holder, int position) {
             holder.WaypointName.setText(mList.get(position).getName());
+            holder.up.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                }
+            });
         }
 
         @Override
