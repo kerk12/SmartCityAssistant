@@ -173,7 +173,8 @@ public class MapHelper {
         if (travel != null) {
             PolylineOptions options = new PolylineOptions();
             Random rnd = new Random();
-            int color = Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));
+            int color = Color.BLUE;
+            options.color(color);
             for (LatLng point : travel) {
                 options.add(point);
                 /*
@@ -181,7 +182,7 @@ public class MapHelper {
                     Taken from:
                     http://stackoverflow.com/questions/5280367/android-generate-random-color-on-click
                  */
-                options.color(color);
+
             }
             return options;
         } else return null;

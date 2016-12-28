@@ -30,12 +30,22 @@ public class TravelPlanner {
 
     }
 
+    /**
+     * Initializes the list that the TravelPlanner uses. Needs to be called prior to execution of every method in the class.
+     */
     private static void initializeTravelPlanner(){
         if ( waypoints == null) {
             waypoints = new ArrayList<TravelWaypoint>();
         }
     }
 
+    /**
+     * Method to get the Waypoint List.
+     *
+     * If a final destination is set, appends it to the list.
+     *
+     * @return The list of waypoints.
+     */
     public static List<TravelWaypoint> getWaypoints(){
             initializeTravelPlanner();
             //DEBUG ONLY
@@ -55,6 +65,16 @@ public class TravelPlanner {
         }
     }
 
+    /**
+     * Returns the string form of the LatLng object passed.
+     * Example:
+     *     (new LatLng(12.345,45.678)
+     *     the output will be:
+     *     "12.345,45.678"
+     *
+     * @param latlng The LatLng object for conversion.
+     * @return A string with the latlng value, see example...
+     */
     private static String LatLngAsString(LatLng latlng){
         double lat = latlng.latitude;
         double lng = latlng.longitude;
@@ -62,6 +82,10 @@ public class TravelPlanner {
         return String.valueOf(lat)+","+String.valueOf(lng);
     }
 
+    /**
+     * Adds a waypoint to the list
+     * @param waypoint The TravelWaypoint object.
+     */
     public static void AddWaypoint(TravelWaypoint waypoint){
         if (waypoint.isFinalDestination()) {
             if (finalDestination == null) {
@@ -74,24 +98,43 @@ public class TravelPlanner {
         }
     }
 
+    /**
+     * Returns the number of the waypoints in the list
+     * @return # of waypoints.
+     */
     public static int getNumOfWaypoints(){
+        initializeTravelPlanner();
         return waypoints.size();
     }
 
-    public static TravelWaypoint getOrigin() throws InstantiationException {
+    /**
+     * Return the origin waypoint
+     * @return The first TravelWaypoint on the list
+     * @throws NoWaypointsSetException is thrown when no waypoints have been set in the list.
+     */
+    public static TravelWaypoint getOrigin() throws NoWaypointsSetException {
         if (getNumOfWaypoints() > 0){
             return waypoints.get(0);
         } else {
-            throw new InstantiationException("No waypoints added.");
+            throw new NoWaypointsSetException();
         }
     }
 
+    /**
+     * Method to check if a final destination is set.
+     * @return The final Destination.
+     */
     public static boolean ExistsFinalDestination(){
         if (finalDestination == null){
             return false;
         } return true;
     }
 
+    /**
+     * Get the final destination
+     * @return The final destination TravelWaypoint
+     * @throws NoWaypointsSetException When no waypoint exists on the list
+     */
     public static TravelWaypoint getFinalDestination() throws NoWaypointsSetException {
         if (finalDestination != null) {
             return finalDestination;

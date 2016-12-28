@@ -3,7 +3,9 @@ package com.kerk12.smartcityassistant;
 import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.location.Address;
 import android.location.Criteria;
+import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
 import android.support.design.widget.FloatingActionButton;
@@ -33,8 +35,10 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeoutException;
 
@@ -221,6 +225,7 @@ public class SmartSchedulePlanner extends FragmentActivity implements OnMapReady
             }
         });
 
+
     }
 
 
@@ -257,17 +262,36 @@ public class SmartSchedulePlanner extends FragmentActivity implements OnMapReady
             lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         }
         Criteria crit = new Criteria();
-        Location loc = lm.getLastKnownLocation(lm.getBestProvider(crit, false));
+        Location loc = lm.getLastKnownLocation(lm.getBestProvider(crit, true));
         if (loc != null) {
             LatLng currPos = new LatLng(loc.getLatitude(), loc.getLongitude());
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currPos, 15));
+            Geocoder coder = new Geocoder(getApplicationContext(), Locale.getDefault());
+
+            if (TravelPlanner.getNumOfWaypoints() == 0) {
+                List<Address> addr;
+                try {
+                    addr = coder.getFromLocation(currPos.latitude, currPos.longitude, 1);
+                    TravelWaypoint start = new TravelWaypoint(addr.get(0).getAddressLine(0), new LatLng(addr.get(0).getLatitude(), addr.get(0).getLongitude()));
+                    TravelPlanner.AddWaypoint(start);
+                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.AddressDetected) + addr.get(0).getAddressLine(0), Toast.LENGTH_SHORT).show();
+
+                    SPRecyclerView.invalidate();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+
+            } else if (TravelPlanner.getNumOfWaypoints() > 0){
+                UpdateMap();
+            }
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currPos, 16));
         }
 
     }
 
     @Override
-    protected void onPause() {
-        super.onPause();
+    public void onBackPressed() {
+        super.onBackPressed();
         finish();
     }
 }
