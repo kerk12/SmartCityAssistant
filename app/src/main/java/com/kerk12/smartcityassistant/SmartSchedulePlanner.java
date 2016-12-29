@@ -14,14 +14,17 @@ import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.places.Place;
@@ -56,7 +59,7 @@ public class SmartSchedulePlanner extends FragmentActivity implements OnMapReady
     private RecyclerView SPRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager SPMan;
-    private CheckBox isFinalDestination;
+    //private CheckBox isFinalDestination;
 
     private Polyline route;
     private List<MarkerOptions> markers;
@@ -67,6 +70,12 @@ public class SmartSchedulePlanner extends FragmentActivity implements OnMapReady
 
         private List<TravelWaypoint> mList;
 
+        public void UpdateAdapter(){
+            mAdapter = null;
+            mAdapter = new SPAdapter(TravelPlanner.getWaypoints());
+            SPRecyclerView.setAdapter(mAdapter);
+        }
+
         public SPAdapter(List<TravelWaypoint> waypoints) {
             mList = waypoints;
         }
@@ -74,12 +83,12 @@ public class SmartSchedulePlanner extends FragmentActivity implements OnMapReady
         protected class ViewHolder extends RecyclerView.ViewHolder {
 
             public TextView WaypointName;
-            public ImageView up, down;
+            public ImageButton up, down;
 
             public ViewHolder(View itemView) {
                 super(itemView);
-                up = (ImageView) itemView.findViewById(R.id.send_up);
-                down = (ImageView) itemView.findViewById(R.id.send_down);
+                up = (ImageButton) itemView.findViewById(R.id.send_up);
+                down = (ImageButton) itemView.findViewById(R.id.send_down);
                 up.setImageResource(R.drawable.arrow_up);
                 down.setImageResource(R.drawable.arrow_down);
                 WaypointName = (TextView) itemView.findViewById(R.id.waypoint_name);
@@ -99,10 +108,30 @@ public class SmartSchedulePlanner extends FragmentActivity implements OnMapReady
         @Override
         public void onBindViewHolder(ViewHolder holder, int position) {
             holder.WaypointName.setText(mList.get(position).getName());
+            final int pos = position;
+            if (pos == 0){
+                holder.up.setEnabled(false);
+            }
+            if (pos == TravelPlanner.getNumOfWaypoints() - 1){
+                holder.down.setEnabled(false);
+            }
+
             holder.up.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
+                    TravelPlanner.Move(pos,TravelPlanner.UP);
+                    mAdapter.notifyDataSetChanged();
+                    UpdateMap();
+                    UpdateAdapter();
+                }
+            });
+            holder.down.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    TravelPlanner.Move(pos,TravelPlanner.DOWN);
+                    mAdapter.notifyDataSetChanged();
+                    UpdateMap();
+                    UpdateAdapter();
                 }
             });
         }
@@ -119,6 +148,7 @@ public class SmartSchedulePlanner extends FragmentActivity implements OnMapReady
     }
 
     private void UpdateMap(){
+        mMap.clear();
         if (TravelPlanner.getNumOfWaypoints() >= 1){
             markers = TravelPlanner.getRouteMarkers();
             for (MarkerOptions mop: markers){
@@ -193,9 +223,9 @@ public class SmartSchedulePlanner extends FragmentActivity implements OnMapReady
 
         addWaypointFragment = (PlaceAutocompleteFragment) getFragmentManager().findFragmentById(R.id.AddPlaceFr);
 
-        isFinalDestination = (CheckBox) findViewById(R.id.isFinalDestinationCB);
-        isFinalDestination.setText(getResources().getString(R.string.isFinalDestination));
-        isFinalDestination.setTextColor(getResources().getColor(R.color.colorPrimary));
+//        isFinalDestination = (CheckBox) findViewById(R.id.isFinalDestinationCB);
+//        isFinalDestination.setText(getResources().getString(R.string.isFinalDestination));
+//        isFinalDestination.setTextColor(getResources().getColor(R.color.colorPrimary));
 
 
         addWaypointFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
@@ -221,20 +251,18 @@ public class SmartSchedulePlanner extends FragmentActivity implements OnMapReady
                     return;
                 }
                 TravelWaypoint wayp;
-                if (!TravelPlanner.ExistsFinalDestination()) {
-                    wayp = new TravelWaypoint(selectedPlace.getName().toString(), selectedPlace.getLatLng(), isFinalDestination.isChecked());
-                } else {
-                    wayp = new TravelWaypoint(selectedPlace.getName().toString(), selectedPlace.getLatLng());
+                wayp = new TravelWaypoint(selectedPlace.getName().toString(), selectedPlace.getLatLng());
+                if (TravelPlanner.CheckIfWaypointExists(wayp)){
+                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.WaypointAlrExists), Toast.LENGTH_SHORT).show();
+                    return;
                 }
+
                 TravelPlanner.AddWaypoint(wayp);
 
                 SPRecyclerView.setAdapter(new SPAdapter(TravelPlanner.getWaypoints()));
                 SPRecyclerView.invalidate();
 
                 UpdateMap();
-                if (TravelPlanner.ExistsFinalDestination()) {
-                    isFinalDestination.setEnabled(false);
-                }
                 addWaypointFragment.setText("");
                 selectedPlace = null;
             }
@@ -277,7 +305,15 @@ public class SmartSchedulePlanner extends FragmentActivity implements OnMapReady
             lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         }
         Criteria crit = new Criteria();
-        Location loc = lm.getLastKnownLocation(lm.getBestProvider(crit, true));
+        List<String> providers = lm.getProviders(true);
+        Location loc = null;
+        for (String provider:providers){
+            loc = lm.getLastKnownLocation(provider);
+            if (loc!= null){
+                break;
+            }
+        }
+
         if (loc != null) {
             LatLng currPos = new LatLng(loc.getLatitude(), loc.getLongitude());
             Geocoder coder = new Geocoder(getApplicationContext(), Locale.getDefault());

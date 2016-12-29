@@ -5,6 +5,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,7 +19,7 @@ import static android.R.id.message;
 public class TravelPlanner {
 
     private static List<TravelWaypoint> waypoints = null;
-    private static TravelWaypoint finalDestination = null;
+    //private static TravelWaypoint finalDestination = null;
 
     public static class NoWaypointsSetException extends Exception{
         public NoWaypointsSetException() {
@@ -56,13 +57,13 @@ public class TravelPlanner {
 //            waypoints.add(point1);
 //            waypoints.add(point2);
 //            waypoints.add(point3);
-        if (ExistsFinalDestination()) {
-            List<TravelWaypoint> newWaypList = waypoints;
-            newWaypList.add(finalDestination);
-            return newWaypList;
-        } else {
+//        if (ExistsFinalDestination()) {
+//            List<TravelWaypoint> newWaypList = waypoints;
+//            newWaypList.add(finalDestination);
+//            return newWaypList;
+//        } else {
             return waypoints;
-        }
+//        }
     }
 
     /**
@@ -87,15 +88,7 @@ public class TravelPlanner {
      * @param waypoint The TravelWaypoint object.
      */
     public static void AddWaypoint(TravelWaypoint waypoint){
-        if (waypoint.isFinalDestination()) {
-            if (finalDestination == null) {
-                finalDestination = waypoint;
-            } else {
-                //TODO Exception handling...
-            }
-        } else {
-            waypoints.add(waypoint);
-        }
+        waypoints.add(waypoint);
     }
 
     /**
@@ -120,15 +113,6 @@ public class TravelPlanner {
         }
     }
 
-    /**
-     * Method to check if a final destination is set.
-     * @return The final Destination.
-     */
-    public static boolean ExistsFinalDestination(){
-        if (finalDestination == null){
-            return false;
-        } return true;
-    }
 
     /**
      * Get the final destination
@@ -136,16 +120,13 @@ public class TravelPlanner {
      * @throws NoWaypointsSetException When no waypoint exists on the list
      */
     public static TravelWaypoint getFinalDestination() throws NoWaypointsSetException {
-        if (finalDestination != null) {
-            return finalDestination;
-        } else {
             if (waypoints.size() > 2){
                 return waypoints.get(waypoints.size() - 1);
             } else throw new NoWaypointsSetException();
 
         }
 
-    }
+
 
     public static Map<String, String> makeHelperHashMap() throws NoWaypointsSetException {
         Map<String, String> mMap = new HashMap<String, String>();
@@ -153,11 +134,9 @@ public class TravelPlanner {
         StringBuilder waypBuilder = new StringBuilder();
         boolean first = true;
         int limit;
-        if (ExistsFinalDestination()) {
-            limit = waypoints.size();
-        } else {
-            limit = waypoints.size() - 1;
-        }
+
+        limit = waypoints.size() - 1;
+
         if (waypoints.size() > 2) {
             for (int i = 1; i < limit; i++) {
                 if (first) {
@@ -169,11 +148,8 @@ public class TravelPlanner {
             }
             mMap.put("waypoints", waypBuilder.toString());
         }
-        if (ExistsFinalDestination()){
-            mMap.put("destination", LatLngAsString(getFinalDestination().getLocation()));
-        } else {
             mMap.put("destination", LatLngAsString(waypoints.get(limit).getLocation()));
-        }
+
         return mMap;
     }
 
@@ -188,8 +164,30 @@ public class TravelPlanner {
         return mList;
     }
 
-    public static void MoveUp(int index){
+    public static final String UP = "up";
+    public static final String DOWN = "down";
 
+    public static void Move(int index, String direction){
+            switch (direction){
+                case "up":
+                    Collections.swap(waypoints, index, index-1);
+                    break;
+                case "down":
+                    Collections.swap(waypoints, index, index + 1);
+                    break;
+                default:
+                    throw new IllegalArgumentException();
+            }
+        }
+
+    public static boolean CheckIfWaypointExists(TravelWaypoint waypoint){
+        for (TravelWaypoint wayp: TravelPlanner.getWaypoints()){
+            if (waypoint.getLocation().equals(wayp.getLocation())){
+                return true;
+            }
+        }
+        return false;
     }
 
+    //TODO add delete operation
 }

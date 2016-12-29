@@ -20,5 +20,6 @@
     <string name="AddressDetected">Εντοπίστηκε η διεύθυνσή σας: </string>
     <string name="NoSelectedPlace">Δεν έχετε επιλέξει προορισμό.</string>
 
+    <string name="WaypointAlrExists">Ο προορισμός που προσπαθείτε να προσθέσετε υπάρχει ήδη στην λίστα προορισμών.</string>
 
 </resources>
