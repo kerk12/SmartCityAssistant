@@ -20,6 +20,14 @@ public class TravelPlanner {
 
     private static List<TravelWaypoint> waypoints = null;
     //private static TravelWaypoint finalDestination = null;
+    private static String TransitMode = "driving";
+
+    public static final String DRIVING = "driving";
+    public static final String WALKING = "walking";
+    public static final String BICYCLING = "bicycling";
+    public static final String TRANSIT = "transit";
+
+
 
     public static class NoWaypointsSetException extends Exception{
         public NoWaypointsSetException() {
@@ -151,6 +159,10 @@ public class TravelPlanner {
             mMap.put("destination", LatLngAsString(waypoints.get(limit).getLocation()));
 
         return mMap;
+    }
+
+    public static void SetTravelMode(String TravelModeNew){
+        TransitMode = TravelModeNew;
     }
 
     public static List<MarkerOptions> getRouteMarkers(){

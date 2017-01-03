@@ -40,6 +40,7 @@ public class MapHelper {
     private List<LatLng> travel = null;
     private String result;
     private boolean calculated = false;
+    private String TransitMode = "driving";
 
     /**
      * Public constructor for the MapHelper Class. It is required that the class is instantiated.
@@ -51,6 +52,14 @@ public class MapHelper {
         this.c = c;
         configured = true;
     }
+
+    public MapHelper(Map<String, String> requestDirections, String TransitMode, Context c){
+        reqMap = requestDirections;
+        this.c = c;
+        configured = true;
+        this.TransitMode = TransitMode;
+    }
+
 
     private String makeGet() throws InstantiationException {
 
@@ -75,6 +84,9 @@ public class MapHelper {
                 destination=Cap+Cap
             */
             sb.append(entry.getKey() + "="+ entry.getValue().replaceAll(" ", "+"));
+        }
+        if (this.TransitMode != TravelPlanner.DRIVING){
+            sb.append("&mode="+TransitMode);
         }
         //DO NOT USE WITHOUT https://...
         //sb.append("&key="+c.getResources().getString(R.string.google_maps_key));

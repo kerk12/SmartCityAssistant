@@ -65,6 +65,7 @@ public class SmartSchedulePlanner extends FragmentActivity implements OnMapReady
     private List<MarkerOptions> markers;
 
     private Place selectedPlace = null;
+    private ImageButton travelOptionsButton;
 
     private class SPAdapter extends RecyclerView.Adapter<SPAdapter.ViewHolder> {
 
@@ -283,6 +284,7 @@ public class SmartSchedulePlanner extends FragmentActivity implements OnMapReady
             }
         });
 
+        travelOptionsButton = (ImageButton) findViewById(R.id.TravelOptions);
 
     }
 
