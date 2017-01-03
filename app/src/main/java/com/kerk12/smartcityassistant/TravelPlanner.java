@@ -189,5 +189,13 @@ public class TravelPlanner {
         return false;
     }
 
+    public static void DeleteWaypoint(int position) throws NoWaypointsSetException {
+        if (getNumOfWaypoints() == 0){
+            throw new NoWaypointsSetException();
+        } else {
+            waypoints.remove(position);
+        }
+    }
+
     //TODO add delete operation
 }

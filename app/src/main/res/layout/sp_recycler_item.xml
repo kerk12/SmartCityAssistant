@@ -39,6 +39,12 @@
                 android:layout_height="50dp"
                 android:id="@+id/send_up"
                 android:layout_weight="1" />
+
+            <ImageButton
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:id="@+id/del"
+                android:layout_weight="1" />
         </LinearLayout>
 
 

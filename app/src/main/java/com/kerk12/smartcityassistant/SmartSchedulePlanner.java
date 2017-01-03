@@ -83,14 +83,16 @@ public class SmartSchedulePlanner extends FragmentActivity implements OnMapReady
         protected class ViewHolder extends RecyclerView.ViewHolder {
 
             public TextView WaypointName;
-            public ImageButton up, down;
+            public ImageButton up, down, del;
 
             public ViewHolder(View itemView) {
                 super(itemView);
                 up = (ImageButton) itemView.findViewById(R.id.send_up);
                 down = (ImageButton) itemView.findViewById(R.id.send_down);
+                del = (ImageButton) itemView.findViewById(R.id.del);
                 up.setImageResource(R.drawable.arrow_up);
                 down.setImageResource(R.drawable.arrow_down);
+                del.setImageResource(R.drawable.delete);
                 WaypointName = (TextView) itemView.findViewById(R.id.waypoint_name);
 
             }
@@ -106,7 +108,7 @@ public class SmartSchedulePlanner extends FragmentActivity implements OnMapReady
         }
 
         @Override
-        public void onBindViewHolder(ViewHolder holder, int position) {
+        public void onBindViewHolder(ViewHolder holder, final int position) {
             holder.WaypointName.setText(mList.get(position).getName());
             final int pos = position;
             if (pos == 0){
@@ -129,6 +131,19 @@ public class SmartSchedulePlanner extends FragmentActivity implements OnMapReady
                 @Override
                 public void onClick(View v) {
                     TravelPlanner.Move(pos,TravelPlanner.DOWN);
+                    mAdapter.notifyDataSetChanged();
+                    UpdateMap();
+                    UpdateAdapter();
+                }
+            });
+            holder.del.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    try {
+                        TravelPlanner.DeleteWaypoint(position);
+                    } catch (TravelPlanner.NoWaypointsSetException e) {
+                        e.printStackTrace();
+                    }
                     mAdapter.notifyDataSetChanged();
                     UpdateMap();
                     UpdateAdapter();
