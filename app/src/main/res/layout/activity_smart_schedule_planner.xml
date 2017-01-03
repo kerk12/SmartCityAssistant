@@ -35,8 +35,8 @@
                 android:id="@+id/AddPlaceFr"
                 xmlns:android="http://schemas.android.com/apk/res/android" />
             <ImageButton
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:id="@+id/TravelOptions"
                 android:src="@drawable/options"/>
             <!-- TO BE REMOVED -->

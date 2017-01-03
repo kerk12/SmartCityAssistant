@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:text="@string/travel_mode"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+ />
+
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <RadioButton
+            android:text="@string/driving"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/driving_rb"
+            android:checked="true"
+            android:layout_weight="1" />
+
+        <RadioButton
+            android:text="@string/walking"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/walking_rb"
+            android:layout_weight="1" />
+
+        <RadioButton
+            android:text="@string/bicycling"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/bicycling_rb"
+            android:layout_weight="1" />
+
+        <RadioButton
+            android:text="@string/transit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/transit_rb"
+            android:layout_weight="1" />
+
+    </RadioGroup>
+
+    <TextView
+        android:text="@string/misc_options"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        />
+
+    <CheckBox
+        android:text="@string/parking_cb"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/parking_cb" />
+</LinearLayout>

@@ -22,4 +22,19 @@
 
     <string name="WaypointAlrExists">Ο προορισμός που προσπαθείτε να προσθέσετε υπάρχει ήδη στην λίστα προορισμών.</string>
 
+    <string name="TravelOptions">Επιλογές Διαδρομής</string>
+    <string name="OK">ΟΚ</string>
+    <string name="cancel">Άκυρο</string>
+
+    <string name="driving">Οδήγηση</string>
+    <string name="bicycling">Ποδήλατο</string>
+    <string name="walking">Περπάτημα</string>
+    <string name="transit">Δημόσια Μέσα</string>
+
+    <string name="travel_mode">Τρόπος Διεξαγωγής Διαδρομής</string>
+    <string name="parking_cb">Επιθυμώ να ευρεθεί θέση Parking</string>
+
+    <string name="misc_options">Επιπλέον επιλογές:</string>
+    <string name="no_routes">Καμία διαθέσιμη διαδρομή.</string>
+
 </resources>

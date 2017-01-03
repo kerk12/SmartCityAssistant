@@ -1,7 +1,11 @@
 package com.kerk12.smartcityassistant;
 
 import android.Manifest;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.DialogFragment;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Criteria;
@@ -22,6 +26,7 @@ import android.widget.CheckBox;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.Toolbar;
@@ -46,7 +51,7 @@ import java.util.Locale;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeoutException;
 
-public class SmartSchedulePlanner extends FragmentActivity implements OnMapReadyCallback {
+public class SmartSchedulePlanner extends FragmentActivity implements OnMapReadyCallback, TravelOptionsDialog.TravelOptionsListener {
 
     public static GoogleMap mMap;
     LocationManager lm = null;
@@ -66,6 +71,11 @@ public class SmartSchedulePlanner extends FragmentActivity implements OnMapReady
 
     private Place selectedPlace = null;
     private ImageButton travelOptionsButton;
+
+    @Override
+    public void OnTravelOptionsCommit() {
+        UpdateMap();
+    }
 
     private class SPAdapter extends RecyclerView.Adapter<SPAdapter.ViewHolder> {
 
@@ -163,6 +173,8 @@ public class SmartSchedulePlanner extends FragmentActivity implements OnMapReady
         }
     }
 
+    private TravelOptionsDialog.TravelOptionsListener l;
+
     private void UpdateMap(){
         mMap.clear();
         if (TravelPlanner.getNumOfWaypoints() >= 1){
@@ -173,8 +185,12 @@ public class SmartSchedulePlanner extends FragmentActivity implements OnMapReady
         }
         if (TravelPlanner.getNumOfWaypoints() >= 2) {
             try {
-                MapHelper helper = new MapHelper(TravelPlanner.makeHelperHashMap(), getApplicationContext());
+                MapHelper helper = new MapHelper(TravelPlanner.makeHelperHashMap(),TravelPlanner.getTravelMode(), getApplicationContext());
                 PolylineOptions opt = helper.getRoutePolyline();
+                if (opt == null){
+                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.no_routes), Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 //TODO set the color and the start and end markers
                 route = mMap.addPolyline(opt);
             } catch (TravelPlanner.NoWaypointsSetException e) {
@@ -192,6 +208,10 @@ public class SmartSchedulePlanner extends FragmentActivity implements OnMapReady
             }
         }
     }
+
+
+
+
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -285,7 +305,15 @@ public class SmartSchedulePlanner extends FragmentActivity implements OnMapReady
         });
 
         travelOptionsButton = (ImageButton) findViewById(R.id.TravelOptions);
+        travelOptionsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TravelOptionsDialog travelOpts = new TravelOptionsDialog();
 
+                travelOpts.show(getFragmentManager(), "TravelOpts");
+
+            }
+        });
     }
 
 

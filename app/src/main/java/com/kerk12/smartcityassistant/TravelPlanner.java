@@ -209,5 +209,8 @@ public class TravelPlanner {
         }
     }
 
+    public static String getTravelMode(){
+        return TransitMode;
+    }
     //TODO add delete operation
 }
