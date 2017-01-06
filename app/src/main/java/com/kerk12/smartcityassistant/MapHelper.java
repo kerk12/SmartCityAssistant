@@ -6,7 +6,6 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.maps.android.PolyUtil;
 
@@ -21,11 +20,11 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 /**
@@ -41,6 +40,8 @@ public class MapHelper {
     private String result;
     private boolean calculated = false;
     private String TransitMode = "driving";
+    private List<String> instructions;
+    private List<LatLng> intermediatePoints;
 
     /**
      * Public constructor for the MapHelper Class. It is required that the class is instantiated.
@@ -142,7 +143,7 @@ public class MapHelper {
 
         }
     }
-    private boolean getDirectionsAsPolyline() throws InstantiationException, MalformedURLException, ExecutionException, InterruptedException, TimeoutException {
+    private boolean getPolylinePoints() throws InstantiationException, MalformedURLException, ExecutionException, InterruptedException, TimeoutException {
         String url = makeGet();
         Log.d("MapHelper", url);
         URL directionsURL = new URL(url);
@@ -167,20 +168,49 @@ public class MapHelper {
         }
     }
 
-    private void CalculatePolyline() throws InterruptedException, MalformedURLException, TimeoutException, InstantiationException, ExecutionException {
-        getDirectionsAsPolyline();
+    private List<String> GetInstructions(){
+        JSONObject directions = null;
+
+        List<String> instructions = new ArrayList<String>();
+        intermediatePoints = new ArrayList<LatLng>();
+        try {
+            directions = new JSONObject(result);
+            JSONArray routes = directions.getJSONArray("routes");
+            JSONObject defRoute = routes.getJSONObject(0);
+            JSONArray legs = defRoute.getJSONArray("legs");
+            JSONObject defLeg = legs.getJSONObject(0);
+            JSONArray steps = defLeg.getJSONArray("steps");
+            for (int i = 0; i < steps.length();i++){
+                JSONObject step = steps.getJSONObject(i);
+                instructions.add(step.getString("html_instructions"));
+                JSONObject endp = step.getJSONObject("end_location");
+                LatLng endpoint = new LatLng(endp.getDouble("lat"), endp.getDouble("lon"));
+            }
+            return instructions;
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
+
 
     public List<LatLng> getRoute() throws InterruptedException, MalformedURLException, TimeoutException, InstantiationException, ExecutionException {
         if (!calculated){
-            CalculatePolyline();
+            getPolylinePoints();
         }
         return travel;
     }
 
+    public void execute() throws InterruptedException, MalformedURLException, TimeoutException, InstantiationException, ExecutionException {
+        getPolylinePoints();
+        if (TransitMode == TravelPlanner.TRANSIT) {
+            instructions = GetInstructions();
+        }
+    }
+
     public PolylineOptions getRoutePolyline() throws InterruptedException, MalformedURLException, TimeoutException, InstantiationException, ExecutionException {
         if (!calculated){
-            CalculatePolyline();
+            getPolylinePoints();
         }
         if (travel != null) {
             PolylineOptions options = new PolylineOptions();

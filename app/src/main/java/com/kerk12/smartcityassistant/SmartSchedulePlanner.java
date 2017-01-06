@@ -186,12 +186,12 @@ public class SmartSchedulePlanner extends FragmentActivity implements OnMapReady
         if (TravelPlanner.getNumOfWaypoints() >= 2) {
             try {
                 MapHelper helper = new MapHelper(TravelPlanner.makeHelperHashMap(),TravelPlanner.getTravelMode(), getApplicationContext());
+                helper.execute();
                 PolylineOptions opt = helper.getRoutePolyline();
                 if (opt == null){
                     Toast.makeText(getApplicationContext(), getResources().getString(R.string.no_routes), Toast.LENGTH_SHORT).show();
                     return;
                 }
-                //TODO set the color and the start and end markers
                 route = mMap.addPolyline(opt);
             } catch (TravelPlanner.NoWaypointsSetException e) {
                 e.printStackTrace();

@@ -9,7 +9,9 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.RadioButton;
+import android.widget.Toast;
 
 /**
  * Created by kgiannakis on 3/1/2017.
@@ -19,6 +21,7 @@ public class TravelOptionsDialog extends DialogFragment {
 
     private RadioButton driving, cycling, walking, transit;
     private CheckBox parking;
+    private String PresetMode = null;
 
     public interface TravelOptionsListener{
         public void OnTravelOptionsCommit();
@@ -41,12 +44,47 @@ public class TravelOptionsDialog extends DialogFragment {
         cycling = (RadioButton) v.findViewById(R.id.bicycling_rb);
         transit = (RadioButton) v.findViewById(R.id.transit_rb);
 
+        if (TravelPlanner.getNumOfWaypoints() > 2){
+            transit.setEnabled(false);
+            transit.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(getActivity(), getResources().getString(R.string.no_more_than_2_wp_allowed), Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
         parking = (CheckBox) v.findViewById(R.id.parking_cb);
+
+        driving.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                parking.setEnabled(isChecked);
+            }
+        });
+
+        if (TravelPlanner.getTravelMode() != TravelPlanner.DRIVING) {
+            parking.setEnabled(false);
+        }
+
+        if (PresetMode != null) {
+            switch (PresetMode) {
+                case TravelPlanner.BICYCLING:
+                    cycling.setChecked(true);
+                    break;
+                case TravelPlanner.TRANSIT:
+                    transit.setChecked(true);
+                    break;
+            }
+        }
         return v;
     }
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
+        if (TravelPlanner.getTravelMode() != TravelPlanner.DRIVING){
+            PresetMode = TravelPlanner.getTravelMode();
+        }
+
         View v = CreateInterface();
 
         AlertDialog.Builder bob = new AlertDialog.Builder(getActivity());

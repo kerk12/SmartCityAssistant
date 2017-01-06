@@ -37,4 +37,6 @@
     <string name="misc_options">Επιπλέον επιλογές:</string>
     <string name="no_routes">Καμία διαθέσιμη διαδρομή.</string>
 
+    <string name="no_more_than_2_wp_allowed">Δεν είναι δυνατή η διαδικασία σε διαδρομή με ενδιάμεσα σημεία.</string>
+
 </resources>
