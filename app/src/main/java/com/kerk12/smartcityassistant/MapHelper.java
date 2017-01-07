@@ -40,8 +40,9 @@ public class MapHelper {
     private String result;
     private boolean calculated = false;
     private String TransitMode = "driving";
-    private List<String> instructions;
-    private List<LatLng> intermediatePoints;
+    private List<String> instructions = null;
+    private List<LatLng> intermediatePoints = null;
+    private String language = "en";
 
     /**
      * Public constructor for the MapHelper Class. It is required that the class is instantiated.
@@ -59,6 +60,14 @@ public class MapHelper {
         this.c = c;
         configured = true;
         this.TransitMode = TransitMode;
+    }
+
+    public MapHelper(Map<String, String> requestDirections, String TransitMode,String language, Context c){
+        reqMap = requestDirections;
+        this.c = c;
+        configured = true;
+        this.TransitMode = TransitMode;
+        this.language = language;
     }
 
 
@@ -87,8 +96,12 @@ public class MapHelper {
             sb.append(entry.getKey() + "="+ entry.getValue().replaceAll(" ", "+"));
         }
         if (this.TransitMode != TravelPlanner.DRIVING){
-            sb.append("&mode="+TransitMode);
+            sb.append("&mode="+this.TransitMode);
         }
+        if (this.language != "en"){
+            sb.append("&language="+this.language);
+        }
+
         //DO NOT USE WITHOUT https://...
         //sb.append("&key="+c.getResources().getString(R.string.google_maps_key));
 
@@ -168,10 +181,10 @@ public class MapHelper {
         }
     }
 
-    private List<String> GetInstructions(){
+    private List<String> GetInstructionsFromResult(){
         JSONObject directions = null;
 
-        List<String> instructions = new ArrayList<String>();
+        instructions = new ArrayList<String>();
         intermediatePoints = new ArrayList<LatLng>();
         try {
             directions = new JSONObject(result);
@@ -184,7 +197,10 @@ public class MapHelper {
                 JSONObject step = steps.getJSONObject(i);
                 instructions.add(step.getString("html_instructions"));
                 JSONObject endp = step.getJSONObject("end_location");
-                LatLng endpoint = new LatLng(endp.getDouble("lat"), endp.getDouble("lon"));
+                if (i < steps.length() - 1) {
+                    LatLng endpoint = new LatLng(endp.getDouble("lat"), endp.getDouble("lng"));
+                    intermediatePoints.add(endpoint);
+                }
             }
             return instructions;
         } catch (JSONException e) {
@@ -204,7 +220,7 @@ public class MapHelper {
     public void execute() throws InterruptedException, MalformedURLException, TimeoutException, InstantiationException, ExecutionException {
         getPolylinePoints();
         if (TransitMode == TravelPlanner.TRANSIT) {
-            instructions = GetInstructions();
+            instructions = GetInstructionsFromResult();
         }
     }
 
@@ -228,5 +244,13 @@ public class MapHelper {
             }
             return options;
         } else return null;
+    }
+
+    public List<String> getInstructions(){
+        return instructions;
+    }
+
+    public List<LatLng> getIntermediatePoints(){
+        return intermediatePoints;
     }
 }

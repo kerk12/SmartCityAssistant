@@ -1,5 +1,7 @@
 package com.kerk12.smartcityassistant;
 
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -27,6 +29,9 @@ public class TravelPlanner {
     public static final String BICYCLING = "bicycling";
     public static final String TRANSIT = "transit";
 
+
+    private static List<LatLng> intermediatePoints = null;
+    private static List<String> instructions = null;
 
 
     public static class NoWaypointsSetException extends Exception{
@@ -212,5 +217,30 @@ public class TravelPlanner {
     public static String getTravelMode(){
         return TransitMode;
     }
-    //TODO add delete operation
+
+    public static List<LatLng> getIntermediatePoints() {
+        return intermediatePoints;
+    }
+
+    public static void setIntermediatePoints(List<LatLng> intermediatePoints) {
+        TravelPlanner.intermediatePoints = intermediatePoints;
+    }
+
+    public static List<String> getInstructions() {
+        return instructions;
+    }
+
+    public static void setInstructions(List<String> instructions) {
+        TravelPlanner.instructions = instructions;
+    }
+
+    public static List<MarkerOptions> GetIntermediatePointMarkers(){
+        List<MarkerOptions> markers = new ArrayList<MarkerOptions>();
+        for (LatLng ip:intermediatePoints){
+            MarkerOptions mop = new MarkerOptions().icon(BitmapDescriptorFactory.fromResource(R.drawable.intermediate_point_pin));
+            mop.position(ip);
+            markers.add(mop);
+        }
+        return markers;
+    }
 }

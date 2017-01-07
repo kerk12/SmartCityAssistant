@@ -22,6 +22,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
@@ -70,7 +71,9 @@ public class SmartSchedulePlanner extends FragmentActivity implements OnMapReady
     private List<MarkerOptions> markers;
 
     private Place selectedPlace = null;
-    private ImageButton travelOptionsButton;
+    private Button travelOptionsButton;
+
+    private TextView instructions;
 
     @Override
     public void OnTravelOptionsCommit() {
@@ -175,6 +178,13 @@ public class SmartSchedulePlanner extends FragmentActivity implements OnMapReady
 
     private TravelOptionsDialog.TravelOptionsListener l;
 
+    private String ParseInstructions(List<String> instructions){
+        StringBuilder sb = new StringBuilder();
+        for (String instruction: instructions){
+            sb.append(instruction+ "\n");
+        }
+        return sb.toString();
+    }
     private void UpdateMap(){
         mMap.clear();
         if (TravelPlanner.getNumOfWaypoints() >= 1){
@@ -185,8 +195,23 @@ public class SmartSchedulePlanner extends FragmentActivity implements OnMapReady
         }
         if (TravelPlanner.getNumOfWaypoints() >= 2) {
             try {
-                MapHelper helper = new MapHelper(TravelPlanner.makeHelperHashMap(),TravelPlanner.getTravelMode(), getApplicationContext());
+                MapHelper helper;
+                //TODO implement this on the MapHelper
+                if (TravelPlanner.getNumOfWaypoints() == 2 && TravelPlanner.getTravelMode() == TravelPlanner.TRANSIT) {
+                    helper = new MapHelper(TravelPlanner.makeHelperHashMap(), TravelPlanner.getTravelMode(), "el", getApplicationContext());
+                } else if (TravelPlanner.getNumOfWaypoints() > 2 && TravelPlanner.getTravelMode() == TravelPlanner.TRANSIT) {
+                    TravelPlanner.SetTravelMode(TravelPlanner.DRIVING);
+                    helper = new MapHelper(TravelPlanner.makeHelperHashMap(), TravelPlanner.getTravelMode(), "el", getApplicationContext());
+
+                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.no_more_than_2_wp_allowed_switched), Toast.LENGTH_LONG).show();
+                } else {
+                    helper = new MapHelper(TravelPlanner.makeHelperHashMap(), TravelPlanner.getTravelMode(), "el", getApplicationContext());
+                }
                 helper.execute();
+                if (TravelPlanner.getTravelMode() == TravelPlanner.TRANSIT){
+                    TravelPlanner.setInstructions(helper.getInstructions());
+                    TravelPlanner.setIntermediatePoints(helper.getIntermediatePoints());
+                }
                 PolylineOptions opt = helper.getRoutePolyline();
                 if (opt == null){
                     Toast.makeText(getApplicationContext(), getResources().getString(R.string.no_routes), Toast.LENGTH_SHORT).show();
@@ -205,6 +230,19 @@ public class SmartSchedulePlanner extends FragmentActivity implements OnMapReady
                 e.printStackTrace();
             } catch (MalformedURLException e) {
                 e.printStackTrace();
+            }
+            if (TravelPlanner.getTravelMode() == TravelPlanner.TRANSIT){
+                if(TravelPlanner.getNumOfWaypoints() >=2) {
+                    instructions.setText(ParseInstructions(TravelPlanner.getInstructions()));
+                    instructions.setVisibility(View.VISIBLE);
+                    List<MarkerOptions> intermP = TravelPlanner.GetIntermediatePointMarkers();
+                    for (MarkerOptions ip : intermP) {
+                        mMap.addMarker(ip);
+                    }
+                }
+            } else {
+                instructions.setText("");
+                instructions.setVisibility(View.GONE);
             }
         }
     }
@@ -256,7 +294,7 @@ public class SmartSchedulePlanner extends FragmentActivity implements OnMapReady
         mAdapter = new SPAdapter(TravelPlanner.getWaypoints());
         SPRecyclerView.setAdapter(mAdapter);
 
-
+        instructions = (TextView) findViewById(R.id.instructions);
         addWaypointFragment = (PlaceAutocompleteFragment) getFragmentManager().findFragmentById(R.id.AddPlaceFr);
 
 //        isFinalDestination = (CheckBox) findViewById(R.id.isFinalDestinationCB);
@@ -304,7 +342,7 @@ public class SmartSchedulePlanner extends FragmentActivity implements OnMapReady
             }
         });
 
-        travelOptionsButton = (ImageButton) findViewById(R.id.TravelOptions);
+        travelOptionsButton = (Button) findViewById(R.id.TravelOptions);
         travelOptionsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
