@@ -64,6 +64,8 @@ public class TravelOptionsDialog extends DialogFragment {
 
         if (TravelPlanner.getTravelMode() != TravelPlanner.DRIVING) {
             parking.setEnabled(false);
+        } else {
+            parking.setChecked(TravelPlanner.findParking);
         }
 
         if (PresetMode != null) {
@@ -102,6 +104,8 @@ public class TravelOptionsDialog extends DialogFragment {
                 } else if (transit.isChecked()) {
                     TravelPlanner.SetTravelMode(TravelPlanner.TRANSIT);
                 }
+
+                TravelPlanner.findParking = parking.isChecked();
                 l.OnTravelOptionsCommit();
             }
         });

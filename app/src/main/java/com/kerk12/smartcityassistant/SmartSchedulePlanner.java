@@ -40,6 +40,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
@@ -49,7 +50,9 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.List;
 import java.util.Locale;
+import java.util.Random;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeoutException;
 
 public class SmartSchedulePlanner extends FragmentActivity implements OnMapReadyCallback, TravelOptionsDialog.TravelOptionsListener {
@@ -74,6 +77,8 @@ public class SmartSchedulePlanner extends FragmentActivity implements OnMapReady
     private Button travelOptionsButton;
 
     private TextView instructions;
+    private TextView duration;
+
 
     @Override
     public void OnTravelOptionsCommit() {
@@ -178,6 +183,26 @@ public class SmartSchedulePlanner extends FragmentActivity implements OnMapReady
 
     private TravelOptionsDialog.TravelOptionsListener l;
 
+    private MarkerOptions getRandomParkingSpot(List<LatLng> travelPoints){
+        int max = travelPoints.size();
+        int min = 0;
+        if (travelPoints.size() <= 10){
+            min = travelPoints.size() - 5;
+        } else {
+            min = travelPoints.size() - 3;
+        }
+        //TODO Add more
+        Random rn = new Random();
+        int range = max - min + 1;
+        int randomNum =  rn.nextInt(range) + min - 1;
+
+        LatLng parking = travelPoints.get(randomNum);
+        MarkerOptions mops = new MarkerOptions().icon(BitmapDescriptorFactory.fromResource(R.drawable.parking_spot_pin));
+        mops.position(parking);
+        mops.title(getResources().getString(R.string.parking_spot));
+        return mops;
+    }
+
     private String ParseInstructions(List<String> instructions){
         StringBuilder sb = new StringBuilder();
         for (String instruction: instructions){
@@ -208,11 +233,16 @@ public class SmartSchedulePlanner extends FragmentActivity implements OnMapReady
                     helper = new MapHelper(TravelPlanner.makeHelperHashMap(), TravelPlanner.getTravelMode(), "el", getApplicationContext());
                 }
                 helper.execute();
+
                 if (TravelPlanner.getTravelMode() == TravelPlanner.TRANSIT){
                     TravelPlanner.setInstructions(helper.getInstructions());
                     TravelPlanner.setIntermediatePoints(helper.getIntermediatePoints());
                 }
                 PolylineOptions opt = helper.getRoutePolyline();
+
+                if (TravelPlanner.findParking && (TravelPlanner.getTravelMode() == TravelPlanner.DRIVING || TravelPlanner.getTravelMode() == TravelPlanner.BICYCLING)) {
+                    mMap.addMarker(getRandomParkingSpot(helper.getRoute()));
+                }
                 if (opt == null){
                     Toast.makeText(getApplicationContext(), getResources().getString(R.string.no_routes), Toast.LENGTH_SHORT).show();
                     return;
@@ -244,6 +274,11 @@ public class SmartSchedulePlanner extends FragmentActivity implements OnMapReady
                 instructions.setText("");
                 instructions.setVisibility(View.GONE);
             }
+
+            duration.setText(getResources().getString(R.string.travel_duration)+ TravelPlanner.getDuration());
+
+        } else {
+            duration.setText(getResources().getString(R.string.travel_duration));
         }
     }
 
@@ -295,6 +330,7 @@ public class SmartSchedulePlanner extends FragmentActivity implements OnMapReady
         SPRecyclerView.setAdapter(mAdapter);
 
         instructions = (TextView) findViewById(R.id.instructions);
+        duration = (TextView) findViewById(R.id.duration);
         addWaypointFragment = (PlaceAutocompleteFragment) getFragmentManager().findFragmentById(R.id.AddPlaceFr);
 
 //        isFinalDestination = (CheckBox) findViewById(R.id.isFinalDestinationCB);

@@ -40,5 +40,7 @@
     <string name="no_more_than_2_wp_allowed">Δεν είναι δυνατός ο προσδιορισμός διαδρομής με Δημόσια μέσα όταν υπάρχουν περισσότεροι των δύο προορισμοί.</string>
 
     <string name="no_more_than_2_wp_allowed_switched">Δεν είναι δυνατός ο προσδιορισμός διαδρομής με Δημόσια μέσα όταν υπάρχουν περισσότεροι των δύο προορισμοί. Ενεργοποιήθηκε η λειτουργία οδήγησης.</string>
+    <string name="parking_spot">Σημείο Parking</string>
 
+    <string name="travel_duration">Συνολική διάρκεια διαδρομής: </string>
 </resources>

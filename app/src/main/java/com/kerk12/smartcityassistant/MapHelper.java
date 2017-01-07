@@ -172,8 +172,11 @@ public class MapHelper {
 
             JSONArray routes = directions.getJSONArray("routes");
             JSONObject defRoute = routes.getJSONObject(0);
+            JSONObject defLeg = defRoute.getJSONArray("legs").getJSONObject(0);
             String enc_Polyline = defRoute.getJSONObject("overview_polyline").getString("points");
             travel = PolyUtil.decode(enc_Polyline);
+            TravelPlanner.setDuration(defLeg.getJSONObject("duration").getString("text"));
+            calculated = true;
             return true;
         } catch (JSONException e) {
             e.printStackTrace();
@@ -253,4 +256,5 @@ public class MapHelper {
     public List<LatLng> getIntermediatePoints(){
         return intermediatePoints;
     }
+
 }

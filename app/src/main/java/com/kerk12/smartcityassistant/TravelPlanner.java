@@ -29,9 +29,14 @@ public class TravelPlanner {
     public static final String BICYCLING = "bicycling";
     public static final String TRANSIT = "transit";
 
+    private static String ArrivalTime = null;
+    private static String DepartureTime = null;
+    private static String Duration = null;
 
     private static List<LatLng> intermediatePoints = null;
     private static List<String> instructions = null;
+
+    public static boolean findParking = true;
 
 
     public static class NoWaypointsSetException extends Exception{
@@ -242,5 +247,21 @@ public class TravelPlanner {
             markers.add(mop);
         }
         return markers;
+    }
+
+    public static String getArrivalTime() {
+        return ArrivalTime;
+    }
+
+    public static void setArrivalTime(String arrivalTime) {
+        ArrivalTime = arrivalTime;
+    }
+
+    public static String getDuration() {
+        return Duration;
+    }
+
+    public static void setDuration(String duration) {
+        Duration = duration;
     }
 }
