@@ -43,4 +43,6 @@
     <string name="parking_spot">Σημείο Parking</string>
 
     <string name="travel_duration">Συνολική διάρκεια διαδρομής: </string>
+
+    <string name="arrival_time">Ώρα άφιξης</string>
 </resources>

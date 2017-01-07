@@ -46,18 +46,35 @@
             android:layout_height="150dp"
             android:orientation="vertical"
             android:id="@+id/AddWaypointContainer">
+
             <fragment android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:name="com.google.android.gms.location.places.ui.PlaceAutocompleteFragment"
                 android:id="@+id/AddPlaceFr"
                 xmlns:android="http://schemas.android.com/apk/res/android" />
-            <Button
-                android:layout_height="wrap_content"
-                android:layout_width="wrap_content"
-                android:padding="2dp"
-                android:id="@+id/TravelOptions"
-                android:text="@string/TravelOptions"
-                style="@style/ButtonGreen"/>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <Button
+                    android:text="@string/arrival_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/WantedTime"
+                    style="@style/ButtonGreen"
+                    android:layout_weight="1" />
+
+                <Button
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:padding="2dp"
+                    android:id="@+id/TravelOptions"
+                    android:text="@string/TravelOptions"
+                    style="@style/ButtonGreen"
+                    android:layout_weight="1" />
+            </LinearLayout>
 
             <!-- TO BE REMOVED -->
             <!--<CheckBox-->

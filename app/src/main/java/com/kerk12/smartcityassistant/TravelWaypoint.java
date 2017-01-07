@@ -4,6 +4,7 @@ import com.google.android.gms.maps.model.LatLng;
 
 import org.w3c.dom.NameList;
 
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TransferQueue;
@@ -16,7 +17,7 @@ public class TravelWaypoint {
     private String Name;
     private LatLng Location;
     //private boolean isFinalDestination = false;
-
+    private Calendar WantedTime;
 
 
     public LatLng getLocation() {
@@ -40,4 +41,11 @@ public class TravelWaypoint {
         this.Location = Location;
     }
 
+    public Calendar getWantedTime() {
+        return WantedTime;
+    }
+
+    public void setWantedTime(Calendar wantedTime) {
+        WantedTime = wantedTime;
+    }
 }

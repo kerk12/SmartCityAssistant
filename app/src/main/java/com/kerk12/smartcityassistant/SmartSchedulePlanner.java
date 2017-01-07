@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
+import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
@@ -29,6 +30,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 import android.widget.Toolbar;
 
@@ -48,6 +50,7 @@ import com.google.android.gms.maps.model.PolylineOptions;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 import java.util.Random;
@@ -55,7 +58,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeoutException;
 
-public class SmartSchedulePlanner extends FragmentActivity implements OnMapReadyCallback, TravelOptionsDialog.TravelOptionsListener {
+public class SmartSchedulePlanner extends FragmentActivity implements OnMapReadyCallback, TravelOptionsDialog.TravelOptionsListener, TimePickerDialFrag.TimePickerDialFragListener {
 
     public static GoogleMap mMap;
     LocationManager lm = null;
@@ -79,10 +82,20 @@ public class SmartSchedulePlanner extends FragmentActivity implements OnMapReady
     private TextView instructions;
     private TextView duration;
 
+    private Calendar TimeSet;
+    private Button WantedTimeButton;
+
 
     @Override
     public void OnTravelOptionsCommit() {
         UpdateMap();
+    }
+
+    @Override
+    public void onTimeSelected(int hourOfDay, int minute) {
+        TimeSet = Calendar.getInstance();
+        TimeSet.set(Calendar.HOUR_OF_DAY, hourOfDay);
+        TimeSet.set(Calendar.MINUTE, minute);
     }
 
     private class SPAdapter extends RecyclerView.Adapter<SPAdapter.ViewHolder> {
@@ -386,6 +399,15 @@ public class SmartSchedulePlanner extends FragmentActivity implements OnMapReady
 
                 travelOpts.show(getFragmentManager(), "TravelOpts");
 
+            }
+        });
+
+        WantedTimeButton = (Button) findViewById(R.id.WantedTime);
+        WantedTimeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DialogFragment f = new TimePickerDialFrag();
+                f.show(getFragmentManager(),"asdf2");
             }
         });
     }
