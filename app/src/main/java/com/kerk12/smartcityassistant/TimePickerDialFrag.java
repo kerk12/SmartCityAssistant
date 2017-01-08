@@ -7,8 +7,10 @@ import android.content.Context;
 
 import android.os.Bundle;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import java.util.Calendar;
+import java.util.Date;
 
 /**
  * Created by kgiannakis on 7/1/2017.
@@ -38,6 +40,11 @@ public class TimePickerDialFrag extends DialogFragment implements TimePickerDial
 
     @Override
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+        Calendar now = Calendar.getInstance();
+        if (hourOfDay < now.get(Calendar.HOUR_OF_DAY) || (hourOfDay == now.get(Calendar.HOUR_OF_DAY) && minute < now.get(Calendar.MINUTE)) ){
+            Toast.makeText(getActivity(), getResources().getString(R.string.IllegalTimeGiven), Toast.LENGTH_LONG).show();
+            return;
+        }
         l.onTimeSelected(hourOfDay, minute);
     }
 }

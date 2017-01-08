@@ -45,4 +45,8 @@
     <string name="travel_duration">Συνολική διάρκεια διαδρομής: </string>
 
     <string name="arrival_time">Ώρα άφιξης</string>
+
+    <string name="IllegalTimeGiven">Δώθηκε μη έγκυρος χρόνος άφιξης. Παρακαλούμε ξαναπροσπαθήστε.</string>
+
+    <string name="IllegalMoveAttempt">Αδύνατη η μετακίνηση. Δεν πρέπει να έχει οριστεί χρόνος άφιξης για τον προορισμό που μετακινείται.</string>
 </resources>

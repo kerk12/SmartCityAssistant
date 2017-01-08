@@ -1,12 +1,8 @@
 package com.kerk12.smartcityassistant;
 
 import android.Manifest;
-import android.app.AlertDialog;
-import android.app.Dialog;
 import android.app.DialogFragment;
-import android.app.TimePickerDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Criteria;
@@ -24,15 +20,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.RadioButton;
 import android.widget.TextView;
-import android.widget.TimePicker;
 import android.widget.Toast;
-import android.widget.Toolbar;
 
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.places.Place;
@@ -55,7 +46,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Random;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeoutException;
 
 public class SmartSchedulePlanner extends FragmentActivity implements OnMapReadyCallback, TravelOptionsDialog.TravelOptionsListener, TimePickerDialFrag.TimePickerDialFragListener {
@@ -82,8 +72,8 @@ public class SmartSchedulePlanner extends FragmentActivity implements OnMapReady
     private TextView instructions;
     private TextView duration;
 
-    private Calendar TimeSet;
-    private Button WantedTimeButton;
+    private Calendar TimeSet = null;
+    private Button ArrivalTimeButton;
 
 
     @Override
@@ -91,11 +81,27 @@ public class SmartSchedulePlanner extends FragmentActivity implements OnMapReady
         UpdateMap();
     }
 
+    private String getParsedTime(Calendar c){
+        if (c== null){
+            return null;
+        } else {
+            String s;
+            if (c.get(Calendar.MINUTE) < 10) {
+                s = String.valueOf(c.get(Calendar.HOUR_OF_DAY)) + ":0" + String.valueOf(c.get(Calendar.MINUTE));
+            } else {
+                s = String.valueOf(c.get(Calendar.HOUR_OF_DAY)) + ":" + String.valueOf(c.get(Calendar.MINUTE));
+            }
+            return s;
+        }
+    }
+
     @Override
     public void onTimeSelected(int hourOfDay, int minute) {
         TimeSet = Calendar.getInstance();
         TimeSet.set(Calendar.HOUR_OF_DAY, hourOfDay);
         TimeSet.set(Calendar.MINUTE, minute);
+
+        ArrivalTimeButton.setText(getString(R.string.arrival_time)+ ": "+getParsedTime(TimeSet));
     }
 
     private class SPAdapter extends RecyclerView.Adapter<SPAdapter.ViewHolder> {
@@ -114,7 +120,7 @@ public class SmartSchedulePlanner extends FragmentActivity implements OnMapReady
 
         protected class ViewHolder extends RecyclerView.ViewHolder {
 
-            public TextView WaypointName;
+            public TextView WaypointName, ArrivalTime;
             public ImageButton up, down, del;
 
             public ViewHolder(View itemView) {
@@ -126,6 +132,7 @@ public class SmartSchedulePlanner extends FragmentActivity implements OnMapReady
                 down.setImageResource(R.drawable.arrow_down);
                 del.setImageResource(R.drawable.delete);
                 WaypointName = (TextView) itemView.findViewById(R.id.waypoint_name);
+                ArrivalTime = (TextView) itemView.findViewById(R.id.arrival_time);
 
             }
 
@@ -142,6 +149,13 @@ public class SmartSchedulePlanner extends FragmentActivity implements OnMapReady
         @Override
         public void onBindViewHolder(ViewHolder holder, final int position) {
             holder.WaypointName.setText(mList.get(position).getName());
+            if (mList.get(position).getArrivalTime() != null){
+                holder.ArrivalTime.setText(getResources().getString(R.string.arrival_time)+": "+ mList.get(position).getParsedArrivalTime());
+            } else if (position == 0){
+                holder.ArrivalTime.setVisibility(View.GONE);
+            } else {
+                holder.ArrivalTime.setText(getResources().getString(R.string.arrival_time)+": Μη ορισμένη");
+            }
             final int pos = position;
             if (pos == 0){
                 holder.up.setEnabled(false);
@@ -153,6 +167,10 @@ public class SmartSchedulePlanner extends FragmentActivity implements OnMapReady
             holder.up.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    if (TravelPlanner.getWaypoints().get(position).getArrivalTime() != null){
+                        Toast.makeText(getApplicationContext(), getResources().getString(R.string.IllegalMoveAttempt), Toast.LENGTH_LONG).show();
+                        return;
+                    }
                     TravelPlanner.Move(pos,TravelPlanner.UP);
                     mAdapter.notifyDataSetChanged();
                     UpdateMap();
@@ -162,6 +180,10 @@ public class SmartSchedulePlanner extends FragmentActivity implements OnMapReady
             holder.down.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    if (TravelPlanner.getWaypoints().get(position).getArrivalTime() != null){
+                        Toast.makeText(getApplicationContext(), getResources().getString(R.string.IllegalMoveAttempt), Toast.LENGTH_LONG).show();
+                        return;
+                    }
                     TravelPlanner.Move(pos,TravelPlanner.DOWN);
                     mAdapter.notifyDataSetChanged();
                     UpdateMap();
@@ -285,7 +307,7 @@ public class SmartSchedulePlanner extends FragmentActivity implements OnMapReady
                 }
             } else {
                 instructions.setText("");
-                instructions.setVisibility(View.GONE);
+                instructions.setVisibility(View.INVISIBLE);
             }
 
             duration.setText(getResources().getString(R.string.travel_duration)+ TravelPlanner.getDuration());
@@ -373,8 +395,17 @@ public class SmartSchedulePlanner extends FragmentActivity implements OnMapReady
                     Toast.makeText(getApplicationContext(),getResources().getString(R.string.NoSelectedPlace), Toast.LENGTH_SHORT).show();
                     return;
                 }
-                TravelWaypoint wayp;
-                wayp = new TravelWaypoint(selectedPlace.getName().toString(), selectedPlace.getLatLng());
+                TravelWaypoint wayp = null;
+                if (TimeSet != null){
+                    if (TravelPlanner.CheckForIllegalTime(TimeSet)) {
+                        wayp = new TravelWaypoint(selectedPlace.getName().toString(), selectedPlace.getLatLng(), TimeSet);
+                    } else {
+                        Toast.makeText(getApplicationContext(), getResources().getString(R.string.IllegalTimeGiven), Toast.LENGTH_LONG).show();
+                    }
+                } else {
+                    wayp = new TravelWaypoint(selectedPlace.getName().toString(), selectedPlace.getLatLng());
+                }
+                if (wayp == null) return;
                 if (TravelPlanner.CheckIfWaypointExists(wayp)){
                     Toast.makeText(getApplicationContext(), getResources().getString(R.string.WaypointAlrExists), Toast.LENGTH_SHORT).show();
                     return;
@@ -387,7 +418,9 @@ public class SmartSchedulePlanner extends FragmentActivity implements OnMapReady
 
                 UpdateMap();
                 addWaypointFragment.setText("");
+                ArrivalTimeButton.setText(getString(R.string.arrival_time));
                 selectedPlace = null;
+                TimeSet = null;
             }
         });
 
@@ -402,8 +435,8 @@ public class SmartSchedulePlanner extends FragmentActivity implements OnMapReady
             }
         });
 
-        WantedTimeButton = (Button) findViewById(R.id.WantedTime);
-        WantedTimeButton.setOnClickListener(new View.OnClickListener() {
+        ArrivalTimeButton = (Button) findViewById(R.id.WantedTime);
+        ArrivalTimeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 DialogFragment f = new TimePickerDialFrag();

@@ -7,6 +7,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -263,5 +264,40 @@ public class TravelPlanner {
 
     public static void setDuration(String duration) {
         Duration = duration;
+    }
+
+    public static boolean CheckForIllegalTime(Calendar c){
+        Calendar last = null;
+        int firstPosition = 0;
+        //Find the first waypoint with an arrival time and break...
+        for (int i = 0; i < getNumOfWaypoints(); i++){
+            TravelWaypoint wp = getWaypoints().get(i);
+            if (wp.getArrivalTime() !=null){
+                last = wp.getArrivalTime();
+                firstPosition = i;
+                break;
+            }
+        }
+
+        //If there wasn't any point with an arrival time, return true
+        if (last == null){
+            return true;
+        }
+
+        for (int i = firstPosition + 1; i < getNumOfWaypoints(); i++){
+            TravelWaypoint wp = getWaypoints().get(i);
+            if (wp.getArrivalTime() != null){
+                if (wp.getArrivalTime().getTimeInMillis() > last.getTimeInMillis()){
+                    last = wp.getArrivalTime();
+                } else {
+                    return false;
+                }
+            }
+        }
+
+        if (c.getTimeInMillis() > last.getTimeInMillis()){
+            return true;
+        }
+        return false;
     }
 }
