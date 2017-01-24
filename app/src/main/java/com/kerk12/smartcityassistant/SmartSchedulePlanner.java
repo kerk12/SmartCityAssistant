@@ -13,6 +13,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
@@ -49,7 +50,7 @@ import java.util.Random;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeoutException;
 
-public class SmartSchedulePlanner extends FragmentActivity implements OnMapReadyCallback, TravelOptionsDialog.TravelOptionsListener, TimePickerDialFrag.TimePickerDialFragListener {
+public class SmartSchedulePlanner extends AppCompatActivity implements OnMapReadyCallback, TravelOptionsDialog.TravelOptionsListener, TimePickerDialFrag.TimePickerDialFragListener {
 
     public static GoogleMap mMap;
     LocationManager lm = null;
