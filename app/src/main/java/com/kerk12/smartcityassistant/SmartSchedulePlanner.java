@@ -20,6 +20,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -74,6 +75,7 @@ public class SmartSchedulePlanner extends FragmentActivity implements OnMapReady
 
     private Calendar TimeSet = null;
     private Button ArrivalTimeButton;
+    private EditText newWaypointTitle;
 
 
     @Override
@@ -120,7 +122,7 @@ public class SmartSchedulePlanner extends FragmentActivity implements OnMapReady
 
         protected class ViewHolder extends RecyclerView.ViewHolder {
 
-            public TextView WaypointName, ArrivalTime;
+            public TextView EntryTitle, WaypointName, ArrivalTime;
             public ImageButton up, down, del;
 
             public ViewHolder(View itemView) {
@@ -131,6 +133,7 @@ public class SmartSchedulePlanner extends FragmentActivity implements OnMapReady
                 up.setImageResource(R.drawable.arrow_up);
                 down.setImageResource(R.drawable.arrow_down);
                 del.setImageResource(R.drawable.delete);
+                EntryTitle = (TextView) itemView.findViewById(R.id.waypoint_title);
                 WaypointName = (TextView) itemView.findViewById(R.id.waypoint_name);
                 ArrivalTime = (TextView) itemView.findViewById(R.id.arrival_time);
 
@@ -148,6 +151,10 @@ public class SmartSchedulePlanner extends FragmentActivity implements OnMapReady
 
         @Override
         public void onBindViewHolder(ViewHolder holder, final int position) {
+            if (mList.get(position).getEntryTitle() != null && !mList.get(position).getEntryTitle().equals("")){
+                holder.EntryTitle.setText(mList.get(position).getEntryTitle());
+            }
+
             holder.WaypointName.setText(mList.get(position).getName());
             if (mList.get(position).getArrivalTime() != null){
                 holder.ArrivalTime.setText(getResources().getString(R.string.arrival_time)+": "+ mList.get(position).getParsedArrivalTime());
@@ -366,6 +373,9 @@ public class SmartSchedulePlanner extends FragmentActivity implements OnMapReady
 
         instructions = (TextView) findViewById(R.id.instructions);
         duration = (TextView) findViewById(R.id.duration);
+
+        newWaypointTitle = (EditText) findViewById(R.id.new_entry_title);
+
         addWaypointFragment = (PlaceAutocompleteFragment) getFragmentManager().findFragmentById(R.id.AddPlaceFr);
 
 //        isFinalDestination = (CheckBox) findViewById(R.id.isFinalDestinationCB);
@@ -396,6 +406,7 @@ public class SmartSchedulePlanner extends FragmentActivity implements OnMapReady
                     return;
                 }
                 TravelWaypoint wayp = null;
+
                 if (TimeSet != null){
                     if (TravelPlanner.CheckForIllegalTime(TimeSet)) {
                         wayp = new TravelWaypoint(selectedPlace.getName().toString(), selectedPlace.getLatLng(), TimeSet);
@@ -406,6 +417,9 @@ public class SmartSchedulePlanner extends FragmentActivity implements OnMapReady
                     wayp = new TravelWaypoint(selectedPlace.getName().toString(), selectedPlace.getLatLng());
                 }
                 if (wayp == null) return;
+                if (newWaypointTitle.getText() != null && newWaypointTitle.getText().toString() != "") {
+                    wayp.setEntryTitle(newWaypointTitle.getText().toString());
+                }
                 if (TravelPlanner.CheckIfWaypointExists(wayp)){
                     Toast.makeText(getApplicationContext(), getResources().getString(R.string.WaypointAlrExists), Toast.LENGTH_SHORT).show();
                     return;
@@ -418,6 +432,7 @@ public class SmartSchedulePlanner extends FragmentActivity implements OnMapReady
 
                 UpdateMap();
                 addWaypointFragment.setText("");
+                newWaypointTitle.setText("");
                 ArrivalTimeButton.setText(getString(R.string.arrival_time));
                 selectedPlace = null;
                 TimeSet = null;

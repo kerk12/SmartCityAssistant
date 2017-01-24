@@ -11,20 +11,22 @@
     <fragment
         android:id="@+id/map"
         android:name="com.google.android.gms.maps.SupportMapFragment"
-        android:layout_width="750dp"
+        android:layout_weight="1.5"
+        android:layout_width="0dp"
         android:layout_height="match_parent"
         tools:context="com.kerk12.smartcityassistant.SmartSchedulePlanner" />
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_weight="1"
+        android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_marginLeft="12dp"
         android:orientation="vertical">
 
         <android.support.v7.widget.RecyclerView
             android:layout_width="match_parent"
-            android:layout_weight=".45"
+            android:layout_weight="1"
             android:id="@+id/SchedulePlannerRecyclerview"
-            android:layout_height="330dp"
+            android:layout_height="0dp"
             android:background="@color/cardview_light_background"
             />
 
@@ -33,21 +35,28 @@
             android:layout_height="wrap_content"
             android:id="@+id/duration"
             android:text="@string/travel_duration"
-            android:layout_weight=".45" />
+            />
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_height="0dp"
             android:id="@+id/instructions"
-            android:layout_weight=".45"
+            android:layout_weight=".35"
             android:visibility="invisible"
             />
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="200dp"
+            android:layout_height="0dp"
+            android:layout_weight=".75"
             android:orientation="vertical"
             android:id="@+id/AddWaypointContainer">
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/new_entry"
+                android:id="@+id/new_entry_title"/>
 
             <fragment android:layout_width="match_parent"
                 android:layout_height="wrap_content"

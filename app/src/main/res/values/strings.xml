@@ -49,4 +49,8 @@
     <string name="IllegalTimeGiven">Δώθηκε μη έγκυρος χρόνος άφιξης. Παρακαλούμε ξαναπροσπαθήστε.</string>
 
     <string name="IllegalMoveAttempt">Αδύνατη η μετακίνηση. Δεν πρέπει να έχει οριστεί χρόνος άφιξης για τον προορισμό που μετακινείται.</string>
+
+    <string name="new_entry">Τίτλος Νέας Εγγραφής</string>
+
+    <string name="no_entry_title_set">Εγγραφή χωρίς τίτλο</string>
 </resources>

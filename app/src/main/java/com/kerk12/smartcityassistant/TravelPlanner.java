@@ -208,6 +208,11 @@ public class TravelPlanner {
             if (waypoint.getLocation().equals(wayp.getLocation())){
                 return true;
             }
+            if (waypoint.getEntryTitle() != ""){
+                if(waypoint.getEntryTitle() == wayp.getEntryTitle()){
+                    return true;
+                }
+            }
         }
         return false;
     }

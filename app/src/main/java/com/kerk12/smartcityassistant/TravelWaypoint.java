@@ -9,6 +9,7 @@ import java.util.Calendar;
  */
 
 public class TravelWaypoint {
+    private String EntryTitle = null;
     private String Name;
     private LatLng Location;
     //private boolean isFinalDestination = false;
@@ -63,5 +64,13 @@ public class TravelWaypoint {
 
     public void setArrivalTime(Calendar arrivalTime) {
         ArrivalTime = arrivalTime;
+    }
+
+    public String getEntryTitle() {
+        return EntryTitle;
+    }
+
+    public void setEntryTitle(String entryTitle) {
+        EntryTitle = entryTitle;
     }
 }
