@@ -53,4 +53,6 @@
     <string name="new_entry">Τίτλος Νέας Εγγραφής</string>
 
     <string name="no_entry_title_set">Εγγραφή χωρίς τίτλο</string>
+
+    <string name="location_access_needed">Απαιτείται πρόσβαση στην ακριβή σας τοποθεσία προκειμένου να λειτουργήσει το Εξυπνο Πλάνο Ημέρας.</string>
 </resources>

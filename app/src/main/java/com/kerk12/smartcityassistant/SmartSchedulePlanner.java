@@ -379,10 +379,6 @@ public class SmartSchedulePlanner extends AppCompatActivity implements OnMapRead
 
         addWaypointFragment = (PlaceAutocompleteFragment) getFragmentManager().findFragmentById(R.id.AddPlaceFr);
 
-//        isFinalDestination = (CheckBox) findViewById(R.id.isFinalDestinationCB);
-//        isFinalDestination.setText(getResources().getString(R.string.isFinalDestination));
-//        isFinalDestination.setTextColor(getResources().getColor(R.color.colorPrimary));
-
 
         addWaypointFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
             @Override

@@ -12,6 +12,6 @@ public class MainMenuActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main_menu);
 
         MainMenuFragment f = new MainMenuFragment();
-        getFragmentManager().beginTransaction().add(R.id.frameContainerMainMenu, f, null).commit();
+        getSupportFragmentManager().beginTransaction().add(R.id.frameContainerMainMenu, f, null).commit();
     }
 }
