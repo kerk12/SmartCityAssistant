@@ -2,8 +2,11 @@ package com.kerk12.smartcityassistant;
 
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.ActivityCompat;
@@ -20,6 +23,16 @@ import android.widget.Toast;
  * A simple {@link Fragment} subclass.
  */
 public class MainMenuFragment extends Fragment {
+
+    private boolean checkNetworkConnectivity(){
+        ConnectivityManager connMgr = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo ni = connMgr.getActiveNetworkInfo();
+        if (ni != null && ni.isConnected()){
+            return true;
+        } else {
+            return false;
+        }
+    }
 
     private final int LOCATION_ACCESS = 1;
     @Override
@@ -42,7 +55,10 @@ public class MainMenuFragment extends Fragment {
     private OnClickListener SmartSchedulePlannerOCL = new OnClickListener() {
         @Override
         public void onClick(View view) {
-            //TODO Check for internet connectivity.
+            if (!checkNetworkConnectivity()){
+                Toast.makeText(getActivity(), getResources().getString(R.string.internet_not_connected), Toast.LENGTH_LONG).show();
+                return;
+            }
             if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION)){
                     requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_ACCESS);
