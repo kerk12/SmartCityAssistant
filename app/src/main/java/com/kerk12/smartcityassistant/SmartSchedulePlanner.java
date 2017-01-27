@@ -336,36 +336,7 @@ public class SmartSchedulePlanner extends AppCompatActivity implements OnMapRead
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-//        MapOrigin = (EditText) findViewById(R.id.MapOrigin);
-//        GetDirectionsButton = (Button) findViewById(R.id.SubmitButton);
-//
-//        GetDirectionsButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                String mapOrigin = MapOrigin.getText().toString();
-//                Map<String, String> mapDirs = new HashMap<String, String>();
-//                mapDirs.put("origin", mapOrigin);
-//                //TODO Get input from the user...
-//                mapDirs.put("destination", "Acropolis");
-//                MapHelper helper = new MapHelper(mapDirs, getApplicationContext());
-//                Polyline tr;
-//                try {
-//                    tr = mMap.addPolyline(helper.getRoutePolyline());
-//                } catch (InterruptedException e) {
-//                    e.printStackTrace();
-//                } catch (MalformedURLException e) {
-//                    e.printStackTrace();
-//                } catch (TimeoutException e) {
-//                    e.printStackTrace();
-//                } catch (InstantiationException e) {
-//                    e.printStackTrace();
-//                } catch (ExecutionException e) {
-//                    e.printStackTrace();
-//                }
-//
-//
-//            }
-//        });
+
         SPRecyclerView = (RecyclerView) findViewById(R.id.SchedulePlannerRecyclerview);
         SPMan = new LinearLayoutManager(this);
         SPRecyclerView.setLayoutManager(SPMan);
