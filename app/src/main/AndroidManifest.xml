@@ -37,8 +37,8 @@
         <activity
             android:name=".SmartSchedulePlanner"
             android:label="@string/title_activity_smart_schedule_planner"
-            android:parentActivityName="com.kerk12.smartcityassistant.MainMenuActivity">
-        </activity>
+            android:parentActivityName=".MainMenuActivity"></activity>
+        <activity android:name=".SmartHome"></activity>
     </application>
 
 </manifest>
