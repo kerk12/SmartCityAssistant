@@ -85,6 +85,15 @@ public class MainMenuFragment extends Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_main_menu, container, false);
         CardView MapChoice = (CardView) v.findViewById(R.id.MainMenuMapChoice);
+        CardView SmartHomeChoice = (CardView) v.findViewById(R.id.MainMenuHomeManagementChoice);
+
+        SmartHomeChoice.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getActivity(), SmartHome.class);
+                startActivity(i);
+            }
+        });
 
         MapChoice.setOnClickListener(SmartSchedulePlannerOCL);
         return v;

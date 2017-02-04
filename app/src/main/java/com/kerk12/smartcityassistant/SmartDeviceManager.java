@@ -16,6 +16,11 @@ public class SmartDeviceManager {
     public static List<SmartDevice> getDeviceList(){
         if (deviceList == null){
             deviceList = new ArrayList<SmartDevice>();
+            //DEBUG ONLY
+            for (int i = 0; i < 10; i++){
+                SmartDevice sdev = new SmartDevice("Smart Device " + String.valueOf(i), false);
+                addSmartDevice(sdev);
+            }
         }
         return deviceList;
     }
