@@ -18,9 +18,13 @@ public class SmartDeviceManager {
             deviceList = new ArrayList<SmartDevice>();
             //DEBUG ONLY
             for (int i = 0; i < 10; i++){
-                SmartDevice sdev = new SmartDevice("Smart Device " + String.valueOf(i), false);
+                SmartDevice sdev = new SmartDevice("Smart Device " + String.valueOf(i), false, "Σαλόνι");
                 addSmartDevice(sdev);
             }
+            SmartDevice sdev = new SmartDevice("Καφετιέρα", false, "Σαλόνι");
+            sdev.setError("Λείπει ο καφές.");
+            addSmartDevice(sdev);
+
         }
         return deviceList;
     }
@@ -35,24 +39,22 @@ public class SmartDeviceManager {
         deviceList.add(devNew);
     }
 
-    public static void ActivateDevice(int position){
+
+    public static void TogglePower(int position){
         SmartDevice devToActivate = deviceList.get(position);
         if (devToActivate.isActivated()){
-            //TODO Throw exception... or not
-            return;
+            devToActivate.setActivated(false);
+        } else {
+            devToActivate.setActivated(true);
         }
-
-        devToActivate.setActivated(true);
         deviceList.set(position, devToActivate);
+
     }
-    public static void DeactivateDevice(int position){
-        SmartDevice devToActivate = deviceList.get(position);
-        if (!devToActivate.isActivated()){
-            //TODO Throw exception... or not
-            return;
-        }
 
-        devToActivate.setActivated(false);
+    public static void SetPower(int position, boolean activated){
+        SmartDevice devToActivate = deviceList.get(position);
+        devToActivate.setActivated(activated);
         deviceList.set(position, devToActivate);
+
     }
 }

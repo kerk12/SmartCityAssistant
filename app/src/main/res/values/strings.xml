@@ -57,4 +57,12 @@
     <string name="location_access_needed">Απαιτείται πρόσβαση στην ακριβή σας τοποθεσία προκειμένου να λειτουργήσει το Εξυπνο Πλάνο Ημέρας.</string>
 
     <string name="internet_not_connected">Παρακαλούμε ελέγξτε την σύνδεσή σας και ξαναδοκιμάστε.</string>
+
+    <string name="device_name">Όνομα Συσκευής</string>
+
+    <string name="device_location">Τοποθεσία συσκευής</string>
+
+    <string name="activate_deactivate">Ενεργοποίηση\/Απενεργοποίηση</string>
+
+    <string name="device_errors">Σφάλμα:</string>
 </resources>
