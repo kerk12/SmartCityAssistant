@@ -1,5 +1,7 @@
 package com.kerk12.smartcityassistant;
 
+import android.content.Context;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,17 +15,20 @@ public class SmartDeviceManager {
     //Private constructor to block instantiation
     private SmartDeviceManager(){}
 
-    public static List<SmartDevice> getDeviceList(){
+    public static List<SmartDevice> getDeviceList(Context context){
         if (deviceList == null){
             deviceList = new ArrayList<SmartDevice>();
-            //DEBUG ONLY
-            for (int i = 0; i < 10; i++){
-                SmartDevice sdev = new SmartDevice("Smart Device " + String.valueOf(i), false, "Σαλόνι");
-                addSmartDevice(sdev);
-            }
-            SmartDevice sdev = new SmartDevice("Καφετιέρα", false, "Σαλόνι");
-            sdev.setError("Λείπει ο καφές.");
-            addSmartDevice(sdev);
+            SmartDevice sdev1 = new SmartDevice("Φώτα Μπάνιου", true, "Μπάνιο");
+            sdev1.setCategory(SmartDevice.LIGHTING);
+            SmartDevice sdev2 = new SmartDevice("Καφετιέρα", false, "Κουζίνα");
+            sdev2.setCategory(SmartDevice.GENERIC);
+            SmartDevice sdev3 = new SmartDevice("Τηλεόραση", false, "Σαλόνι");
+            DeviceExtraSetting volume = new DeviceExtraSetting("Ένταση", DeviceExtraSetting.SLIDER, context);
+            sdev3.AddExtraSetting(volume);
+            sdev3.setCategory(SmartDevice.ENTERTAINMENT);
+            addSmartDevice(sdev1);
+            addSmartDevice(sdev2);
+            addSmartDevice(sdev3);
 
         }
         return deviceList;

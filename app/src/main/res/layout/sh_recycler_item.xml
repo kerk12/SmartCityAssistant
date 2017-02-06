@@ -2,16 +2,11 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_marginTop="12dp"
-    android:layout_height="50dp"
+    android:layout_marginTop="2dp"
+    android:layout_height="70dp"
     android:id="@+id/device_list_item"
-    android:background="@color/white">
-
-    <ImageView
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginLeft="10dp"
-        android:id="@+id/device_category"/>
+    android:background="@color/white"
+    android:elevation="5dp">
 
     <ImageView
         android:layout_width="50dp"
@@ -22,13 +17,37 @@
         android:layout_marginEnd="10dp"
         android:visibility="gone"
         android:id="@+id/error_image" />
-
-    <TextView
-        android:text="Device Name"
+    <ImageView
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginLeft="10dp"
+        android:id="@+id/device_category"
+        android:layout_centerVertical="true"
+        />
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/device_name_on_list"
         android:layout_marginLeft="15dp"
         android:layout_centerVertical="true"
-        android:layout_toEndOf="@+id/device_category" />
+        android:orientation="vertical"
+        android:layout_toEndOf="@+id/device_category" >
+        <TextView
+            android:text="Device Name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/device_name_on_list"
+            android:textSize="18sp"
+            />
+        <TextView
+            android:text="Device Location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/device_location_on_list"
+            android:textSize="16sp"
+            />
+
+    </LinearLayout>
+
+
+
 </RelativeLayout>

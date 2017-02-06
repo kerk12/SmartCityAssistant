@@ -25,7 +25,7 @@ public class SmartHome extends AppCompatActivity {
     private TextView deviceName, deviceLocation;
     private ToggleButton powerButton;
     private int deviceSelected = 0;
-    private LinearLayout errors_layout;
+    private LinearLayout errors_layout, extraSettingsLayout;
     private TextView errors;
 
 
@@ -49,12 +49,27 @@ public class SmartHome extends AppCompatActivity {
 
         @Override
         public void onBindViewHolder(ViewHolder holder, final int position) {
-            if (SmartDeviceManager.getDeviceList().get(position).isActivated()){
+            SmartDevice sdev = SmartDeviceManager.getDeviceList(getApplicationContext()).get(position);
+            switch (sdev.getCategory()){
+                case SmartDevice.LIGHTING:
+                    holder.category.setImageResource(R.drawable.lighting_category);
+                    break;
+                case SmartDevice.ENTERTAINMENT:
+                    holder.category.setImageResource(R.drawable.entertainment_category);
+                    break;
+                case SmartDevice.GENERIC:
+                    holder.category.setImageResource(R.drawable.generic_category);
+                    break;
+                default:
+                    holder.category.setVisibility(View.GONE);
+            }
+            if (sdev.isActivated()){
                 holder.deviceName.setTextColor(getResources().getColor(R.color.device_enabled));
             } else {
                 holder.deviceName.setTextColor(getResources().getColor(R.color.device_disabled));
             }
             holder.deviceName.setText(mList.get(position).getName());
+            holder.deviceLocation.setText(mList.get(position).getLocation());
             holder.list_item.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -62,7 +77,7 @@ public class SmartHome extends AppCompatActivity {
                     UpdateDetails();
                 }
             });
-            if (SmartDeviceManager.getDeviceList().get(position).hasError()){
+            if (sdev.hasError()){
                 holder.error_icon.setVisibility(View.VISIBLE);
             }
         }
@@ -74,12 +89,14 @@ public class SmartHome extends AppCompatActivity {
 
         protected class ViewHolder extends RecyclerView.ViewHolder{
 
-            public TextView deviceName;
+            public TextView deviceName, deviceLocation;
             public RelativeLayout list_item;
-            public ImageView error_icon;
+            public ImageView error_icon, category;
             public ViewHolder(View itemView) {
                 super(itemView);
+                category = (ImageView) itemView.findViewById(R.id.device_category);
                 deviceName = (TextView) itemView.findViewById(R.id.device_name_on_list);
+                deviceLocation = (TextView) itemView.findViewById(R.id.device_location_on_list);
                 list_item = (RelativeLayout) itemView.findViewById(R.id.device_list_item);
                 error_icon = (ImageView) itemView.findViewById(R.id.error_image);
                 error_icon.setImageResource(R.drawable.error);
@@ -88,17 +105,28 @@ public class SmartHome extends AppCompatActivity {
     }
     public void UpdateAdapter(){
         mAdapter = null;
-        mAdapter = new SHAdapter(SmartDeviceManager.getDeviceList());
+        mAdapter = new SHAdapter(SmartDeviceManager.getDeviceList(getApplicationContext()));
         SmartHomeRecyclerView.setAdapter(mAdapter);
     }
 
 
     private void UpdateDetails(){
-        SmartDevice smartDev = SmartDeviceManager.getDeviceList().get(deviceSelected);
+        SmartDevice smartDev = SmartDeviceManager.getDeviceList(getApplicationContext()).get(deviceSelected);
         deviceName.setText(smartDev.getName());
         deviceLocation.setText(smartDev.getLocation());
         powerButton.setChecked(smartDev.isActivated());
 
+        extraSettingsLayout.removeAllViews();
+        List<DeviceExtraSetting> extraSettings = smartDev.getExtraSettings();
+
+        if (extraSettings.size() > 0){
+            for (DeviceExtraSetting s: extraSettings){
+                List<View> views = s.getFinalOutput();
+                for (View v: views){
+                    extraSettingsLayout.addView(v);
+                }
+            }
+        }
         if (smartDev.hasError()){
             powerButton.setEnabled(false);
             errors_layout.setVisibility(View.VISIBLE);
@@ -117,7 +145,7 @@ public class SmartHome extends AppCompatActivity {
         SmartHomeRecyclerView = (RecyclerView) findViewById(R.id.smart_recycler);
         SPMan = new LinearLayoutManager(this);
         SmartHomeRecyclerView.setLayoutManager(SPMan);
-        mAdapter = new SHAdapter(SmartDeviceManager.getDeviceList());
+        mAdapter = new SHAdapter(SmartDeviceManager.getDeviceList(getApplicationContext()));
         SmartHomeRecyclerView.setAdapter(mAdapter);
 
         deviceName = (TextView) findViewById(R.id.device_name);
@@ -125,6 +153,8 @@ public class SmartHome extends AppCompatActivity {
 
         errors_layout = (LinearLayout) findViewById(R.id.errors_layout);
         errors = (TextView) findViewById(R.id.device_error);
+        extraSettingsLayout = (LinearLayout) findViewById(R.id.extra_settings);
+
         powerButton = (ToggleButton) findViewById(R.id.power_button);
 
         powerButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
