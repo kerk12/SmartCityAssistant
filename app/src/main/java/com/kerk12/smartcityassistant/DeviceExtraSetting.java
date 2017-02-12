@@ -24,21 +24,41 @@ public class DeviceExtraSetting{
     public static final String NUM_UP_DOWN = "numeric_up_down";
 
     private static final int STYLE = R.style.ExtraSetting;
+    private String type = null;
+    private String name = null;
     int currentVal = -1;
     List<View> finalOutput = new ArrayList<View>();
-    public DeviceExtraSetting(String name, String type, Context context){
+
+    public DeviceExtraSetting(String name, String type){
+        this.name = name;
+        this.type = type;
+    }
+
+    public List<View> getFinalOutput(Context context){
+        //Renew the list
+        //NOTE: NEVER reuse views
+        finalOutput = new ArrayList<View>();
+        //Generate the label
         TextView label = new TextView(context);
         label.setPadding(0,10,0,0);
         label.setTextColor(context.getResources().getColor(android.R.color.primary_text_light));
         label.setText(name);
         switch (type){
+            //If the type is a slider
             case SLIDER:
+                /**
+                 * Add a linearLayout with:
+                 * 1: Seeker
+                 * 2: TextView with the current value.
+                 */
                 LinearLayout seekerLayout = new LinearLayout(context);
                 seekerLayout.setOrientation(LinearLayout.HORIZONTAL);
                 seekerLayout.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
 
+                //Make the seeker
                 SeekBar seeker = new SeekBar(context);
                 seeker.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT, 0.9f));
+                //Make the textview
                 final TextView currentValue = new TextView(context);
                 currentValue.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT, 0.1f));
                 seeker.setMax(10);
@@ -67,6 +87,7 @@ public class DeviceExtraSetting{
 
                     }
                 });
+
                 finalOutput.add(label);
                 seekerLayout.addView(seeker);
                 seekerLayout.addView(currentValue);
@@ -119,9 +140,6 @@ public class DeviceExtraSetting{
             default:
                 throw new IllegalArgumentException();
         }
-    }
-
-    public List<View> getFinalOutput(){
         return finalOutput;
     }
 }

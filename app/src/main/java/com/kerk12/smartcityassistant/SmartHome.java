@@ -122,7 +122,7 @@ public class SmartHome extends AppCompatActivity {
         if (extraSettings.size() > 0){
             extra_settings_label.setVisibility(View.VISIBLE);
             for (DeviceExtraSetting s: extraSettings){
-                List<View> views = s.getFinalOutput();
+                List<View> views = s.getFinalOutput(getApplicationContext());
                 for (View v: views){
                     extraSettingsLayout.addView(v);
                 }
