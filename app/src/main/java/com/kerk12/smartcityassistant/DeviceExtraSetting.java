@@ -23,11 +23,9 @@ public class DeviceExtraSetting{
     public static final String SLIDER = "slider";
     public static final String NUM_UP_DOWN = "numeric_up_down";
 
-    private static final int STYLE = R.style.ExtraSetting;
     private String type = null;
     private String name = null;
     int currentVal = -1;
-    List<View> finalOutput = new ArrayList<View>();
 
     public DeviceExtraSetting(String name, String type){
         this.name = name;
@@ -37,7 +35,7 @@ public class DeviceExtraSetting{
     public List<View> getFinalOutput(Context context){
         //Renew the list
         //NOTE: NEVER reuse views
-        finalOutput = new ArrayList<View>();
+        List<View> finalOutput = new ArrayList<View>();
         //Generate the label
         TextView label = new TextView(context);
         label.setPadding(0,10,0,0);
