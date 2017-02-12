@@ -65,4 +65,6 @@
     <string name="activate_deactivate">Ενεργοποίηση\/Απενεργοποίηση</string>
 
     <string name="device_errors">Σφάλμα:</string>
+
+    <string name="extra_settings">Επιπλέον ρυθμίσεις συσκευής:</string>
 </resources>

@@ -2,8 +2,10 @@ package com.kerk12.smartcityassistant;
 
 import android.app.ActionBar;
 import android.content.Context;
+import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -19,16 +21,18 @@ import java.util.List;
 
 public class DeviceExtraSetting{
     public static final String SLIDER = "slider";
+    public static final String NUM_UP_DOWN = "numeric_up_down";
 
     private static final int STYLE = R.style.ExtraSetting;
     int currentVal = -1;
     List<View> finalOutput = new ArrayList<View>();
     public DeviceExtraSetting(String name, String type, Context context){
+        TextView label = new TextView(context);
+        label.setPadding(0,10,0,0);
+        label.setTextColor(context.getResources().getColor(android.R.color.primary_text_light));
+        label.setText(name);
         switch (type){
             case SLIDER:
-                TextView label = new TextView(context);
-                label.setTextColor(context.getResources().getColor(android.R.color.primary_text_light));
-                label.setText(name);
                 LinearLayout seekerLayout = new LinearLayout(context);
                 seekerLayout.setOrientation(LinearLayout.HORIZONTAL);
                 seekerLayout.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
@@ -67,6 +71,50 @@ public class DeviceExtraSetting{
                 seekerLayout.addView(seeker);
                 seekerLayout.addView(currentValue);
                 finalOutput.add(seekerLayout);
+                break;
+            case NUM_UP_DOWN:
+                LinearLayout num_layout = new LinearLayout(context);
+                Button increment = new Button(context);
+                increment.setText("+");
+
+                final TextView currentValue2 = new TextView(context);
+                currentValue2.setTextColor(context.getResources().getColor(android.R.color.primary_text_light));
+                currentValue2.setTextSize(TypedValue.COMPLEX_UNIT_SP, 22);
+                currentValue2.setPadding(10,0,10,0);
+                if (currentVal == -1){
+                    currentVal = 5;
+                }
+                currentValue2.setText(String.valueOf(currentVal));
+
+                Button decrement = new Button(context);
+                decrement.setText("-");
+
+                increment.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        currentVal++;
+                        currentValue2.setText(String.valueOf(currentVal));
+                    }
+                });
+
+                decrement.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        //Do not decrement below zero
+                        if (currentVal == 0){
+                            return;
+                        } else {
+                            currentVal--;
+                            currentValue2.setText(String.valueOf(currentVal));
+                        }
+                    }
+                });
+                num_layout.addView(increment);
+                num_layout.addView(currentValue2);
+                num_layout.addView(decrement);
+                num_layout.setOrientation(LinearLayout.HORIZONTAL);
+                finalOutput.add(label);
+                finalOutput.add(num_layout);
                 break;
             default:
                 throw new IllegalArgumentException();

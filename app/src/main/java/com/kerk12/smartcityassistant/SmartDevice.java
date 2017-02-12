@@ -101,4 +101,11 @@ public class SmartDevice {
         return extraSettings;
     }
 
+    public boolean hasExtraSettings(){
+        if (extraSettings.size() > 0){
+            return true;
+        }
+        return false;
+    }
+
 }

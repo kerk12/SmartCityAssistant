@@ -22,7 +22,7 @@ public class SmartHome extends AppCompatActivity {
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager SPMan;
 
-    private TextView deviceName, deviceLocation;
+    private TextView deviceName, deviceLocation, extra_settings_label;
     private ToggleButton powerButton;
     private int deviceSelected = 0;
     private LinearLayout errors_layout, extraSettingsLayout;
@@ -120,12 +120,15 @@ public class SmartHome extends AppCompatActivity {
         List<DeviceExtraSetting> extraSettings = smartDev.getExtraSettings();
 
         if (extraSettings.size() > 0){
+            extra_settings_label.setVisibility(View.VISIBLE);
             for (DeviceExtraSetting s: extraSettings){
                 List<View> views = s.getFinalOutput();
                 for (View v: views){
                     extraSettingsLayout.addView(v);
                 }
             }
+        } else {
+            extra_settings_label.setVisibility(View.INVISIBLE);
         }
         if (smartDev.hasError()){
             powerButton.setEnabled(false);
@@ -153,6 +156,7 @@ public class SmartHome extends AppCompatActivity {
 
         errors_layout = (LinearLayout) findViewById(R.id.errors_layout);
         errors = (TextView) findViewById(R.id.device_error);
+        extra_settings_label = (TextView) findViewById(R.id.extra_settings_label);
         extraSettingsLayout = (LinearLayout) findViewById(R.id.extra_settings);
 
         powerButton = (ToggleButton) findViewById(R.id.power_button);
