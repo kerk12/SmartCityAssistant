@@ -67,4 +67,6 @@
     <string name="device_errors">Σφάλμα:</string>
 
     <string name="extra_settings">Επιπλέον ρυθμίσεις συσκευής:</string>
+
+    <string name="payment_method_choice">Επιλογή Τρόπου Πληρωμής</string>
 </resources>

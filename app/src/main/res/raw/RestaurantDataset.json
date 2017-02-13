@@ -1,0 +1,82 @@
+{
+  "restaurants":[
+    {
+      "id":0,
+      "name":"Του Μπάμπη το Κουτούκι",
+      "location":"Πειραιάς",
+      "phone_number":"2101234567"
+    },
+    {
+      "id":1,
+      "name":"Σουβλάκι ο Χάρος",
+      "location":"Γαλάτσι",
+      "phone_number":"2103456712"
+    },
+    {
+      "id":2,
+      "name":"Πιτσαρία ο Θανάσης",
+      "location":"Κερατσίνι",
+      "phone_number":"2102256082"
+    },
+    {
+      "id":3,
+      "name":"Καφετέρια η Κατίνα",
+      "location":"Άνω Πατήσια",
+      "phone_number":"2103616452"
+    },
+    {
+      "id":4,
+      "name":"Internet-Cafe ο Κούκος",
+      "location":"Άγιος Ιωάννης",
+      "phone_number":"2105556342"
+    }
+  ],
+  "dishes":[
+    {
+      "id":0,
+      "name":"Πίτα με γύρο χοιρινό",
+      "category":"Τυλιχτά",
+      "price":2.20
+    },
+    {
+      "id":1,
+      "name":"Πίτα με γύρο κοτόπουλο",
+      "category":"Τυλιχτά",
+      "price":2.20
+    },
+    {
+      "id":2,
+      "name":"Freddo Cappuccino",
+      "category":"Καφές",
+      "price":1.40
+    },
+    {
+      "id":3,
+      "name":"Freddo Espresso",
+      "category":"Καφές",
+      "price":1.20
+    },
+    {
+      "id":4,
+      "name":"Espresso",
+      "category":"Καφές",
+      "price":1.10
+    },
+    {
+      "id":5,
+      "name":"Cappuccino",
+      "category":"Καφές",
+      "price":1.40
+    }
+  ],
+  "mappings":[
+    {
+      "restaurant_id":3,
+      "mapped_dishes":[2,3,4,5]
+    },
+    {
+      "restaurant_id":1,
+      "mapped_dishes":[0,1]
+    },
+  ]
+}
