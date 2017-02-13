@@ -86,6 +86,7 @@ public class MainMenuFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_main_menu, container, false);
         CardView MapChoice = (CardView) v.findViewById(R.id.MainMenuMapChoice);
         CardView SmartHomeChoice = (CardView) v.findViewById(R.id.MainMenuHomeManagementChoice);
+        CardView EOrder = (CardView) v.findViewById(R.id.MainMenuEOrderingChoice);
 
         SmartHomeChoice.setOnClickListener(new OnClickListener() {
             @Override
@@ -96,6 +97,14 @@ public class MainMenuFragment extends Fragment {
         });
 
         MapChoice.setOnClickListener(SmartSchedulePlannerOCL);
+
+        EOrder.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getActivity(), EOrderMainActivity.class);
+                startActivity(i);
+            }
+        });
         return v;
     }
 

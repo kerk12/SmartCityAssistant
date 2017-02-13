@@ -17,6 +17,7 @@ public class Kitchen {
     private static List<Restaurant> restaurants = null;
     private static List<Dish> dishes = null;
     private static List<DishMapping> mappings = null;
+    private static boolean initialized = false;
 
     /**
      * Parses restaurants from the JSON Dataset.
@@ -59,19 +60,16 @@ public class Kitchen {
 
     }
 
-    private static void InitializeFromDataset(Context c){
-        FileToString f2s = new FileToString(R.raw.RestaurantDataset);
+    private static void InitializeFromDataset(Context c) throws JSONException {
+        FileToString f2s = new FileToString(R.raw.restaurant_dataset);
         String dataset = f2s.convert(c);
         JSONObject DatasetObject = null;
-        try {
             DatasetObject = new JSONObject(dataset);
             restaurants = parseRestaurantsFromJSON(DatasetObject);
             dishes = parseDishesFromJSON(DatasetObject);
             mappings = parseMappingsFromJSON(DatasetObject);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
+            MapDishes();
+        initialized = true;
     }
 
     /**
@@ -94,5 +92,33 @@ public class Kitchen {
             mMappings.add(mapping);
         }
         return mMappings;
+    }
+
+    private static void MapDishes(){
+        for (DishMapping map: mappings){
+            int rest_id = map.getRestaurantID();
+            Restaurant restaurant = restaurants.get(rest_id);
+            for (int dish_id:map.getMappedDishes()){
+                Dish dish = dishes.get(dish_id);
+                restaurant.addDish(dish);
+            }
+            updateRestaurant(restaurant, rest_id);
+        }
+    }
+
+    private static void updateRestaurant(Restaurant restaurant, int position) {
+        restaurants.set(position, restaurant);
+    }
+
+    public static List<Restaurant> getRestaurants(Context context){
+        if (!initialized){
+            try {
+                InitializeFromDataset(context);
+            } catch (JSONException e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+        return restaurants;
     }
 }
