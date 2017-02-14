@@ -94,6 +94,9 @@ public class Kitchen {
         return mMappings;
     }
 
+    /**
+     * Maps the dishes to each restaurant, according to the dataset.
+     */
     private static void MapDishes(){
         for (DishMapping map: mappings){
             int rest_id = map.getRestaurantID();
@@ -106,10 +109,20 @@ public class Kitchen {
         }
     }
 
+    /**
+     * Update the restaurant on the given position.
+     * @param restaurant
+     * @param position
+     */
     private static void updateRestaurant(Restaurant restaurant, int position) {
         restaurants.set(position, restaurant);
     }
 
+    /**
+     * Get all restaurants. If the lists haven't been initialized yet, initialize them.
+     * @param context The context. Needed when accessing the file.
+     * @return A list with all the restaurants.
+     */
     public static List<Restaurant> getRestaurants(Context context){
         if (!initialized){
             try {

@@ -4,24 +4,46 @@
     android:id="@+id/activity_eorder_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
+
     android:orientation="vertical"
     tools:context="com.kerk12.smartcityassistant.EOrderMainActivity">
-    <android.support.v7.widget.RecyclerView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1">
+        android:orientation="horizontal"
+        android:layout_weight="1"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
 
-    </android.support.v7.widget.RecyclerView>
+        android:background="@color/colorPrimaryDark">
+        <android.support.v7.widget.RecyclerView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/whiteBcgr"
+            android:layout_marginRight="10dp"
+            android:id="@+id/restaurant_picker">
+
+        </android.support.v7.widget.RecyclerView>
+        <!-- The details -->
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/whiteBcgr">
+
+        </RelativeLayout>
+    </LinearLayout>
+
     <Button
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight=".1"
         android:id="@+id/restaurant_pick_button"
         android:text="@string/payment_method_choice"
+        style="@style/ButtonGreen"
         android:textSize="25sp"/>
 
 </LinearLayout>
