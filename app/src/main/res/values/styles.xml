@@ -26,9 +26,9 @@
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="ButtonGreen">
-        <item name="android:background">@color/colorPrimaryDark</item>
-        <item name="android:textColor">@color/white</item>
+    <style name="ButtonGreen" parent="Base.Widget.AppCompat.Button">
+        <item name="android:background">?android:selectableItemBackground</item>
+        <item name="android:textColor">@color/colorPrimary</item>
     </style>
 
     <style name="ExtraSetting" parent="@android:style/Widget.TextView">

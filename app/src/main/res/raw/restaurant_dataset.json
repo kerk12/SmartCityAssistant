@@ -4,30 +4,35 @@
       "id":0,
       "name":"Του Μπάμπη το Κουτούκι",
       "location":"Πειραιάς",
+      "cuisine":"Ταβέρνα",
       "phone_number":"2101234567"
     },
     {
       "id":1,
       "name":"Σουβλάκι ο Χάρος",
       "location":"Γαλάτσι",
+      "cuisine":"Ψητοπωλείο/Σουβλατζίδικο",
       "phone_number":"2103456712"
     },
     {
       "id":2,
       "name":"Πιτσαρία ο Θανάσης",
       "location":"Κερατσίνι",
+      "cuisine":"Πιτσαρία",
       "phone_number":"2102256082"
     },
     {
       "id":3,
       "name":"Καφετέρια η Κατίνα",
       "location":"Άνω Πατήσια",
+      "cuisine":"Cafe",
       "phone_number":"2103616452"
     },
     {
       "id":4,
       "name":"Internet-Cafe ο Κούκος",
       "location":"Άγιος Ιωάννης",
+      "cuisine":"Cafe",
       "phone_number":"2105556342"
     }
   ],
@@ -71,12 +76,16 @@
   ],
   "mappings":[
     {
+      "restaurant_id":1,
+      "mapped_dishes":[0,1]
+    },
+    {
       "restaurant_id":3,
       "mapped_dishes":[2,3,4,5]
     },
     {
-      "restaurant_id":1,
-      "mapped_dishes":[0,1]
+      "restaurant_id":4,
+      "mapped_dishes":[2,3,4,5]
     }
   ]
 }

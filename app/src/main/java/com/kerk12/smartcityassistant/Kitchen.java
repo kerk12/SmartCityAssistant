@@ -31,6 +31,7 @@ public class Kitchen {
         for (int i = 0; i < restaurants.length();i++){
             JSONObject restaurant = restaurants.getJSONObject(i);
             Restaurant rnew = new Restaurant(restaurant.getString("name"), restaurant.getString("phone_number"), restaurant.getString("location"));
+            rnew.setCuisine(restaurant.getString("cuisine"));
             mRestaurants.add(rnew);
         }
         return mRestaurants;

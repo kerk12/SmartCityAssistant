@@ -11,6 +11,7 @@ public class Restaurant {
     private String name;
     private String phone_number;
     private String location;
+    private String cuisine;
 
     private List<Dish> dishes = new ArrayList<Dish>();
 
@@ -48,5 +49,21 @@ public class Restaurant {
 
     public void addDish(Dish d){
         dishes.add(d);
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public String getCuisine() {
+        return cuisine;
+    }
+
+    public void setCuisine(String cuisine) {
+        this.cuisine = cuisine;
     }
 }

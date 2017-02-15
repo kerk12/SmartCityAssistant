@@ -34,6 +34,58 @@
             android:layout_weight="1"
             android:background="@color/whiteBcgr">
 
+            <TextView
+                android:text="@string/select_restaurant_to_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:textSize="10sp"
+                android:layout_marginTop="14dp"
+                android:id="@+id/helper_text"
+                 />
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/helper_text"
+                android:padding="15dp"
+                android:layout_centerHorizontal="true"
+                android:id="@+id/details_view"
+                android:visibility="invisible"
+                >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/restaurant_name"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="25sp"
+                    android:id="@+id/restaurant_name_details" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/restaurant_cuisine"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="20sp"
+                    android:id="@+id/restaurant_cuisine_details"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/restaurant_location"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="20sp"
+                    android:id="@+id/restaurant_location_details"/>
+
+            </LinearLayout>
         </RelativeLayout>
     </LinearLayout>
 
@@ -44,6 +96,7 @@
         android:id="@+id/restaurant_pick_button"
         android:text="@string/payment_method_choice"
         style="@style/ButtonGreen"
-        android:textSize="25sp"/>
+        android:textSize="25sp"
+        android:enabled="false"/>
 
 </LinearLayout>

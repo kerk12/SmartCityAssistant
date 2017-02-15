@@ -8,6 +8,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import org.w3c.dom.Text;
@@ -26,6 +29,13 @@ public class EOrderRestaurantPicker extends Fragment {
     private RestaurantAdapter mAdapter;
     private LinearLayoutManager lm;
 
+    private int selectedRestaurant = -1;
+
+    private TextView restaurantName, restaurantLocation, restaurantCuisine;
+    private LinearLayout details_view;
+
+    private Button pickButton;
+
     private class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.ViewHolder>{
 
         private List<Restaurant> mList;
@@ -41,8 +51,15 @@ public class EOrderRestaurantPicker extends Fragment {
         }
 
         @Override
-        public void onBindViewHolder(ViewHolder holder, int position) {
-            Restaurant restaurant = mList.get(position);
+        public void onBindViewHolder(ViewHolder holder, final int position) {
+            final Restaurant restaurant = mList.get(position);
+            holder.item.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    selectedRestaurant = position;
+                    UpdateUI();
+                }
+            });
             holder.name.setText(restaurant.getName());
         }
 
@@ -54,12 +71,23 @@ public class EOrderRestaurantPicker extends Fragment {
         protected class ViewHolder extends RecyclerView.ViewHolder{
 
             private TextView name;
+            private RelativeLayout item;
 
             public ViewHolder(View itemView) {
                 super(itemView);
+                item = (RelativeLayout) itemView.findViewById(R.id.restaurant_item);
                 name = (TextView) itemView.findViewById(R.id.restaurant_name_on_holder);
             }
         }
+    }
+
+    private void UpdateUI(){
+        Restaurant restaurant = Kitchen.getRestaurants(getActivity()).get(selectedRestaurant);
+        details_view.setVisibility(View.VISIBLE);
+        restaurantName.setText(restaurant.getName());
+        restaurantLocation.setText(restaurant.getLocation());
+        restaurantCuisine.setText(restaurant.getCuisine());
+        pickButton.setEnabled(true);
     }
 
     public void onCreate(Bundle savedInstanceState) {
@@ -78,6 +106,25 @@ public class EOrderRestaurantPicker extends Fragment {
         RestaurantRecycler.setLayoutManager(lm);
         mAdapter = new RestaurantAdapter(Kitchen.getRestaurants(getActivity()));
         RestaurantRecycler.setAdapter(mAdapter);
+
+        /**
+         * Details
+         */
+        details_view = (LinearLayout) v.findViewById(R.id.details_view);
+        restaurantName = (TextView) v.findViewById(R.id.restaurant_name_details);
+        restaurantLocation = (TextView) v.findViewById(R.id.restaurant_location_details);
+        restaurantCuisine = (TextView) v.findViewById(R.id.restaurant_cuisine_details);
+
+        /**
+         * Pick button
+         */
+        pickButton = (Button) v.findViewById(R.id.restaurant_pick_button);
+        pickButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //
+            }
+        });
         return v;
     }
 }
