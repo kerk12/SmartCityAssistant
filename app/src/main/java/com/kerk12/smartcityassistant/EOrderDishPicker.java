@@ -3,9 +3,15 @@ package com.kerk12.smartcityassistant;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+
+import java.util.List;
 
 /**
  * Created by kgiannakis on 15/2/2017.
@@ -15,6 +21,51 @@ public class EOrderDishPicker extends Fragment {
 
     public static final String ARG_KEY = "com.kerk12.smartcityassistant.dishpicker";
     Restaurant restaurant = null;
+
+    private DishAdapter mAdapter;
+
+    private RecyclerView DishRecycler;
+    private class DishAdapter extends RecyclerView.Adapter<DishAdapter.ViewHolder>{
+
+        private List<Dish> mDishes;
+        public DishAdapter(List<Dish> dishes){
+            mDishes = dishes;
+        }
+
+        @Override
+        public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.dish_recycler_item, parent, false);
+
+            return new ViewHolder(v);
+        }
+
+        @Override
+        public void onBindViewHolder(ViewHolder holder, int position) {
+            final Dish d = mDishes.get(position);
+            holder.name.setText(d.getName());
+            holder.item.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Order.AddDish(d);
+                }
+            });
+        }
+
+        @Override
+        public int getItemCount() {
+            return mDishes.size();
+        }
+
+        protected class ViewHolder extends RecyclerView.ViewHolder{
+            public RelativeLayout item;
+            public TextView name, category;
+            public ViewHolder(View itemView) {
+                super(itemView);
+                item = (RelativeLayout) itemView.findViewById(R.id.dish_item);
+                name = (TextView) itemView.findViewById(R.id.dish_name_on_holder);
+            }
+        }
+    }
 
     public EOrderDishPicker(){
 
@@ -39,6 +90,10 @@ public class EOrderDishPicker extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_dish_picker, container,false);
 
+        DishRecycler = (RecyclerView) v.findViewById(R.id.dish_picker);
+        mAdapter = new DishAdapter(restaurant.getDishes());
+        DishRecycler.setAdapter(mAdapter);
+        DishRecycler.setLayoutManager(new LinearLayoutManager(getActivity()));
         return v;
     }
 }

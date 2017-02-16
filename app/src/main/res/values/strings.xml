@@ -69,6 +69,7 @@
     <string name="extra_settings">Επιπλέον ρυθμίσεις συσκευής:</string>
 
     <string name="payment_method_choice">Επιλογή Τρόπου Πληρωμής</string>
+    <string name="dish_picking_choice">Επιλογή Πιάτων</string>
 
     <string name="select_restaurant_to_view">Επιλέξτε εστιατόριο από τα αριστερά για να δείτε λεπτομέρειες για αυτό εδώ.</string>
 
@@ -76,4 +77,5 @@
     <string name="restaurant_location">Τοποθεσία</string>
     <string name="restaurant_cuisine">Κουζίνα</string>
     <string name="label_dish_picker">Επιλέξτε πιάτα για την παραγγελία σας:</string>
+    <string name="cart">Καλάθι</string>
 </resources>

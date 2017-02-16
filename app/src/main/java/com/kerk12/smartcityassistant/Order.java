@@ -11,7 +11,7 @@ public class Order {
     private static List<Dish> basket = new ArrayList<Dish>();
     public enum PaymentMethod{CREDIT_CARD,CASH}
 
-    private PaymentMethod pm;
+    private PaymentMethod paymentMethod;
 
     public static double getFinalPrice(){
         double sum = 0;
@@ -21,12 +21,12 @@ public class Order {
         return sum;
     }
 
-    public PaymentMethod getPm() {
-        return pm;
+    public PaymentMethod getPaymentMethod() {
+        return paymentMethod;
     }
 
-    public void setPm(PaymentMethod pm) {
-        this.pm = pm;
+    public void setPaymentMethod(PaymentMethod paymentMethod) {
+        this.paymentMethod = paymentMethod;
     }
 
     public static List<Dish> getBasket() {

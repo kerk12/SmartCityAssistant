@@ -94,7 +94,7 @@
         android:layout_height="0dp"
         android:layout_weight=".1"
         android:id="@+id/restaurant_pick_button"
-        android:text="@string/payment_method_choice"
+        android:text="@string/dish_picking_choice"
         style="@style/ButtonGreen"
         android:textSize="25sp"
         android:enabled="false"/>
