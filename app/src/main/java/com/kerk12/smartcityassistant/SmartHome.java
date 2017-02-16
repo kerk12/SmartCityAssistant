@@ -51,13 +51,13 @@ public class SmartHome extends AppCompatActivity {
         public void onBindViewHolder(ViewHolder holder, final int position) {
             SmartDevice sdev = SmartDeviceManager.getDeviceList(getApplicationContext()).get(position);
             switch (sdev.getCategory()){
-                case SmartDevice.LIGHTING:
+                case LIGHTING:
                     holder.category.setImageResource(R.drawable.lighting_category);
                     break;
-                case SmartDevice.ENTERTAINMENT:
+                case ENTERTAINMENT:
                     holder.category.setImageResource(R.drawable.entertainment_category);
                     break;
-                case SmartDevice.GENERIC:
+                case GENERIC:
                     holder.category.setImageResource(R.drawable.generic_category);
                     break;
                 default:

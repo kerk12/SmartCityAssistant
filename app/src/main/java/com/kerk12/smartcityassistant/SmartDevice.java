@@ -11,6 +11,8 @@ import com.google.android.gms.vision.text.Text;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.kerk12.smartcityassistant.SmartDevice.DeviceCategory.LIGHTING;
+
 /**
  * Created by kerk12 on 3/2/2017.
  */
@@ -24,11 +26,12 @@ public class SmartDevice {
 
     private List<DeviceExtraSetting> extraSettings = new ArrayList<DeviceExtraSetting>();
 
-    private String category = null;
+    private DeviceCategory category = null;
 
-    public static final String LIGHTING = "lighting";
-    public static final String GENERIC = "generic_appliance";
-    public static final String ENTERTAINMENT = "entertainment";
+    public enum DeviceCategory{LIGHTING, GENERIC, ENTERTAINMENT}
+//    public static final String LIGHTING = "lighting";
+//    public static final String GENERIC = "generic_appliance";
+//    public static final String ENTERTAINMENT = "entertainment";
 
 
 
@@ -81,15 +84,15 @@ public class SmartDevice {
         this.error = error;
     }
 
-    public void setCategory(String category){
-        if (category == LIGHTING || category == GENERIC || category == ENTERTAINMENT){
+    public void setCategory(DeviceCategory category){
+        if (category == DeviceCategory.LIGHTING || category == DeviceCategory.GENERIC || category == DeviceCategory.ENTERTAINMENT){
             this.category = category;
         } else {
             throw new IllegalArgumentException();
         }
     }
 
-    public String getCategory() {
+    public DeviceCategory getCategory() {
         return category;
     }
 

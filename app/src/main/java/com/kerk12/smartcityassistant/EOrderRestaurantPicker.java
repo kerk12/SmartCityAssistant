@@ -122,7 +122,8 @@ public class EOrderRestaurantPicker extends Fragment {
         pickButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //
+                EOrderDishPicker fragNew = EOrderDishPicker.newInstance(selectedRestaurant);
+                getFragmentManager().beginTransaction().add(R.id.eorder_fragment_container, fragNew).addToBackStack(null).commit();
             }
         });
         return v;

@@ -16,7 +16,10 @@ public class EOrderDishPicker extends Fragment {
     public static final String ARG_KEY = "com.kerk12.smartcityassistant.dishpicker";
     Restaurant restaurant = null;
 
-    public EOrderDishPicker newInstance(int restaurant){
+    public EOrderDishPicker(){
+
+    }
+    public static EOrderDishPicker newInstance(int restaurant){
         EOrderDishPicker fragNew = new EOrderDishPicker();
         Bundle b = new Bundle();
         b.putInt(ARG_KEY, restaurant);
@@ -34,6 +37,8 @@ public class EOrderDishPicker extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return super.onCreateView(inflater, container, savedInstanceState);
+        View v = inflater.inflate(R.layout.fragment_dish_picker, container,false);
+
+        return v;
     }
 }
