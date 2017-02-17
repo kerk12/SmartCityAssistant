@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -25,6 +26,10 @@ public class EOrderDishPicker extends Fragment {
     private DishAdapter mAdapter;
 
     private RecyclerView DishRecycler;
+
+    private TextView dishName,dishType,dishPrice;
+    private Button AddToCart;
+    private int selectedDish;
     private class DishAdapter extends RecyclerView.Adapter<DishAdapter.ViewHolder>{
 
         private List<Dish> mDishes;
@@ -40,13 +45,15 @@ public class EOrderDishPicker extends Fragment {
         }
 
         @Override
-        public void onBindViewHolder(ViewHolder holder, int position) {
+        public void onBindViewHolder(ViewHolder holder, final int position) {
             final Dish d = mDishes.get(position);
             holder.name.setText(d.getName());
             holder.item.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Order.AddDish(d);
+                    //Order.AddDish(d);
+                    selectedDish = position;
+                    UpdateUI();
                 }
             });
         }
@@ -65,6 +72,18 @@ public class EOrderDishPicker extends Fragment {
                 name = (TextView) itemView.findViewById(R.id.dish_name_on_holder);
             }
         }
+    }
+
+    private void UpdateUI() {
+        Dish d = restaurant.getDishes().get(selectedDish);
+        dishName.setText(d.getName());
+        dishPrice.setText(String.valueOf(d.getPrice()));
+
+    }
+
+    private void UpdateCartButton(){
+        //ViewCartButton.setText("Καλάθι("+String.valueOf(Order.getOrderItems())+" Αντικείμενο/α)");
+
     }
 
     public EOrderDishPicker(){
@@ -94,6 +113,19 @@ public class EOrderDishPicker extends Fragment {
         mAdapter = new DishAdapter(restaurant.getDishes());
         DishRecycler.setAdapter(mAdapter);
         DishRecycler.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+        dishName = (TextView) v.findViewById(R.id.dish_name_details);
+        //dishType = (TextView) v.findViewById(R.id.dish_type_details);
+        dishPrice = (TextView) v.findViewById(R.id.dish_price_details);
+        AddToCart = (Button) v.findViewById(R.id.add_to_cart_button);
+        //ViewCartButton = (Button) v.findViewById(R.id.cart_button);
+        AddToCart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Order.AddDish(restaurant.getDishes().get(selectedDish));
+                UpdateCartButton();
+            }
+        });
         return v;
     }
 }

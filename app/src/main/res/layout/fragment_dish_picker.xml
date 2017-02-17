@@ -15,7 +15,7 @@
         android:layout_weight="1"
         android:background="@color/colorPrimaryDark">
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal"
@@ -26,15 +26,11 @@
             android:layout_marginRight="20dp"
             android:background="@color/white">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/label_dish_picker"
-                android:layout_centerHorizontal="true"
-                android:text="@string/label_dish_picker"/>
+
 
             <android.support.v7.widget.RecyclerView
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="match_parent"
                 android:background="@color/whiteBcgr"
                 android:layout_marginRight="10dp"
@@ -44,7 +40,46 @@
 
             </android.support.v7.widget.RecyclerView>
 
-        </RelativeLayout>
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/dish_details_pane">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/dish_name" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/dish_name_details"
+                        android:textSize="25sp"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/dish_price"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/dish_price_details"
+                        android:textSize="20sp"/>
+                </LinearLayout>
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/add_to_cart_button"
+                    android:text="@string/add_to_cart"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="10dp" />
+            </RelativeLayout>
+        </LinearLayout>
     </LinearLayout>
 
     <LinearLayout
@@ -53,23 +88,14 @@
         android:layout_weight=".1"
         android:orientation="horizontal">
         <Button
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight=".7"
             android:id="@+id/dish_pick_button"
             android:text="@string/payment_method_choice"
             style="@style/ButtonGreen"
             android:textSize="25sp"
             android:enabled="false"/>
-        <Button
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight=".3"
-            android:id="@+id/cart_button"
-            android:text="@string/cart"
-            style="@style/ButtonGreen"
-            android:textSize="25sp"
-            android:enabled="false"/>
+
     </LinearLayout>
 
 

@@ -44,4 +44,8 @@ public class Order {
     public static void AddDish(Dish dish){
         basket.add(dish);
     }
+
+    public static int getOrderItems(){
+        return basket.size();
+    }
 }

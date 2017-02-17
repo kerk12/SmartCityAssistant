@@ -78,4 +78,9 @@
     <string name="restaurant_cuisine">Κουζίνα</string>
     <string name="label_dish_picker">Επιλέξτε πιάτα για την παραγγελία σας:</string>
     <string name="cart">Καλάθι</string>
+    <string name="dish_name">Όνομα Πιάτου:</string>
+    <string name="dish_type">Τύπος:</string>
+    <string name="dish_price">Τιμή:</string>
+    <string name="add_to_cart">Προσθήκη στο καλάθι</string>
+    <string name="confirm_order">Επιβεβαίωση Παραγγελίας</string>
 </resources>
