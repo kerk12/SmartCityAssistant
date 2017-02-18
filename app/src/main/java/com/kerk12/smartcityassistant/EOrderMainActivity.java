@@ -19,4 +19,22 @@ public class EOrderMainActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        /**
+         * If the DishPicker is not in the backstack, clear the order.
+         */
+        int BackStackEntries = getFragmentManager().getBackStackEntryCount();
+        boolean flag = false;
+        for (int i = 0; i < BackStackEntries; i++){
+            if (getFragmentManager().getBackStackEntryAt(i).getName().equals("DishPicker")){
+                flag = true;
+                break;
+            }
+        }
+        if (!flag){
+            Order.ClearOrder();
+        }
+    }
 }

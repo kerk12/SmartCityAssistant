@@ -48,4 +48,8 @@ public class Order {
     public static int getOrderItems(){
         return basket.size();
     }
+
+    public static void RemoveItem(int index){
+        basket.remove(index);
+    }
 }

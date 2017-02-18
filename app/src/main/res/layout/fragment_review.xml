@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    >
+    android:background="@color/white">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -10,18 +10,46 @@
         android:orientation="horizontal"
         android:padding="10dp"
         android:background="@color/colorPrimaryDark">
-        <android.support.v7.widget.RecyclerView
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:id="@+id/cart_review"
-            android:background="@color/whiteBcgr"></android.support.v7.widget.RecyclerView>
+            android:layout_margin="5dp"
+            android:orientation="vertical">
+            <android.support.v7.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight=".8"
+                android:id="@+id/cart_review"
+                android:background="@color/whiteBcgr"
+                android:layout_marginBottom="5dp"
+                ></android.support.v7.widget.RecyclerView>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight=".2"
+                android:gravity="center_horizontal"
+                android:background="@color/white"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/total_price"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/total_price"/>
+            </LinearLayout>
+
+        </LinearLayout>
+
         <RelativeLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            android:layout_margin="5dp">
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:background="@color/whiteBcgr"
@@ -79,11 +107,79 @@
                     android:ems="10"
                     android:id="@+id/review_address"
                     />
+
+                <TextView
+                    android:text="@string/payment_method"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/textView2" />
+
+                <RadioGroup
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/payment_method">
+
+                    <RadioButton
+                        android:text="@string/cash_on_delivery"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/choice_cash_on_delivery"
+                        android:layout_weight="1"
+                        android:checked="true"/>
+
+                    <RadioButton
+                        android:text="@string/credit_card"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/choice_credit_card"
+                        android:layout_weight="1" />
+
+                </RadioGroup>
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:id="@+id/credit_card_info"
+                    android:visibility="gone">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/credit_card_number"/>
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:id="@+id/review_cred_card_number"
+                        />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/credit_card_exp"/>
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:id="@+id/review_cred_card_exp"
+                        />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/credit_card_cvc"/>
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:id="@+id/review_cred_card_cvc"
+                        />
+                </LinearLayout>
             </LinearLayout>
         </RelativeLayout>
 
 
     </LinearLayout>
+
     <Button
         android:layout_width="match_parent"
         android:layout_height="0dp"

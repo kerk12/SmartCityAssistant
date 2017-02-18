@@ -15,4 +15,8 @@
         android:layout_centerVertical="true"
         android:layout_alignParentRight="true"
         android:id="@+id/price_name_on_holder"/>
+    <ImageView
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:id="@+id/remove_cart_item"/>
 </RelativeLayout>

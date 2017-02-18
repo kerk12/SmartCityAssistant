@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -28,7 +29,7 @@ public class EOrderDishPicker extends Fragment {
     private RecyclerView DishRecycler;
 
     private TextView dishName,dishType,dishPrice;
-    private Button AddToCart;
+    private Button AddToCart, GotoReview;
     private int selectedDish;
     private class DishAdapter extends RecyclerView.Adapter<DishAdapter.ViewHolder>{
 
@@ -51,8 +52,8 @@ public class EOrderDishPicker extends Fragment {
             holder.item.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    //Order.AddDish(d);
                     selectedDish = position;
+                    AddToCart.setEnabled(true);
                     UpdateUI();
                 }
             });
@@ -122,8 +123,20 @@ public class EOrderDishPicker extends Fragment {
         AddToCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Order.AddDish(restaurant.getDishes().get(selectedDish));
-                UpdateCartButton();
+                    Order.AddDish(restaurant.getDishes().get(selectedDish));
+            }
+        });
+
+        GotoReview = (Button) v.findViewById(R.id.goto_review);
+        GotoReview.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (Order.getOrderItems() == 0){
+                    Toast.makeText(getActivity(), getResources().getString(R.string.no_items_in_cart), Toast.LENGTH_LONG).show();
+                    return;
+                }
+                EOrderReviewFragment fragNew = new EOrderReviewFragment();
+                getFragmentManager().beginTransaction().replace(R.id.eorder_fragment_container, fragNew,"Review").addToBackStack("Review").commit();
             }
         });
         return v;

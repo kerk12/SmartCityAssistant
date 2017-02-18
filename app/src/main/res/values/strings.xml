@@ -68,7 +68,7 @@
 
     <string name="extra_settings">Επιπλέον ρυθμίσεις συσκευής:</string>
 
-    <string name="payment_method_choice">Επιλογή Τρόπου Πληρωμής</string>
+    <string name="payment_method_choice">Επισκόπηση Παραγγελίας</string>
     <string name="dish_picking_choice">Επιλογή Πιάτων</string>
 
     <string name="select_restaurant_to_view">Επιλέξτε εστιατόριο από τα αριστερά για να δείτε λεπτομέρειες για αυτό εδώ.</string>
@@ -88,4 +88,12 @@
     <string name="phone">Τηλέφωνο</string>
     <string name="address">Διεύθυνση</string>
     <string name="email">Διεύθυνση email</string>
+    <string name="no_items_in_cart">Δεν υπάρχουν αντικείμενα στο καλάθι.</string>
+    <string name="credit_card_number">Αριθμός Κάρτας</string>
+    <string name="credit_card_exp">Ημ. Λήξης</string>
+    <string name="credit_card_cvc">CVC</string>
+    <string name="cash_on_delivery">Αντικαταβολή</string>
+    <string name="credit_card">Πιστωτική/Χρεωστική Κάρτα</string>
+    <string name="payment_method">Τρόπος Πληρωμής</string>
+    <string name="total_price">Συνολικό οφειλούμενο ποσό</string>
 </resources>
