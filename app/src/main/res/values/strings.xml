@@ -83,4 +83,9 @@
     <string name="dish_price">Τιμή:</string>
     <string name="add_to_cart">Προσθήκη στο καλάθι</string>
     <string name="confirm_order">Επιβεβαίωση Παραγγελίας</string>
+    <string name="review_helper">Εισάγετε παρακάτω τα στοιχεία αποστολής της παραγγελίας.</string>
+    <string name="name">Ονοματεπώνυμο</string>
+    <string name="phone">Τηλέφωνο</string>
+    <string name="address">Διεύθυνση</string>
+    <string name="email">Διεύθυνση email</string>
 </resources>
