@@ -14,6 +14,7 @@ public class EOrderMainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_eorder_main);
 
+        getSupportActionBar().setTitle(R.string.OnlineOrder);
         Fragment f = new EOrderRestaurantPicker();
         getFragmentManager().beginTransaction().add(R.id.eorder_fragment_container,f, RESTAURANT_PICKER_TAG).commit();
     }

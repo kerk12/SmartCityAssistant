@@ -144,7 +144,7 @@ public class SmartHome extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_smart_home);
-
+        getSupportActionBar().setTitle(R.string.SmartHomeManager);
         SmartHomeRecyclerView = (RecyclerView) findViewById(R.id.smart_recycler);
         SPMan = new LinearLayoutManager(this);
         SmartHomeRecyclerView.setLayoutManager(SPMan);
