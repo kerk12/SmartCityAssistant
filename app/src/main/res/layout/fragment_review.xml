@@ -1,36 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/white">
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="0.9"
+        android:background="@drawable/catering"
         android:orientation="horizontal"
-        android:padding="10dp"
-        android:background="@drawable/catering">
+        android:padding="10dp">
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"
             android:layout_margin="5dp"
+            android:layout_weight="1"
             android:orientation="vertical">
             <android.support.v7.widget.RecyclerView
+                android:id="@+id/cart_review"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight=".8"
-                android:id="@+id/cart_review"
-                android:background="@color/whiteBcgr"
                 android:layout_marginBottom="5dp"
+                android:layout_weight=".8"
+                android:background="@color/whiteBcgr"
                 ></android.support.v7.widget.RecyclerView>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight=".2"
-                android:gravity="center"
                 android:background="@color/white"
+                android:gravity="center"
                 android:orientation="vertical">
                 <TextView
                     android:layout_width="wrap_content"
@@ -38,9 +38,9 @@
                     android:text="@string/total_price"
                     android:textSize="20sp"/>
                 <TextView
+                    android:id="@+id/total_price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/total_price"
                     android:textSize="35sp"/>
             </LinearLayout>
 
@@ -49,34 +49,34 @@
         <RelativeLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_margin="5dp">
+            android:layout_margin="5dp"
+            android:layout_weight="1">
             <ScrollView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
             <LinearLayout
+                android:id="@+id/review_right"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
                 android:background="@color/whiteBcgr"
-                android:id="@+id/review_right"
+                android:orientation="vertical"
                 android:padding="15dp">
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/review_helper"
-                    android:padding="15dp"/>
+                    android:padding="15dp"
+                    android:text="@string/review_helper"/>
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/name"/>
                 <EditText
+                    android:id="@+id/review_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="textPersonName"
                     android:ems="10"
-                    android:id="@+id/review_name"
+                    android:inputType="textPersonName"
 
                     />
 
@@ -85,11 +85,11 @@
                     android:layout_height="wrap_content"
                     android:text="@string/email"/>
                 <EditText
+                    android:id="@+id/review_email"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="textEmailAddress"
                     android:ems="10"
-                    android:id="@+id/review_email"
+                    android:inputType="textEmailAddress"
                     />
 
                 <TextView
@@ -97,87 +97,87 @@
                     android:layout_height="wrap_content"
                     android:text="@string/phone"/>
                 <EditText
+                    android:id="@+id/review_phone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="phone"
                     android:ems="10"
-                    android:id="@+id/review_phone"
+                    android:inputType="phone"
                     />
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/address"/>
                 <EditText
+                    android:id="@+id/review_address"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:ems="10"
-                    android:id="@+id/review_address"
                     />
 
                 <TextView
-                    android:text="@string/payment_method"
+                    android:id="@+id/textView2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/textView2" />
+                    android:text="@string/payment_method" />
 
                 <RadioGroup
+                    android:id="@+id/payment_method"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:id="@+id/payment_method">
+                    android:layout_height="match_parent">
 
                     <RadioButton
-                        android:text="@string/cash_on_delivery"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
                         android:id="@+id/choice_cash_on_delivery"
-                        android:layout_weight="1"
-                        android:checked="true"/>
-
-                    <RadioButton
-                        android:text="@string/credit_card"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:checked="true"
+                        android:text="@string/cash_on_delivery"/>
+
+                    <RadioButton
                         android:id="@+id/choice_credit_card"
-                        android:layout_weight="1" />
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/credit_card" />
 
                 </RadioGroup>
 
                 <LinearLayout
-                    android:orientation="vertical"
+                    android:id="@+id/credit_card_info"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:id="@+id/credit_card_info"
+                    android:orientation="vertical"
                     android:visibility="gone">
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/credit_card_number"/>
                     <EditText
+                        android:id="@+id/review_cred_card_number"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:ems="10"
-                        android:id="@+id/review_cred_card_number"
                         android:inputType="number" />
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/credit_card_exp"/>
                     <EditText
+                        android:id="@+id/review_cred_card_exp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:ems="10"
-                        android:id="@+id/review_cred_card_exp"
                         />
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/credit_card_cvc"/>
                     <EditText
+                        android:id="@+id/review_cred_card_cvc"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:ems="10"
-                        android:id="@+id/review_cred_card_cvc"
                         android:inputType="number" />
                 </LinearLayout>
             </LinearLayout>
@@ -188,11 +188,11 @@
     </LinearLayout>
 
     <Button
+        android:id="@+id/confirm_order"
+        style="@style/ButtonGreen"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="0.1"
         android:text="@string/confirm_order"
-        style="@style/ButtonGreen"
-        android:textSize="25sp"
-        android:id="@+id/confirm_order" />
+        android:textSize="25sp" />
 </LinearLayout>

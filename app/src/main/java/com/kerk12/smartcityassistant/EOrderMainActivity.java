@@ -37,4 +37,10 @@ public class EOrderMainActivity extends AppCompatActivity {
             Order.ClearOrder();
         }
     }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        finish();
+    }
 }

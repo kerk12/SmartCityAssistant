@@ -2,69 +2,69 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
-    android:layout_gravity="center"
     android:layout_height="match_parent"
-    tools:context="com.kerk12.smartcityassistant.MainMenuFragment"
+    android:layout_gravity="center"
     android:orientation="vertical"
     android:paddingBottom="16dp"
     android:paddingLeft="16dp"
     android:paddingRight="16dp"
     android:paddingTop="16dp"
+    tools:context="com.kerk12.smartcityassistant.MainMenuFragment"
     >
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
-        android:text="@string/app_name"
+        android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/textView"
-        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-        android:textStyle="normal|bold"
-        android:textSize="60sp"
         android:paddingBottom="35dp"
         android:paddingTop="35dp"
+        android:text="@string/app_name"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+        android:textSize="60sp"
+        android:textStyle="normal|bold"
         />
 
     <android.support.v7.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:id="@+id/MainMenuMapChoice"
-        style="@style/MainMenu_CardView">
+        style="@style/MainMenu_CardView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
             <ImageView
+                android:id="@+id/imageView"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                app:srcCompat="@drawable/map_icon"
-                android:id="@+id/imageView" />
+                app:srcCompat="@drawable/map_icon" />
 
             <TextView
-                android:text="@string/SchedulePlanner"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:id="@+id/textView3"
                 style="@style/MainMenu_ChoiceTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
-                android:layout_toEndOf="@+id/imageView" />
+                android:layout_toEndOf="@+id/imageView"
+                android:text="@string/SchedulePlanner" />
 
             <TextView
-                android:text="@string/SchedulePlanner_Description"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_toEndOf="@+id/imageView" />
+                android:layout_toEndOf="@+id/imageView"
+                android:text="@string/SchedulePlanner_Description" />
         </RelativeLayout>
 
     </android.support.v7.widget.CardView>
 
     <android.support.v7.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
         android:id="@+id/MainMenuHomeManagementChoice"
         style="@style/MainMenu_CardView"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
         >
 
         <RelativeLayout
@@ -72,35 +72,35 @@
             android:layout_height="match_parent">
 
             <ImageView
+                android:id="@+id/imageView2"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:paddingTop="5dp"
-                app:srcCompat="@drawable/coffee_machine"
-                android:id="@+id/imageView2" />
+                app:srcCompat="@drawable/coffee_machine" />
 
             <TextView
-                android:text="@string/SmartHomeManager"
+                style="@style/MainMenu_ChoiceTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
-                style="@style/MainMenu_ChoiceTitle"
-                android:layout_toEndOf="@+id/imageView2" />
+                android:layout_toEndOf="@+id/imageView2"
+                android:text="@string/SmartHomeManager" />
 
             <TextView
-                android:text="@string/SmartHomeManager_Description"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_toEndOf="@+id/imageView2" />
+                android:layout_toEndOf="@+id/imageView2"
+                android:text="@string/SmartHomeManager_Description" />
         </RelativeLayout>
 
     </android.support.v7.widget.CardView>
 
     <android.support.v7.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
         android:id="@+id/MainMenuEOrderingChoice"
         style="@style/MainMenu_CardView"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
         >
 
         <RelativeLayout
@@ -108,26 +108,26 @@
             android:layout_height="match_parent">
 
             <ImageView
+                android:id="@+id/imageView3"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:paddingTop="5dp"
-                app:srcCompat="@drawable/eorder"
-                android:id="@+id/imageView3" />
+                app:srcCompat="@drawable/eorder" />
 
             <TextView
-                android:text="@string/OnlineOrder"
+                style="@style/MainMenu_ChoiceTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
-                style="@style/MainMenu_ChoiceTitle"
-                android:layout_toEndOf="@+id/imageView3" />
+                android:layout_toEndOf="@+id/imageView3"
+                android:text="@string/OnlineOrder" />
 
             <TextView
-                android:text="@string/OnlineOrder_Description"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_toEndOf="@+id/imageView3" />
+                android:layout_toEndOf="@+id/imageView3"
+                android:text="@string/OnlineOrder_Description" />
         </RelativeLayout>
 
     </android.support.v7.widget.CardView>

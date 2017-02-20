@@ -10,18 +10,18 @@
     >
 
     <android.support.v7.widget.RecyclerView
+        android:id="@+id/smart_recycler"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="0.75"
         android:background="@color/colorPrimaryDark"
-        android:padding="10dp"
-        android:id="@+id/smart_recycler"></android.support.v7.widget.RecyclerView>
+        android:padding="10dp"></android.support.v7.widget.RecyclerView>
 
     <RelativeLayout
-        android:layout_height="match_parent"
         android:layout_width="0dp"
-        android:layout_weight="1"
+        android:layout_height="match_parent"
         android:layout_marginLeft="10dp"
+        android:layout_weight="1"
         android:background="@color/white">
         <LinearLayout
             android:layout_width="match_parent"
@@ -31,80 +31,80 @@
             >
 
             <LinearLayout
+                style="@style/smart_home_layout_padding"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                style="@style/smart_home_layout_padding"
                 >
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="15sp"
-                    android:text="@string/device_name"/>
+                    android:text="@string/device_name"
+                    android:textSize="15sp"/>
                 <TextView
+                    android:id="@+id/device_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:text="Smart Device Name"
-                    android:textSize="40sp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/device_name" />
+                    android:textSize="40sp" />
             </LinearLayout>
             <LinearLayout
+                style="@style/smart_home_layout_padding"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                style="@style/smart_home_layout_padding"
                 >
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="15sp"
-                    android:text="@string/device_location"/>
+                    android:text="@string/device_location"
+                    android:textSize="15sp"/>
                 <TextView
+                    android:id="@+id/device_location"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:text="Device Location"
-                    android:textSize="25sp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/device_location" />
+                    android:textSize="25sp" />
             </LinearLayout>
             <LinearLayout
+                android:id="@+id/errors_layout"
+                style="@style/smart_home_layout_padding"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:id="@+id/errors_layout"
                 android:visibility="gone"
-                style="@style/smart_home_layout_padding"
                 >
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="15sp"
+                    android:text="@string/device_errors"
                     android:textColor="@color/error"
-                    android:text="@string/device_errors"/>
+                    android:textSize="15sp"/>
                 <TextView
-                    android:textSize="15sp"
+                    android:id="@+id/device_error"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textColor="@color/error"
-                    android:id="@+id/device_error" />
+                    android:textSize="15sp" />
             </LinearLayout>
 
             <TextView
+                android:id="@+id/extra_settings_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="15sp"
-                android:text="@string/extra_settings"
                 android:paddingTop="25dp"
-                android:id="@+id/extra_settings_label"
+                android:text="@string/extra_settings"
+                android:textSize="15sp"
                 android:visibility="invisible"
                 />
             <LinearLayout
+                android:id="@+id/extra_settings"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginBottom="10dp"
-                android:orientation="vertical"
-                android:gravity="center_horizontal"
-                android:id="@+id/extra_settings"
                 android:layout_marginLeft="10dp"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
                 >
 
             </LinearLayout>
@@ -117,17 +117,17 @@
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="10dp"
-            android:orientation="vertical"
-            android:gravity="center_horizontal">
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/activate_deactivate"/>
             <ToggleButton
-                android:layout_width="100dp"
-                android:layout_height="50dp"
                 android:id="@+id/power_button"
                 style="@style/ButtonGreen"
+                android:layout_width="100dp"
+                android:layout_height="50dp"
                 />
         </LinearLayout>
 

@@ -4,18 +4,18 @@
     android:id="@+id/activity_eorder_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context="com.kerk12.smartcityassistant.EOrderMainActivity"
     android:background="@color/whiteBcgr"
-    android:gravity="center_horizontal">
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    tools:context="com.kerk12.smartcityassistant.EOrderMainActivity">
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:padding="10dp"
-        android:background="@drawable/catering">
+        android:background="@drawable/catering"
+        android:orientation="vertical"
+        android:padding="10dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -27,61 +27,62 @@
 
 
             <android.support.v7.widget.RecyclerView
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="match_parent"
-                android:layout_marginRight="10dp"
                 android:id="@+id/dish_picker"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
                 android:layout_below="@+id/label_dish_picker"
                 android:layout_centerHorizontal="true"
-                android:padding="7dp"
+                android:layout_marginRight="10dp"
+                android:layout_weight="1"
                 android:background="@color/whiteBcgr"
+                android:padding="7dp"
                 >
 
             </android.support.v7.widget.RecyclerView>
 
             <RelativeLayout
                 android:layout_width="0dp"
-                android:layout_weight="1"
                 android:layout_height="match_parent"
+                android:layout_weight="1"
                 android:background="@color/whiteBcgr"
                 android:padding="15dp"
                 >
 
                 <LinearLayout
-                    android:orientation="vertical"
+                    android:id="@+id/dish_details_pane"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/dish_details_pane">
+                    android:orientation="vertical">
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/dish_name" />
                     <TextView
+                        android:id="@+id/dish_name_details"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/dish_name_details"
                         android:textSize="25sp"/>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/dish_price"/>
                     <TextView
+                        android:id="@+id/dish_price_details"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/dish_price_details"
                         android:textSize="20sp"/>
                 </LinearLayout>
 
                 <Button
+                    android:id="@+id/add_to_cart_button"
+                    style="@style/ButtonGreen"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/add_to_cart_button"
-                    android:text="@string/add_to_cart"
                     android:layout_alignParentBottom="true"
                     android:layout_centerHorizontal="true"
                     android:layout_marginBottom="10dp"
-                    android:enabled="false"/>
+                    android:enabled="false"
+                    android:text="@string/add_to_cart"/>
             </RelativeLayout>
         </LinearLayout>
     </LinearLayout>
@@ -89,18 +90,18 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginLeft="5dp"
         android:layout_weight=".1"
         android:orientation="horizontal"
-        android:layout_marginLeft="5dp"
         >
         <Button
+            android:id="@+id/goto_review"
+            style="@style/ButtonGreen"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/goto_review"
+            android:enabled="true"
             android:text="@string/payment_method_choice"
-            style="@style/ButtonGreen"
-            android:textSize="25sp"
-            android:enabled="true" />
+            android:textSize="25sp" />
 
     </LinearLayout>
 

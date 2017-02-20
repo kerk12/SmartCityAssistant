@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:id="@+id/dish_item" android:layout_width="match_parent"
     android:layout_height="70dp"
-    android:id="@+id/dish_item"
-    android:background="?android:selectableItemBackground"
     android:layout_marginBottom="3dp"
+    android:background="?android:selectableItemBackground"
+    android:orientation="vertical"
     >
     <View
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/white"/>
     <TextView
+        android:id="@+id/dish_name_on_holder"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:id="@+id/dish_name_on_holder"
         android:layout_marginLeft="5dp"/>
 </RelativeLayout>
