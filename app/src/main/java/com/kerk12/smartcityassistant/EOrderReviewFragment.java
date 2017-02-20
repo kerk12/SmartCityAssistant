@@ -1,19 +1,24 @@
 package com.kerk12.smartcityassistant;
 
+import android.app.AlertDialog;
 import android.app.Fragment;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.text.DecimalFormat;
 import java.util.List;
@@ -44,11 +49,15 @@ public class EOrderReviewFragment extends Fragment {
         public void onBindViewHolder(ViewHolder holder, final int position) {
             Dish d = mList.get(position);
             holder.name.setText(d.getName());
-            holder.price.setText(String.valueOf(d.getPrice()));
+            holder.price.setText(String.valueOf(d.getPrice())+ "€");
             holder.remove_imageview.setImageResource(R.drawable.delete);
             holder.remove_imageview.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    if (Order.getOrderItems() == 1){
+                        Toast.makeText(getActivity(), "Δεν γίνεται να διαγραφεί το τελευταίο αντικείμενο του καλαθιού...", Toast.LENGTH_LONG).show();
+                        return;
+                    }
                     Order.RemoveItem(position);
                     UpdateAdapter();
                 }
@@ -79,23 +88,52 @@ public class EOrderReviewFragment extends Fragment {
     private TextView totalPrice;
     private RadioGroup paymentMethod;
     private LinearLayout creditCardInfo;
+    private Button ConfirmOrder;
 
     private enum PaymentMethod{CASH,CREDIT_CARD};
 
     private void DisplayTotalPrice(){
-        DecimalFormat df = new DecimalFormat("#,##");
-        totalPrice.setText(df.format(Order.getFinalPrice()));
+        DecimalFormat df = new DecimalFormat("#.##");
+        totalPrice.setText(df.format(Order.getFinalPrice())+"\u20ac");
     }
 
     private void UpdateAdapter(){
         mAdapter = new ReviewAdapter(Order.getBasket());
         reviewRecycler.setAdapter(mAdapter);
+        DisplayTotalPrice();
     }
 
     private PaymentMethod pm = PaymentMethod.CASH;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+    }
+
+    public boolean validate(){
+        //Check the TextViews if they are empty
+        if (name.getText().toString().isEmpty() || email.getText().toString().isEmpty() || address.getText().toString().isEmpty() || phone.getText().toString().isEmpty()){
+            return false;
+        }
+        //Check the email address if it valid.
+        if (!Patterns.EMAIL_ADDRESS.matcher(email.getText().toString()).matches()){
+            return false;
+        }
+        if (!phone.getText().toString().matches("[0-9]{10}")){
+            return false;
+        }
+        //Validate the credit card data.
+        if (pm == PaymentMethod.CREDIT_CARD){
+            if (!CreditCardNumber.getText().toString().matches("[0-9]{16}")){
+                return false;
+            }
+            if (!CreditCardExp.getText().toString().matches("[0-9][1-9]\\/[1-2][0-9]")){
+                return false;
+            }
+            if (!CreditCardCVC.getText().toString().matches("[0-9]{3}")){
+                return false;
+            }
+        }
+        return true;
     }
 
     @Nullable
@@ -135,6 +173,29 @@ public class EOrderReviewFragment extends Fragment {
 
         totalPrice = (TextView) v.findViewById(R.id.total_price);
         DisplayTotalPrice();
+
+        ConfirmOrder = (Button) v.findViewById(R.id.confirm_order);
+        ConfirmOrder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (validate()){
+                    AlertDialog.Builder bob = new AlertDialog.Builder(getActivity());
+                    bob.setTitle("Η παραγγελία πραγματοποιήθηκε!")
+                            .setMessage("Η παραγγελία σας πραγματοποιήθηκε με επιτυχία. Εκτιμώμενος Χρόνος Παράδωσης: 20 λεπτά \n\n Σας ευχαριστούμε! \n\n Θα οδηγηθείτε στο κεντρικό μενού με την πίεση του πλήκτρου.")
+                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    getActivity().finish();
+                                }
+                            })
+                            .setCancelable(false)
+                            .show();
+                } else {
+                    Toast.makeText(getActivity(), getString(R.string.invalid_data), Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+
         return v;
     }
 }

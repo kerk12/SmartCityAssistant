@@ -3,20 +3,32 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="70dp"
     android:id="@+id/dish_item"
-    android:background="?android:selectableItemBackground">
+    android:background="?android:selectableItemBackground"
+    android:layout_marginBottom="3dp"
+    android:padding="7dp">
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:id="@+id/dish_name_on_holder"/>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_alignParentRight="true"
-        android:id="@+id/price_name_on_holder"/>
+        android:id="@+id/dish_name_on_holder"
+        android:layout_marginLeft="5dp"/>
     <ImageView
         android:layout_width="35dp"
         android:layout_height="35dp"
-        android:id="@+id/remove_cart_item"/>
+        android:id="@+id/remove_cart_item"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="5dp"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@id/remove_cart_item"
+        android:id="@+id/price_name_on_holder"/>
+
+
 </RelativeLayout>

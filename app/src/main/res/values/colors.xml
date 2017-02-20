@@ -3,7 +3,7 @@
     <color name="colorPrimary">#388e3c</color>
     <color name="colorPrimaryDark">#1a672e</color>
     <color name="colorAccent">#00bfa5</color>
-    <color name="whiteBcgr">#e0e0e0</color>
+    <color name="whiteBcgr">#e6ffffff</color>
     <color name="GreenBcgr">#c8e6c9</color>
 
     <color name="white">#ffffff</color>

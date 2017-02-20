@@ -8,6 +8,7 @@ import java.util.List;
  */
 
 public class Order {
+    private static boolean OrderAlreadyExists = false;
     private static List<Dish> basket = new ArrayList<Dish>();
     public enum PaymentMethod{CREDIT_CARD,CASH}
 
@@ -51,5 +52,13 @@ public class Order {
 
     public static void RemoveItem(int index){
         basket.remove(index);
+    }
+
+    public static boolean OrderAlreadyExists() {
+        return OrderAlreadyExists;
+    }
+
+    public static void setOrderAlreadyExists(boolean orderAlreadyExists) {
+        OrderAlreadyExists = orderAlreadyExists;
     }
 }

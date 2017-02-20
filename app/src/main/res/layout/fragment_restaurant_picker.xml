@@ -12,19 +12,16 @@
         android:layout_height="0dp"
         android:orientation="horizontal"
         android:layout_weight="1"
-        android:paddingBottom="@dimen/activity_vertical_margin"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin"
-        android:paddingTop="@dimen/activity_vertical_margin"
-
-        android:background="@color/colorPrimaryDark">
+        android:padding="10dp"
+        android:background="@drawable/catering">
         <android.support.v7.widget.RecyclerView
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@color/whiteBcgr"
             android:layout_marginRight="10dp"
-            android:id="@+id/restaurant_picker">
+            android:id="@+id/restaurant_picker"
+            android:padding="7dp">
 
         </android.support.v7.widget.RecyclerView>
         <!-- The details -->
@@ -32,7 +29,8 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@color/whiteBcgr">
+            android:background="@color/whiteBcgr"
+            android:padding="15dp">
 
             <TextView
                 android:text="@string/select_restaurant_to_view"
