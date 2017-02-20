@@ -46,7 +46,7 @@ public class Order {
         basket.add(dish);
     }
 
-    public static int getOrderItems(){
+    public static int getOrderItemCount(){
         return basket.size();
     }
 

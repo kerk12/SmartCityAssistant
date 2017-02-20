@@ -83,7 +83,7 @@ public class EOrderDishPicker extends Fragment {
     }
 
     private void UpdateCartButton(){
-        //ViewCartButton.setText("Καλάθι("+String.valueOf(Order.getOrderItems())+" Αντικείμενο/α)");
+        //ViewCartButton.setText("Καλάθι("+String.valueOf(Order.getOrderItemCount())+" Αντικείμενο/α)");
 
     }
 
@@ -131,7 +131,7 @@ public class EOrderDishPicker extends Fragment {
         GotoReview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (Order.getOrderItems() == 0){
+                if (Order.getOrderItemCount() == 0){
                     Toast.makeText(getActivity(), getResources().getString(R.string.no_items_in_cart), Toast.LENGTH_LONG).show();
                     return;
                 }

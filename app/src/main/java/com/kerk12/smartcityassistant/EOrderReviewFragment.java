@@ -15,7 +15,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -54,7 +53,7 @@ public class EOrderReviewFragment extends Fragment {
             holder.remove_imageview.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (Order.getOrderItems() == 1){
+                    if (Order.getOrderItemCount() == 1){
                         Toast.makeText(getActivity(), "Δεν γίνεται να διαγραφεί το τελευταίο αντικείμενο του καλαθιού...", Toast.LENGTH_LONG).show();
                         return;
                     }
@@ -186,6 +185,7 @@ public class EOrderReviewFragment extends Fragment {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     getActivity().finish();
+                                    Order.ClearOrder();
                                 }
                             })
                             .setCancelable(false)
