@@ -6,7 +6,7 @@ package com.kerk12.smartcityassistant;
 
 public class Elder {
     private String name, location;
-    public enum Condition{GOOD, NEEDS_ATTENTION};
+    public enum Condition{GOOD, NEEDS_ATTENTION, NEEDS_ATTENTION_FINE};
     private Condition condition;
 
     public Elder(String name, String location) {

@@ -87,6 +87,8 @@ public class MainMenuFragment extends Fragment {
         CardView MapChoice = (CardView) v.findViewById(R.id.MainMenuMapChoice);
         CardView SmartHomeChoice = (CardView) v.findViewById(R.id.MainMenuHomeManagementChoice);
         CardView EOrder = (CardView) v.findViewById(R.id.MainMenuEOrderingChoice);
+        CardView ElderMon = (CardView) v.findViewById(R.id.MainMenuElderMonitoringChoice);
+
 
         SmartHomeChoice.setOnClickListener(new OnClickListener() {
             @Override
@@ -102,6 +104,13 @@ public class MainMenuFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(getActivity(), EOrderMainActivity.class);
+                startActivity(i);
+            }
+        });
+        ElderMon.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getActivity(), ElderMonitoringActivity.class);
                 startActivity(i);
             }
         });

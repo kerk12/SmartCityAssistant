@@ -19,6 +19,8 @@ public class ElderManager {
             }
             Elder elderNew = new Elder("Mπάμπης", "Νέο Ηράκλειο", Elder.Condition.NEEDS_ATTENTION);
             elders.add(elderNew);
+            Elder elderNew2 = new Elder("Χρήστος", "Νέο Ηράκλειο", Elder.Condition.NEEDS_ATTENTION_FINE);
+            elders.add(elderNew2);
         }
 
         return elders;

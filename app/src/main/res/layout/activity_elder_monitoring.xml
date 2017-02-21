@@ -74,6 +74,28 @@
                         android:textSize="25sp" />
                 </LinearLayout>
 
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="15dp">
+
+                    <Button
+                        android:text="Button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/send_message_button"
+                        android:layout_weight="1" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:text="@string/sending_message"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/sending_message"
+                    android:textColor="@android:color/holo_orange_dark" />
+
             </LinearLayout>
 
         </RelativeLayout>
