@@ -97,4 +97,6 @@
     <string name="payment_method">Τρόπος Πληρωμής</string>
     <string name="total_price">Συνολικό οφειλούμενο ποσό</string>
     <string name="invalid_data">Δώθηκαν μή έγκυρα στοιχεία. Παρακαλούμε ξαναδοκιμάστε.</string>
+    <string name="elder_name">Όνομα Ηλικιωμένου</string>
+    <string name="elder_location">Τοποθεσία ηλικιωμένου</string>
 </resources>
