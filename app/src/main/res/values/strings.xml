@@ -102,4 +102,5 @@
     <string name="sending_message">Αναμονή απάντησης...</string>
     <string name="send_status_question">Ερώτηση Κατάστασης</string>
     <string name="help">Βοήθεια</string>
+    <string name="help_url">https://drive.google.com/open?id=0ByFo97YBQLLueVE2Wk1VRHA2M1E</string>
 </resources>

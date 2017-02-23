@@ -120,7 +120,8 @@ public class MainMenuFragment extends Fragment {
         HelpButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent i = new Intent(getActivity(), HelpActivity.class);
+                startActivity(i);
             }
         });
         return v;
