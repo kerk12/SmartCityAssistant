@@ -16,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.Toast;
 
 
@@ -112,6 +113,14 @@ public class MainMenuFragment extends Fragment {
             public void onClick(View v) {
                 Intent i = new Intent(getActivity(), ElderMonitoringActivity.class);
                 startActivity(i);
+            }
+        });
+
+        Button HelpButton = (Button) v.findViewById(R.id.help_button);
+        HelpButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
             }
         });
         return v;

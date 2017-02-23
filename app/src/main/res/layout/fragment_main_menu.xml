@@ -1,17 +1,22 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="match_parent"
     android:layout_gravity="center"
     android:orientation="vertical"
-    android:paddingBottom="16dp"
-    android:paddingLeft="16dp"
-    android:paddingRight="16dp"
-    android:paddingTop="16dp"
+
     tools:context="com.kerk12.smartcityassistant.MainMenuFragment"
     >
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
 
+    android:paddingLeft="150dp"
+    android:paddingRight="150dp"
+
+    android:gravity="center_horizontal">
     <!-- TODO: Update blank fragment layout -->
     <TextView
         android:id="@+id/textView"
@@ -167,5 +172,22 @@
         </RelativeLayout>
 
     </android.support.v7.widget.CardView>
-
 </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true">
+
+        <Button
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:drawableLeft="@drawable/help"
+            style="@style/ButtonGreen"
+            android:text="@string/help"
+            android:id="@+id/help_button"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true" />
+    </RelativeLayout>
+</RelativeLayout>
