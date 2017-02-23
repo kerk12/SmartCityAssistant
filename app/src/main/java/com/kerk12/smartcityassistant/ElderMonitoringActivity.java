@@ -15,6 +15,8 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.android.gms.maps.model.PolylineOptions;
+
 import java.util.List;
 
 public class ElderMonitoringActivity extends AppCompatActivity {
@@ -52,7 +54,11 @@ public class ElderMonitoringActivity extends AppCompatActivity {
             if (e.getCondition() == Elder.Condition.GOOD){
                 holder.condition.setText("Καλή κατάσταση");
                 holder.condition.setTextColor(getResources().getColor(R.color.device_enabled));
-            } else {
+            } else if(e.getCondition() == Elder.Condition.EMERGENCY){
+                holder.condition.setText("Έγινε ειδοποίηση των κοινωνικών υπηρεσιών!");
+                holder.condition.setTextColor(getResources().getColor(R.color.device_disabled));
+            }
+            else {
                 holder.condition.setText("Απαιτείται προσοχή!");
                 holder.condition.setTextColor(getResources().getColor(R.color.device_disabled));
             }
@@ -83,13 +89,17 @@ public class ElderMonitoringActivity extends AppCompatActivity {
         Elder e = ElderList.get(SelectedElder);
         name.setText(e.getName());
         location.setText(e.getLocation());
+        if (e.getCondition() == Elder.Condition.EMERGENCY){
+            emergency_text.setVisibility(View.VISIBLE);
+        } else {
+            emergency_text.setVisibility(View.GONE);
+        }
     }
 
     private void UpdateAdapter(){
         ElderList = ElderManager.getElders();
         mAdapter = new ElderAdapter(ElderList);
         elderRecycler.setAdapter(mAdapter);
-
     }
 
     private void SendMsg(){
@@ -98,21 +108,12 @@ public class ElderMonitoringActivity extends AppCompatActivity {
         //sending.setVisibility(View.GONE);
         switch (e.getCondition()){
             case NEEDS_ATTENTION:
-            bob.setMessage("Δεν υπήρξε απάντηση... Θα θέλατε να γίνει ειδοποίηση των κοινωνικών υπηρεσιών;")
-                    .setPositiveButton("Ναι", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            AlertDialog.Builder bob2 = new AlertDialog.Builder(ElderMonitoringActivity.this);
-                            bob2.setMessage("Οι δημόσιες αρχές ειδοποιήθηκαν!").setPositiveButton("ΟΚ", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-
-                                }
-                            }).show();
-                        }
-                    }).setNegativeButton("Όχι", new DialogInterface.OnClickListener() {
+            bob.setMessage("Δεν υπήρξε απάντηση... Έγινε άμεση ειδοποίηση των κοινωνικών υπηρεσιών. ").setPositiveButton("OK", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
+                    ElderManager.UpdateElderCondition(Elder.Condition.EMERGENCY, SelectedElder);
+                    UpdateAdapter();
+                    UpdateUI();
                 }
             }).show();
             break;
@@ -135,7 +136,7 @@ public class ElderMonitoringActivity extends AppCompatActivity {
     }
     RecyclerView elderRecycler;
     ElderAdapter mAdapter;
-    TextView name, location;
+    TextView name, location, sendingMsg, emergency_text;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_elder_monitoring);
@@ -143,6 +144,7 @@ public class ElderMonitoringActivity extends AppCompatActivity {
         elderRecycler = (RecyclerView) findViewById(R.id.elder_recycler);
         name = (TextView) findViewById(R.id.elder_name_details) ;
         location = (TextView) findViewById(R.id.elder_location_details) ;
+        sendingMsg = (TextView) findViewById(R.id.sending_message);
         mAdapter = new ElderAdapter(ElderList);
         elderRecycler.setAdapter(mAdapter);
         elderRecycler.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
@@ -150,7 +152,18 @@ public class ElderMonitoringActivity extends AppCompatActivity {
         chatButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (ElderList.get(SelectedElder).getCondition() == Elder.Condition.EMERGENCY){
+                    AlertDialog.Builder bob = new AlertDialog.Builder(ElderMonitoringActivity.this);
+                    bob.setMessage("Έχουν ειδοποιηθεί οι κοινωνικές υπηρεσίες. Θα λάβετε τηλεφώνημα, μόλις γίνει ενημέρωση της κατάστασης.").setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
 
+                        }
+                    }).show();
+                    return;
+                }
+                chatButton.setEnabled(false);
+                sendingMsg.setVisibility(View.VISIBLE);
                 CountDownTimer t = new CountDownTimer(7000,1000) {
                     @Override
                     public void onTick(long millisUntilFinished) {
@@ -160,10 +173,13 @@ public class ElderMonitoringActivity extends AppCompatActivity {
                     @Override
                     public void onFinish() {
                         SendMsg();
+                        sendingMsg.setVisibility(View.GONE);
+                        chatButton.setEnabled(true);
                     }
                 }.start();
 
             }
         });
+        emergency_text = (TextView) findViewById(R.id.message_sent);
     }
 }

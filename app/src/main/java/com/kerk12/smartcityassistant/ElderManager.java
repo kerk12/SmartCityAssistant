@@ -13,16 +13,21 @@ public class ElderManager {
     public static List<Elder> getElders(){
         if (elders == null) {
             elders = new ArrayList<Elder>();
-            for (int i = 0; i < 3; i++){
-                Elder elderNew = new Elder("Γιάννης", "Νέο Ηράκλειο", Elder.Condition.GOOD);
-                elders.add(elderNew);
-            }
-            Elder elderNew = new Elder("Mπάμπης", "Νέο Ηράκλειο", Elder.Condition.NEEDS_ATTENTION);
+            Elder elderNew = new Elder("Γιάννης", "Νέο Ηράκλειο", Elder.Condition.GOOD);
             elders.add(elderNew);
-            Elder elderNew2 = new Elder("Χρήστος", "Νέο Ηράκλειο", Elder.Condition.NEEDS_ATTENTION_FINE);
+
+            Elder elderNew3 = new Elder("Ευανθία", "Νέο Ηράκλειο", Elder.Condition.NEEDS_ATTENTION);
+            elders.add(elderNew3);
+            Elder elderNew2 = new Elder("Χαράλαμπος", "Νέο Ηράκλειο", Elder.Condition.NEEDS_ATTENTION_FINE);
             elders.add(elderNew2);
         }
 
         return elders;
+    }
+
+    public static void UpdateElderCondition(Elder.Condition condition, int index){
+        Elder e = elders.get(index);
+        e.setCondition(condition);
+        elders.set(index, e);
     }
 }

@@ -100,4 +100,5 @@
     <string name="elder_name">Όνομα Ηλικιωμένου</string>
     <string name="elder_location">Τοποθεσία ηλικιωμένου</string>
     <string name="sending_message">Αναμονή απάντησης...</string>
+    <string name="send_status_question">Ερώτηση Κατάστασης</string>
 </resources>

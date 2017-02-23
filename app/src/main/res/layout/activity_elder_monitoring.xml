@@ -16,14 +16,14 @@
     <RelativeLayout
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_marginLeft="10dp"
+
         android:layout_weight="1"
         >
         <!--TODO Update the picture -->
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:src="@drawable/smart_home"
+            android:src="@drawable/elder_monitoring"
             android:scaleType="centerCrop"/>
         <RelativeLayout
             android:layout_width="match_parent"
@@ -52,7 +52,6 @@
                         android:id="@+id/elder_name_details"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Elder Name"
                         android:textSize="40sp" />
                 </LinearLayout>
                 <LinearLayout
@@ -70,7 +69,6 @@
                         android:id="@+id/elder_location_details"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Elder Location"
                         android:textSize="25sp" />
                 </LinearLayout>
 
@@ -81,11 +79,12 @@
                     android:padding="15dp">
 
                     <Button
-                        android:text="Button"
+                        android:text="@string/send_status_question"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/send_message_button"
-                        android:layout_weight="1" />
+                        android:layout_weight="1"
+                        style="@style/ButtonGreen" />
 
                 </LinearLayout>
 
@@ -94,7 +93,17 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/sending_message"
-                    android:textColor="@android:color/holo_orange_dark" />
+                    android:textColor="@android:color/holo_orange_dark"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:text="Έχουν ειδοποιηθεί οι κοινωνικές υπηρεσίες."
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/message_sent"
+                    android:textColor="@color/device_disabled"
+                    android:textSize="18sp"
+                    android:visibility="gone" />
 
             </LinearLayout>
 
