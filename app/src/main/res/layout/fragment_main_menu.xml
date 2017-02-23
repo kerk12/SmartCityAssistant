@@ -161,14 +161,14 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
                 android:layout_toEndOf="@+id/imageView4"
-                android:text="@string/OnlineOrder" />
+                android:text="@string/ElderMonitoring" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_toEndOf="@+id/imageView4"
-                android:text="@string/OnlineOrder_Description" />
+                android:text="@string/ElderMonitoring_Description" />
         </RelativeLayout>
 
     </android.support.v7.widget.CardView>

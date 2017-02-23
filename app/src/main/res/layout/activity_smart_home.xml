@@ -77,6 +77,24 @@
                     android:textSize="25sp" />
             </LinearLayout>
             <LinearLayout
+                style="@style/smart_home_layout_padding"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/device_status"
+                    android:textSize="15sp"/>
+                <TextView
+                    android:id="@+id/device_status"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Device Location"
+                    android:textSize="25sp" />
+            </LinearLayout>
+            <LinearLayout
                 android:id="@+id/errors_layout"
                 style="@style/smart_home_layout_padding"
                 android:layout_width="match_parent"
@@ -97,6 +115,7 @@
                     android:textColor="@color/error"
                     android:textSize="15sp" />
             </LinearLayout>
+
 
             <TextView
                 android:id="@+id/extra_settings_label"

@@ -22,7 +22,7 @@ public class SmartHome extends AppCompatActivity {
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager SPMan;
 
-    private TextView deviceName, deviceLocation, extra_settings_label;
+    private TextView deviceName, deviceLocation, extra_settings_label, deviceStatus;
     private ToggleButton powerButton;
     private int deviceSelected = 0;
     private LinearLayout errors_layout, extraSettingsLayout;
@@ -114,6 +114,13 @@ public class SmartHome extends AppCompatActivity {
         SmartDevice smartDev = SmartDeviceManager.getDeviceList(getApplicationContext()).get(deviceSelected);
         deviceName.setText(smartDev.getName());
         deviceLocation.setText(smartDev.getLocation());
+        if (smartDev.isActivated()){
+            deviceStatus.setTextColor(getResources().getColor(R.color.device_enabled));
+            deviceStatus.setText("Ενεργοποιμένη");
+        } else {
+            deviceStatus.setTextColor(getResources().getColor(R.color.device_disabled));
+            deviceStatus.setText("Απενεργοποιημένη");
+        }
         powerButton.setChecked(smartDev.isActivated());
 
         extraSettingsLayout.removeAllViews();
@@ -154,6 +161,8 @@ public class SmartHome extends AppCompatActivity {
         deviceName = (TextView) findViewById(R.id.device_name);
         deviceLocation = (TextView) findViewById(R.id.device_location);
 
+        deviceStatus = (TextView)findViewById(R.id.device_status);
+
         errors_layout = (LinearLayout) findViewById(R.id.errors_layout);
         errors = (TextView) findViewById(R.id.device_error);
         extra_settings_label = (TextView) findViewById(R.id.extra_settings_label);
@@ -166,6 +175,7 @@ public class SmartHome extends AppCompatActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 SmartDeviceManager.SetPower(deviceSelected, isChecked);
                 UpdateAdapter();
+                UpdateDetails();
             }
         });
 

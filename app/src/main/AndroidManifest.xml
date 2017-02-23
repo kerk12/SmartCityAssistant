@@ -38,9 +38,11 @@
             android:name=".SmartSchedulePlanner"
             android:label="@string/title_activity_smart_schedule_planner"
             android:parentActivityName=".MainMenuActivity" />
-        <activity android:name=".SmartHome" />
+        <activity android:name=".SmartHome"
+            android:parentActivityName=".MainMenuActivity"/>
         <activity android:name=".EOrderMainActivity" />
-        <activity android:name=".ElderMonitoringActivity" />
+        <activity android:name=".ElderMonitoringActivity"
+            android:parentActivityName=".MainMenuActivity"/>
         <activity android:name=".HelpActivity"></activity>
     </application>
 

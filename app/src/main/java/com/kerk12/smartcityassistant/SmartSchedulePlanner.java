@@ -312,13 +312,18 @@ public class SmartSchedulePlanner extends AppCompatActivity implements OnMapRead
                     for (MarkerOptions ip : intermP) {
                         mMap.addMarker(ip);
                     }
+                    if (TravelPlanner.getNumOfWaypoints() == 2) {
+                        duration.setText(getResources().getString(R.string.travel_duration)+ TravelPlanner.getDuration());
+                        duration.setVisibility(View.VISIBLE);
+                    }
                 }
             } else {
                 instructions.setText("");
                 instructions.setVisibility(View.INVISIBLE);
+                duration.setVisibility(View.GONE);
             }
 
-            duration.setText(getResources().getString(R.string.travel_duration)+ TravelPlanner.getDuration());
+
 
         } else {
             duration.setText(getResources().getString(R.string.travel_duration));

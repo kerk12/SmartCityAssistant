@@ -5,7 +5,7 @@
     <string name="SchedulePlanner">Έξυπνο Πλάνο Ημέρας</string>
     <string name="SmartHomeManager">Έξυπνο Σπίτι</string>
     <string name="OnlineOrder">On-Line Παραγγελίες Φαγητού - Καφέ</string>
-
+    <string name="ElderMonitoring">Σύστημα Παρακολούθησης Ηλικιωμένων</string>
 
     <!-- Main Menu Descriptions -->
     <string name="SchedulePlanner_Description">Διαμορφώστε το πρόγραμμα της ημέρας σας!</string>
@@ -13,6 +13,7 @@
     <string name="OnlineOrder_Description">Παραγγείλτε γρήγορα φαγητό ή καφέ μέσα από μια μεγάλη λίστα ηλεκτρονικών καταστημάτων!</string>
     <string name="title_activity_smart_schedule_planner">Smart Schedule Planner</string>
     <string name="title_activity_main">MainActivity</string>
+    <string name="ElderMonitoring_Description">Παρακολουθήστε τα αγαπημένα σας άτομα, και προσφέρετέ τους βοήθεια όταν την χρειάζονται.</string>
 
 
     <string name="AddPlace">Add Waypoint</string>
@@ -50,7 +51,7 @@
 
     <string name="IllegalMoveAttempt">Αδύνατη η μετακίνηση. Δεν πρέπει να έχει οριστεί χρόνος άφιξης για τον προορισμό που μετακινείται.</string>
 
-    <string name="new_entry">Τίτλος Νέας Εγγραφής</string>
+    <string name="new_entry">Τίτλος Νέας Εγγραφής:</string>
 
     <string name="no_entry_title_set">Εγγραφή χωρίς τίτλο</string>
 
@@ -103,4 +104,6 @@
     <string name="send_status_question">Ερώτηση Κατάστασης</string>
     <string name="help">Βοήθεια</string>
     <string name="help_url">https://drive.google.com/open?id=0ByFo97YBQLLueVE2Wk1VRHA2M1E</string>
+    <string name="waypoint_location">Τοποθεσία προορισμού/ενδιάμεσου σημείου:</string>
+    <string name="device_status">Κατάσταση:</string>
 </resources>
