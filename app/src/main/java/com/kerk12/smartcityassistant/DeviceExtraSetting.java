@@ -10,8 +10,6 @@ import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
-import com.google.android.gms.vision.text.Text;
-
 import java.util.ArrayList;
 import java.util.List;
 
