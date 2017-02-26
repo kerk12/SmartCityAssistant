@@ -295,7 +295,7 @@ public class TravelPlanner {
     /**
      * Check if a given time is illegal (if it's set earlier than a time already set).
      * @param c The calendar.
-     * @return
+     * @return True if the time isn't illegal, false if it is.
      */
     public static boolean CheckForIllegalTime(Calendar c){
         Calendar last = null;
