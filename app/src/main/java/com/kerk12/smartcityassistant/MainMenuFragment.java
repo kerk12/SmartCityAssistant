@@ -25,8 +25,8 @@ import android.widget.Toast;
  */
 public class MainMenuFragment extends Fragment {
 
-    private boolean checkNetworkConnectivity(){
-        ConnectivityManager connMgr = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+    public static boolean checkNetworkConnectivity(Context context){
+        ConnectivityManager connMgr = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo ni = connMgr.getActiveNetworkInfo();
         if (ni != null && ni.isConnected()){
             return true;
@@ -56,7 +56,7 @@ public class MainMenuFragment extends Fragment {
     private OnClickListener SmartSchedulePlannerOCL = new OnClickListener() {
         @Override
         public void onClick(View view) {
-            if (!checkNetworkConnectivity()){
+            if (!checkNetworkConnectivity(getActivity())){
                 Toast.makeText(getActivity(), getResources().getString(R.string.internet_not_connected), Toast.LENGTH_LONG).show();
                 return;
             }
@@ -94,6 +94,10 @@ public class MainMenuFragment extends Fragment {
         SmartHomeChoice.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (!checkNetworkConnectivity(getActivity())){
+                    Toast.makeText(getActivity(), getResources().getString(R.string.internet_not_connected), Toast.LENGTH_LONG).show();
+                    return;
+                }
                 Intent i = new Intent(getActivity(), SmartHome.class);
                 startActivity(i);
             }
@@ -104,6 +108,10 @@ public class MainMenuFragment extends Fragment {
         EOrder.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (!checkNetworkConnectivity(getActivity())){
+                    Toast.makeText(getActivity(), getResources().getString(R.string.internet_not_connected), Toast.LENGTH_LONG).show();
+                    return;
+                }
                 Intent i = new Intent(getActivity(), EOrderMainActivity.class);
                 startActivity(i);
             }
@@ -111,6 +119,10 @@ public class MainMenuFragment extends Fragment {
         ElderMon.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (!checkNetworkConnectivity(getActivity())){
+                    Toast.makeText(getActivity(), getResources().getString(R.string.internet_not_connected), Toast.LENGTH_LONG).show();
+                    return;
+                }
                 Intent i = new Intent(getActivity(), ElderMonitoringActivity.class);
                 startActivity(i);
             }
@@ -120,6 +132,10 @@ public class MainMenuFragment extends Fragment {
         HelpButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (!checkNetworkConnectivity(getActivity())){
+                    Toast.makeText(getActivity(), getResources().getString(R.string.internet_not_connected), Toast.LENGTH_LONG).show();
+                    return;
+                }
                 Intent i = new Intent(getActivity(), HelpActivity.class);
                 startActivity(i);
             }

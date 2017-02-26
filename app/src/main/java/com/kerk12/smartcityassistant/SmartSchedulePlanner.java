@@ -3,6 +3,7 @@ package com.kerk12.smartcityassistant;
 import android.Manifest;
 import android.app.DialogFragment;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Criteria;
@@ -18,6 +19,9 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -507,5 +511,26 @@ public class SmartSchedulePlanner extends AppCompatActivity implements OnMapRead
     public void onBackPressed() {
         super.onBackPressed();
         finish();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.copied_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId()){
+            case R.id.help_menu_choice:
+                if (!MainMenuFragment.checkNetworkConnectivity(getApplicationContext())){
+                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.internet_not_connected), Toast.LENGTH_LONG).show();
+                    return false;
+                }
+                Intent i = new Intent(getApplicationContext(), HelpActivity.class);
+                startActivity(i);
+        }
+        return true;
     }
 }

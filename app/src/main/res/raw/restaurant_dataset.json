@@ -9,8 +9,8 @@
     },
     {
       "id":1,
-      "name":"Σουβλάκι ο Χάρος",
-      "location":"Γαλάτσι",
+      "name":"Σουβλάκι ο Βασίλης",
+      "location":"Πειραιάς",
       "cuisine":"Ψητοπωλείο/Σουβλατζίδικο",
       "phone_number":"2103456712"
     },
@@ -23,15 +23,15 @@
     },
     {
       "id":3,
-      "name":"Καφετέρια η Κατίνα",
-      "location":"Άνω Πατήσια",
+      "name":"Feluz Cafe",
+      "location":"Δραπετσώνα",
       "cuisine":"Cafe",
       "phone_number":"2103616452"
     },
     {
       "id":4,
-      "name":"Internet-Cafe ο Κούκος",
-      "location":"Άγιος Ιωάννης",
+      "name":"Coffee Bay",
+      "location":"Μικρολίμανο",
       "cuisine":"Cafe",
       "phone_number":"2105556342"
     }
@@ -72,12 +72,92 @@
       "name":"Cappuccino",
       "category":"Καφές",
       "price":1.40
+    },
+    {
+      "id":6,
+      "name":"Σκεπαστή με Γύρο Χοιρινό",
+      "category":"Σκεπαστές",
+      "price":6.40
+    },
+    {
+      "id":7,
+      "name":"Σκεπαστή με Γύρο Κοτόπουλο",
+      "category":"Σκεπαστές",
+      "price":6.40
+    },
+    {
+      "id":8,
+      "name":"Σκεπαστή με καλαμάκι χοιρινό",
+      "category":"Σκεπαστές",
+      "price":6.30
+    },
+    {
+      "id":9,
+      "name":"Σκεπαστή με καλαμάκι κοτόπουλο",
+      "category":"Σκεπαστές",
+      "price":6.30
+    },
+    {
+      "id":10,
+      "name":"Special (6 κομμάτια)",
+      "category":"Πίτσα",
+      "price":6.30
+    },
+    {
+      "id":11,
+      "name":"Margarita (6 κομμάτια)",
+      "category":"Πίτσα",
+      "price":4.30
+    },
+    {
+      "id":12,
+      "name":"BBQ (6 κομμάτια)",
+      "category":"Σκεπαστές",
+      "price":6.30
+    },
+    {
+      "id":13,
+      "name":"Super Special (10 κομμάτια)",
+      "category":"Πίτσα",
+      "price":10.30
+    },
+    {
+      "id":14,
+      "name":"Πριζόλες ψητές με πατάτες",
+      "category":"Ψητά",
+      "price":7.30
+    },
+    {
+      "id":15,
+      "name":"Παϊδάκια αρνιού",
+      "category":"Ψητά",
+      "price":6.60
+    },
+    {
+      "id":16,
+      "name":"Κοτόπουλο στον Φούρνο",
+      "category":"Ψητά",
+      "price":7.30
+    },
+    {
+      "id":17,
+      "name":"Καλαμαράκια τηγανητά",
+      "category":"Θαλασσινά",
+      "price":8.20
     }
   ],
   "mappings":[
     {
+      "restaurant_id":0,
+      "mapped_dishes":[14,15,16,17]
+    },
+    {
       "restaurant_id":1,
-      "mapped_dishes":[0,1]
+      "mapped_dishes":[0,1,6,7,8,9]
+    },
+    {
+      "restaurant_id":2,
+      "mapped_dishes":[10,11,12,13]
     },
     {
       "restaurant_id":3,
