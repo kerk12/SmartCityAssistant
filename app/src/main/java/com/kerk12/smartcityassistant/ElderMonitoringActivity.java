@@ -226,7 +226,9 @@ public class ElderMonitoringActivity extends AppCompatActivity {
                 }
                 Intent i = new Intent(getApplicationContext(), HelpActivity.class);
                 startActivity(i);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
-        return true;
     }
 }

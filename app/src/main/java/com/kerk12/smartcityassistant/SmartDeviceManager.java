@@ -28,6 +28,7 @@ public class SmartDeviceManager {
             SmartDevice sdev4 = new SmartDevice("Στερεοφωνικό", true, "Σαλόνι");
             DeviceExtraSetting volume2 = new DeviceExtraSetting("Ένταση", DeviceExtraSetting.SLIDER);
             sdev4.AddExtraSetting(volume2);
+            sdev4.setCategory(SmartDevice.DeviceCategory.ENTERTAINMENT);
             sdev3.AddExtraSetting(volume);
             sdev3.AddExtraSetting(channel);
             sdev3.setCategory(SmartDevice.DeviceCategory.ENTERTAINMENT);

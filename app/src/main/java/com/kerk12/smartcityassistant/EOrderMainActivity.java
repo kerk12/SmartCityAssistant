@@ -65,10 +65,12 @@ public class EOrderMainActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), getResources().getString(R.string.internet_not_connected), Toast.LENGTH_LONG).show();
                     return false;
                 }
-                    Intent i = new Intent(getApplicationContext(), HelpActivity.class);
-                    startActivity(i);
+                Intent i = new Intent(getApplicationContext(), HelpActivity.class);
+                startActivity(i);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
-        return true;
     }
 
     @Override

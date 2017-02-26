@@ -573,7 +573,9 @@ public class SmartSchedulePlanner extends AppCompatActivity implements OnMapRead
                 }
                 Intent i = new Intent(getApplicationContext(), HelpActivity.class);
                 startActivity(i);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
-        return true;
     }
 }
