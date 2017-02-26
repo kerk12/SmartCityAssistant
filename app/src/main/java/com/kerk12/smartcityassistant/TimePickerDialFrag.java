@@ -13,9 +13,8 @@ import java.util.Calendar;
 import java.util.Date;
 
 /**
- * Created by kgiannakis on 7/1/2017.
+ * A dialog fragment for picking a specific time.
  */
-
 public class TimePickerDialFrag extends DialogFragment implements TimePickerDialog.OnTimeSetListener {
 
     public interface TimePickerDialFragListener{

@@ -16,13 +16,12 @@ import java.util.Map;
 import static android.R.id.message;
 
 /**
- * Created by kerk12 on 12/24/16.
+ * Class used for managing the user's schedule. It manages all the waypoints that the user has set, along with the travel mode and other travel options.
  */
-
 public class TravelPlanner {
 
+    //The list of the waypoints.
     private static List<TravelWaypoint> waypoints = null;
-    //private static TravelWaypoint finalDestination = null;
     private static String TransitMode = "driving";
 
     public static final String DRIVING = "driving";
@@ -31,7 +30,6 @@ public class TravelPlanner {
     public static final String TRANSIT = "transit";
 
     private static String ArrivalTime = null;
-    private static String DepartureTime = null;
     private static String Duration = null;
 
     private static List<LatLng> intermediatePoints = null;
@@ -39,13 +37,16 @@ public class TravelPlanner {
 
     public static boolean findParking = true;
 
-
+    /**
+     * Exception thrown when no Travel Waypoints have been added to the list.
+     */
     public static class NoWaypointsSetException extends Exception{
         public NoWaypointsSetException() {
             super("No waypoints have been set.");
         }
     }
 
+    //Block instantiation
     private TravelPlanner() {
 
     }
@@ -68,21 +69,7 @@ public class TravelPlanner {
      */
     public static List<TravelWaypoint> getWaypoints(){
             initializeTravelPlanner();
-            //DEBUG ONLY
-//            TravelWaypoint point1, point2, point3;
-//            point1 = new TravelWaypoint("Point 1", new LatLng(12.123,12.123));
-//            point2 = new TravelWaypoint("Point 1", new LatLng(12.123,12.123));
-//            point3 = new TravelWaypoint("Point 1", new LatLng(12.123,12.123));
-//            waypoints.add(point1);
-//            waypoints.add(point2);
-//            waypoints.add(point3);
-//        if (ExistsFinalDestination()) {
-//            List<TravelWaypoint> newWaypList = waypoints;
-//            newWaypList.add(finalDestination);
-//            return newWaypList;
-//        } else {
             return waypoints;
-//        }
     }
 
     /**
@@ -146,9 +133,14 @@ public class TravelPlanner {
         }
 
 
-
+    /**
+     * Creates a HashMap that can be used with the MapHelper class.
+     * @return The final HashMap.
+     * @throws NoWaypointsSetException If no waypoints are set.
+     */
     public static Map<String, String> makeHelperHashMap() throws NoWaypointsSetException {
         Map<String, String> mMap = new HashMap<String, String>();
+        //Get the first waypoint, set it as origin.
         mMap.put("origin", LatLngAsString(waypoints.get(0).getLocation()));
         StringBuilder waypBuilder = new StringBuilder();
         boolean first = true;
@@ -156,6 +148,7 @@ public class TravelPlanner {
 
         limit = waypoints.size() - 1;
 
+        //Set the waypoints...
         if (waypoints.size() > 2) {
             for (int i = 1; i < limit; i++) {
                 if (first) {
@@ -167,7 +160,8 @@ public class TravelPlanner {
             }
             mMap.put("waypoints", waypBuilder.toString());
         }
-            mMap.put("destination", LatLngAsString(waypoints.get(limit).getLocation()));
+        //Finally, set the destination.
+        mMap.put("destination", LatLngAsString(waypoints.get(limit).getLocation()));
 
         return mMap;
     }
@@ -176,6 +170,10 @@ public class TravelPlanner {
         TransitMode = TravelModeNew;
     }
 
+    /**
+     * Returns all the route markers.
+     * @return a list with all the route markers.
+     */
     public static List<MarkerOptions> getRouteMarkers(){
         List<MarkerOptions> mList = new ArrayList<MarkerOptions>();
         for (TravelWaypoint wayp: getWaypoints()){
@@ -190,6 +188,11 @@ public class TravelPlanner {
     public static final String UP = "up";
     public static final String DOWN = "down";
 
+    /**
+     * Method used for changing the order of the waypoints.
+     * @param index The waypoint's position on the list.
+     * @param direction Use TravelPlanner.UP to move upwards the list, and TravelPlanner.DOWN to move downwards.
+     */
     public static void Move(int index, String direction){
             switch (direction){
                 case "up":
@@ -203,6 +206,11 @@ public class TravelPlanner {
             }
         }
 
+    /**
+     * Check if a waypoint already exists on the list, based on the name and its coordinates.
+     * @param waypoint The waypoint
+     * @return True if it exists, false if it doesn't exist.
+     */
     public static boolean CheckIfWaypointExists(TravelWaypoint waypoint){
         for (TravelWaypoint wayp: TravelPlanner.getWaypoints()){
             if (waypoint.getLocation().equals(wayp.getLocation())){
@@ -217,6 +225,11 @@ public class TravelPlanner {
         return false;
     }
 
+    /**
+     * Delete a waypoint from the list.
+     * @param position The index of the waypoint.
+     * @throws NoWaypointsSetException If no waypoints are set.
+     */
     public static void DeleteWaypoint(int position) throws NoWaypointsSetException {
         if (getNumOfWaypoints() == 0){
             throw new NoWaypointsSetException();
@@ -229,22 +242,30 @@ public class TravelPlanner {
         return TransitMode;
     }
 
-    public static List<LatLng> getIntermediatePoints() {
-        return intermediatePoints;
-    }
-
     public static void setIntermediatePoints(List<LatLng> intermediatePoints) {
         TravelPlanner.intermediatePoints = intermediatePoints;
     }
 
+    /**
+     * Returns the list with the instructions.
+     * @return A list of instruction strings.
+     */
     public static List<String> getInstructions() {
         return instructions;
     }
 
+    /**
+     * Set the instructions.
+     * @param instructions The list with the instructions.
+     */
     public static void setInstructions(List<String> instructions) {
         TravelPlanner.instructions = instructions;
     }
 
+    /**
+     * Get markers based on the intermediate points.
+     * @return A list of markers.
+     */
     public static List<MarkerOptions> GetIntermediatePointMarkers(){
         List<MarkerOptions> markers = new ArrayList<MarkerOptions>();
         for (LatLng ip:intermediatePoints){
@@ -271,6 +292,11 @@ public class TravelPlanner {
         Duration = duration;
     }
 
+    /**
+     * Check if a given time is illegal (if it's set earlier than a time already set).
+     * @param c The calendar.
+     * @return
+     */
     public static boolean CheckForIllegalTime(Calendar c){
         Calendar last = null;
         int firstPosition = 0;
@@ -289,6 +315,7 @@ public class TravelPlanner {
             return true;
         }
 
+        //Check the rest of the points...
         for (int i = firstPosition + 1; i < getNumOfWaypoints(); i++){
             TravelWaypoint wp = getWaypoints().get(i);
             if (wp.getArrivalTime() != null){

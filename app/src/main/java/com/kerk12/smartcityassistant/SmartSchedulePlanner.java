@@ -58,8 +58,6 @@ public class SmartSchedulePlanner extends AppCompatActivity implements OnMapRead
 
     public static GoogleMap mMap;
     LocationManager lm = null;
-    //    EditText MapOrigin;
-//    Button GetDirectionsButton;
     private List<LatLng> travel;
     private FloatingActionButton addWaypointButton;
     private FrameLayout addWaypointL;
@@ -67,7 +65,6 @@ public class SmartSchedulePlanner extends AppCompatActivity implements OnMapRead
     private RecyclerView SPRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager SPMan;
-    //private CheckBox isFinalDestination;
 
     private Polyline route;
     private List<MarkerOptions> markers;
@@ -88,6 +85,11 @@ public class SmartSchedulePlanner extends AppCompatActivity implements OnMapRead
         UpdateMap();
     }
 
+    /**
+     * Parse the time to HH:MM in a String
+     * @param c The calendar to be parsed
+     * @return The string with the parsed.
+     */
     private String getParsedTime(Calendar c){
         if (c== null){
             return null;
@@ -102,6 +104,11 @@ public class SmartSchedulePlanner extends AppCompatActivity implements OnMapRead
         }
     }
 
+    /**
+     * Get the time from the selector fragment.
+     * @param hourOfDay The hour of the day
+     * @param minute The minute of the day.
+     */
     @Override
     public void onTimeSelected(int hourOfDay, int minute) {
         TimeSet = Calendar.getInstance();
@@ -110,6 +117,7 @@ public class SmartSchedulePlanner extends AppCompatActivity implements OnMapRead
 
         ArrivalTimeButton.setText(getString(R.string.arrival_time)+ ": "+getParsedTime(TimeSet));
     }
+
 
     private class SPAdapter extends RecyclerView.Adapter<SPAdapter.ViewHolder> {
 
@@ -230,6 +238,11 @@ public class SmartSchedulePlanner extends AppCompatActivity implements OnMapRead
 
     private TravelOptionsDialog.TravelOptionsListener l;
 
+    /**
+     * Returns a random parking spot, given the list of the points consisting the polyline.
+     * @param travelPoints The PolyLine points.
+     * @return A random Marker.
+     */
     private MarkerOptions getRandomParkingSpot(List<LatLng> travelPoints){
         int max = travelPoints.size();
         int min = 0;
@@ -257,8 +270,14 @@ public class SmartSchedulePlanner extends AppCompatActivity implements OnMapRead
         }
         return sb.toString();
     }
+
+    /**
+     * Method used for updating the map fragment along with the UI in general.
+     */
     private void UpdateMap(){
+        //Clear the map
         mMap.clear();
+        //Add the markers.
         if (TravelPlanner.getNumOfWaypoints() >= 1){
             markers = TravelPlanner.getRouteMarkers();
             for (MarkerOptions mop: markers){
@@ -268,32 +287,41 @@ public class SmartSchedulePlanner extends AppCompatActivity implements OnMapRead
         if (TravelPlanner.getNumOfWaypoints() >= 2) {
             try {
                 MapHelper helper;
-                //TODO implement this on the MapHelper
+
+                //Make a new MapHelper object, depending on the situation. Then, execute it.
+                //2 Points, Transit set as the Travel mode
                 if (TravelPlanner.getNumOfWaypoints() == 2 && TravelPlanner.getTravelMode() == TravelPlanner.TRANSIT) {
                     helper = new MapHelper(TravelPlanner.makeHelperHashMap(), TravelPlanner.getTravelMode(), "el", getApplicationContext());
-                } else if (TravelPlanner.getNumOfWaypoints() > 2 && TravelPlanner.getTravelMode() == TravelPlanner.TRANSIT) {
+                } else if (TravelPlanner.getNumOfWaypoints() > 2 && TravelPlanner.getTravelMode() == TravelPlanner.TRANSIT) { // More than two points, Transit set as the travel mode.
                     TravelPlanner.SetTravelMode(TravelPlanner.DRIVING);
                     helper = new MapHelper(TravelPlanner.makeHelperHashMap(), TravelPlanner.getTravelMode(), "el", getApplicationContext());
 
                     Toast.makeText(getApplicationContext(), getResources().getString(R.string.no_more_than_2_wp_allowed_switched), Toast.LENGTH_LONG).show();
-                } else {
+                } else { //Everything else...
                     helper = new MapHelper(TravelPlanner.makeHelperHashMap(), TravelPlanner.getTravelMode(), "el", getApplicationContext());
                 }
                 helper.execute();
 
+                //Get the instructions and the intermediate points, if the Travel mode is set to Transit.
                 if (TravelPlanner.getTravelMode() == TravelPlanner.TRANSIT){
                     TravelPlanner.setInstructions(helper.getInstructions());
                     TravelPlanner.setIntermediatePoints(helper.getIntermediatePoints());
                 }
+
+                //Get the polyline
                 PolylineOptions opt = helper.getRoutePolyline();
 
+                //Set the parking spot, if available.
                 if (TravelPlanner.findParking && (TravelPlanner.getTravelMode() == TravelPlanner.DRIVING || TravelPlanner.getTravelMode() == TravelPlanner.BICYCLING)) {
                     mMap.addMarker(getRandomParkingSpot(helper.getRoute()));
                 }
+
+                //If nothing is returned, then no route is available
                 if (opt == null){
                     Toast.makeText(getApplicationContext(), getResources().getString(R.string.no_routes), Toast.LENGTH_SHORT).show();
                     return;
                 }
+                //Add the route to the map
                 route = mMap.addPolyline(opt);
             } catch (TravelPlanner.NoWaypointsSetException e) {
                 e.printStackTrace();
@@ -308,6 +336,8 @@ public class SmartSchedulePlanner extends AppCompatActivity implements OnMapRead
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             }
+
+            //Update the UI by adding the instructions, the intermediate points, and the duration.
             if (TravelPlanner.getTravelMode() == TravelPlanner.TRANSIT){
                 if(TravelPlanner.getNumOfWaypoints() >=2) {
                     instructions.setText(ParseInstructions(TravelPlanner.getInstructions()));
@@ -360,13 +390,14 @@ public class SmartSchedulePlanner extends AppCompatActivity implements OnMapRead
 
         addWaypointFragment = (PlaceAutocompleteFragment) getFragmentManager().findFragmentById(R.id.AddPlaceFr);
 
-
+        /**
+         * When a place is selected, update the selected place.
+         */
         addWaypointFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
             @Override
             public void onPlaceSelected(Place place) {
                 //Log.d("AddWaypoint", place.getAddress().toString());
                 selectedPlace = place;
-
             }
 
             @Override
@@ -379,12 +410,14 @@ public class SmartSchedulePlanner extends AppCompatActivity implements OnMapRead
         addWaypointButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //If no destination is selected.
                 if (selectedPlace == null){
                     Toast.makeText(getApplicationContext(),getResources().getString(R.string.NoSelectedPlace), Toast.LENGTH_SHORT).show();
                     return;
                 }
                 TravelWaypoint wayp = null;
 
+                //Check the time if it isn't null, and if so, check if illegal.
                 if (TimeSet != null){
                     if (TravelPlanner.CheckForIllegalTime(TimeSet)) {
                         wayp = new TravelWaypoint(selectedPlace.getName().toString(), selectedPlace.getLatLng(), TimeSet);
@@ -398,17 +431,20 @@ public class SmartSchedulePlanner extends AppCompatActivity implements OnMapRead
                 if (newWaypointTitle.getText() != null && newWaypointTitle.getText().toString() != "") {
                     wayp.setEntryTitle(newWaypointTitle.getText().toString());
                 }
+                //Check if the waypoint already exists.
                 if (TravelPlanner.CheckIfWaypointExists(wayp)){
                     Toast.makeText(getApplicationContext(), getResources().getString(R.string.WaypointAlrExists), Toast.LENGTH_SHORT).show();
                     return;
                 }
 
+                //Finally, add the waypoint to the planner.
                 TravelPlanner.AddWaypoint(wayp);
 
                 SPRecyclerView.setAdapter(new SPAdapter(TravelPlanner.getWaypoints()));
                 SPRecyclerView.invalidate();
 
                 UpdateMap();
+                //Reset everything, so it can be reused.
                 addWaypointFragment.setText("");
                 newWaypointTitle.setText("");
                 ArrivalTimeButton.setText(getString(R.string.arrival_time));
@@ -474,6 +510,7 @@ public class SmartSchedulePlanner extends AppCompatActivity implements OnMapRead
         Criteria crit = new Criteria();
         List<String> providers = lm.getProviders(true);
         Location loc = null;
+        //Get the last known location
         for (String provider:providers){
             loc = lm.getLastKnownLocation(provider);
             if (loc!= null){
@@ -481,7 +518,9 @@ public class SmartSchedulePlanner extends AppCompatActivity implements OnMapRead
             }
         }
 
+
         if (loc != null) {
+            //Get the last known location, and get its address, by using the Geocoder.
             LatLng currPos = new LatLng(loc.getLatitude(), loc.getLongitude());
             Geocoder coder = new Geocoder(getApplicationContext(), Locale.getDefault());
 
@@ -512,6 +551,10 @@ public class SmartSchedulePlanner extends AppCompatActivity implements OnMapRead
         super.onBackPressed();
         finish();
     }
+
+    /*
+        The options menu.
+     */
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
