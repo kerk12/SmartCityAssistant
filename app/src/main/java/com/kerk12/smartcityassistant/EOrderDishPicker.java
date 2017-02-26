@@ -31,6 +31,10 @@ public class EOrderDishPicker extends Fragment {
     private TextView dishName,dishType,dishPrice;
     private Button AddToCart, GotoReview;
     private int selectedDish;
+
+    /**
+     * Custom adapter used for displaying dishes.
+     */
     private class DishAdapter extends RecyclerView.Adapter<DishAdapter.ViewHolder>{
 
         private List<Dish> mDishes;
@@ -75,6 +79,9 @@ public class EOrderDishPicker extends Fragment {
         }
     }
 
+    /**
+     * For updating the details on the right side.
+     */
     private void UpdateUI() {
         Dish d = restaurant.getDishes().get(selectedDish);
         dishName.setText(d.getName());
@@ -82,14 +89,15 @@ public class EOrderDishPicker extends Fragment {
 
     }
 
-    private void UpdateCartButton(){
-        //ViewCartButton.setText("Καλάθι("+String.valueOf(Order.getOrderItemCount())+" Αντικείμενο/α)");
-
-    }
-
     public EOrderDishPicker(){
 
     }
+
+    /**
+     * Creates a new fragment with the restaurant passed in.
+     * @param restaurant The restaurant's index on the restaurants list.
+     * @return A new instance of the EOrderDishPicker fragment.
+     */
     public static EOrderDishPicker newInstance(int restaurant){
         EOrderDishPicker fragNew = new EOrderDishPicker();
         Bundle b = new Bundle();

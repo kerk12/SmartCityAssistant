@@ -16,9 +16,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by kgiannakis on 6/2/2017.
+ * Class used for displaying each device's extra settings (where applicable). Used with SmartDevice.
  */
-
 public class DeviceExtraSetting{
     public static final String SLIDER = "slider";
     public static final String NUM_UP_DOWN = "numeric_up_down";
@@ -32,6 +31,12 @@ public class DeviceExtraSetting{
         this.type = type;
     }
 
+    /**
+     * Returns a list of views with the parameters passed when creating the object.
+     * @param context The context of the app.
+     * @return A list of views.
+     * @throws IllegalArgumentException When an invalid extra setting type is given.
+     */
     public List<View> getFinalOutput(Context context){
         //Renew the list
         //NOTE: NEVER reuse views
@@ -60,6 +65,7 @@ public class DeviceExtraSetting{
                 final TextView currentValue = new TextView(context);
                 currentValue.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT, 0.1f));
                 seeker.setMax(10);
+                //Get the current value and display it.
                 if (currentVal != -1) {
                     currentValue.setText(String.valueOf(currentVal) + "/" + String.valueOf(10));
                     seeker.setProgress(currentVal);
@@ -68,9 +74,11 @@ public class DeviceExtraSetting{
                     seeker.setProgress(5);
                 }
 
+                //What happens when the seeker gets changed
                 seeker.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
                     @Override
                     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                        //Re-parse the value and set the currentVal
                         currentValue.setText(String.valueOf(progress)+"/"+String.valueOf(seekBar.getMax()));
                         currentVal = progress;
                     }
@@ -86,6 +94,7 @@ public class DeviceExtraSetting{
                     }
                 });
 
+                //Add them to the final list...
                 finalOutput.add(label);
                 seekerLayout.addView(seeker);
                 seekerLayout.addView(currentValue);

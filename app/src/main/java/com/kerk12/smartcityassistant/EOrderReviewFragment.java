@@ -23,11 +23,13 @@ import java.text.DecimalFormat;
 import java.util.List;
 
 /**
- * Created by kerk12 on 17/2/2017.
+ * The final order review fragment.
  */
-
 public class EOrderReviewFragment extends Fragment {
 
+    /**
+     * Adapter used for displaying the cart.
+     */
     private class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder>{
 
         private List<Dish> mList;
@@ -108,6 +110,10 @@ public class EOrderReviewFragment extends Fragment {
         super.onCreate(savedInstanceState);
     }
 
+    /**
+     * Used for validating the order details form.
+     * @return True if it passes the validation, False if it fails.
+     */
     public boolean validate(){
         //Check the TextViews if they are empty
         if (name.getText().toString().isEmpty() || email.getText().toString().isEmpty() || address.getText().toString().isEmpty() || phone.getText().toString().isEmpty()){

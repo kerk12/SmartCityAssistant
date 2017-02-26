@@ -5,6 +5,9 @@ import android.os.Bundle;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 
+/**
+ * Activity for displaying the User Manual
+ */
 public class HelpActivity extends AppCompatActivity {
 
     WebView helpWebview;

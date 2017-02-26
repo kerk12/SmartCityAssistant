@@ -25,6 +25,11 @@ import android.widget.Toast;
  */
 public class MainMenuFragment extends Fragment {
 
+    /**
+     * Check if the internet is connected.
+     * @param context The context of the app.
+     * @return True if the internet is connected, False if it is not.
+     */
     public static boolean checkNetworkConnectivity(Context context){
         ConnectivityManager connMgr = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo ni = connMgr.getActiveNetworkInfo();

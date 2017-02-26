@@ -29,6 +29,9 @@ public class ElderMonitoringActivity extends AppCompatActivity {
     private List<Elder> ElderList = ElderManager.getElders();
     private int SelectedElder = -1;
 
+    /**
+     * Adapter for managing the elders in the recyclerview.
+     */
     private class ElderAdapter extends RecyclerView.Adapter<ElderAdapter.ViewHolder>{
 
         private List<Elder> mList;
@@ -47,6 +50,7 @@ public class ElderMonitoringActivity extends AppCompatActivity {
         @Override
         public void onBindViewHolder(ViewHolder holder, final int position) {
             Elder e = mList.get(position);
+            //When the user clicks on the item
             holder.layout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -54,8 +58,11 @@ public class ElderMonitoringActivity extends AppCompatActivity {
                     UpdateUI();
                 }
             });
+            //Name
             holder.name.setText(e.getName());
+            //Location
             holder.location.setText(e.getLocation());
+            //Condition
             if (e.getCondition() == Elder.Condition.GOOD){
                 holder.condition.setText("Καλή κατάσταση");
                 holder.condition.setTextColor(getResources().getColor(R.color.device_enabled));
@@ -90,6 +97,10 @@ public class ElderMonitoringActivity extends AppCompatActivity {
     }
 
     private Button chatButton;
+
+    /**
+     * For updating the details on the right side.
+     */
     private void UpdateUI(){
         Elder e = ElderList.get(SelectedElder);
         name.setText(e.getName());
@@ -101,18 +112,24 @@ public class ElderMonitoringActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Update the adapter when something has changed.
+     */
     private void UpdateAdapter(){
         ElderList = ElderManager.getElders();
         mAdapter = new ElderAdapter(ElderList);
         elderRecycler.setAdapter(mAdapter);
     }
 
+    /**
+     * Used for simulating a status update message to the elder.
+     */
     private void SendMsg(){
         Elder e = ElderList.get(SelectedElder);
         AlertDialog.Builder bob = new AlertDialog.Builder(ElderMonitoringActivity.this);
         //sending.setVisibility(View.GONE);
         switch (e.getCondition()){
-            case NEEDS_ATTENTION:
+            case NEEDS_ATTENTION: //The elder needs attention and doesn't respond.
             bob.setMessage("Δεν υπήρξε απάντηση... Έγινε άμεση ειδοποίηση των κοινωνικών υπηρεσιών. ").setPositiveButton("OK", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
@@ -122,7 +139,7 @@ public class ElderMonitoringActivity extends AppCompatActivity {
                 }
             }).show();
             break;
-            case GOOD:
+            case GOOD: //The elder is fine.
                 bob.setMessage("Μήνυμα από "+ e.getName()+": Καλησπέρα! Καλά είμαι. Σε ευχαριστώ που νοιάζεσαι.").setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -130,7 +147,7 @@ public class ElderMonitoringActivity extends AppCompatActivity {
                     }
                 }).show();
                 break;
-            case NEEDS_ATTENTION_FINE:
+            case NEEDS_ATTENTION_FINE: //The elder is fine but needs something else.
                 bob.setMessage("Μήνυμα από "+ e.getName()+": Καλησπέρα. Καλά είμαι αλλά χρειάζομαι ψώνια για το σπίτι. Θα σε περιμένω να μου φέρεις.").setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -187,6 +204,10 @@ public class ElderMonitoringActivity extends AppCompatActivity {
         });
         emergency_text = (TextView) findViewById(R.id.message_sent);
     }
+
+    /*
+     *  The Options menu.
+     */
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

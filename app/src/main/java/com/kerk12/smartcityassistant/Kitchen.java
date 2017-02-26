@@ -10,9 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by kgiannakis on 13/2/2017.
+ * Class used for holding and managing the restaurants, dishes and dish mappings.
  */
-
 public class Kitchen {
     private static List<Restaurant> restaurants = null;
     private static List<Dish> dishes = null;

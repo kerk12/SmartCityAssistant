@@ -10,6 +10,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+/**
+ *
+ */
 public class EOrderMainActivity extends AppCompatActivity {
 
     public static String RESTAURANT_PICKER_TAG = "rest_picker";
@@ -25,6 +28,9 @@ public class EOrderMainActivity extends AppCompatActivity {
     }
 
 
+    /**
+     * Used for checking the backstack when the back button is pressed.
+     */
     @Override
     public void onBackPressed() {
         super.onBackPressed();

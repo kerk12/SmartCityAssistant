@@ -4,9 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by kgiannakis on 13/2/2017.
+ * Class used for depicting dish mappings to restaurants.
  */
-
 public class DishMapping {
     private int RestaurantID;
     private List<Integer> mappedDishes = new ArrayList<Integer>();

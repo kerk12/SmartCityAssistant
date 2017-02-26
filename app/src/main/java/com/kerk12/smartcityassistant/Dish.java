@@ -1,9 +1,8 @@
 package com.kerk12.smartcityassistant;
 
 /**
- * Created by kgiannakis on 13/2/2017.
+ * Class used for modelling restaurant dishes. Used in EOrder
  */
-
 public class Dish {
     private String name;
     private double price;
