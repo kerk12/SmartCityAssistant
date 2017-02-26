@@ -28,19 +28,34 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeoutException;
 
 /**
- * Created by kerk12 on 9/12/2016.
+ * Class used for managing the requests needed for connecting the Directions API.
+ * @see <a href="https://developers.google.com/maps/documentation/directions/start">https://developers.google.com/maps/documentation/directions/start</a>
  */
-
 public class MapHelper {
 
+    /**
+     * Map with all the required request parameters.
+     */
     private Map<String, String> reqMap = null;
     private Context c = null;
     private boolean configured = false;
+    /**
+     * List with all the waypoints recieved from the API.
+     */
     private List<LatLng> travel = null;
+    /**
+     * The result string, in JSON form.
+     */
     private String result;
     private boolean calculated = false;
     private String TransitMode = "driving";
+    /**
+     * List with the instructions.
+     */
     private List<String> instructions = null;
+    /**
+     * List of the intermediate waypoints.
+     */
     private List<LatLng> intermediatePoints = null;
     private String language = "en";
 
@@ -55,6 +70,12 @@ public class MapHelper {
         configured = true;
     }
 
+    /**
+     * Public constructor for the MapHelper Class. It is required that the class is instantiated.
+     * @param requestDirections The map with the directions.
+     * @param TransitMode The transit mode.
+     * @param c The application's context.
+     */
     public MapHelper(Map<String, String> requestDirections, String TransitMode, Context c){
         reqMap = requestDirections;
         this.c = c;
@@ -62,6 +83,13 @@ public class MapHelper {
         this.TransitMode = TransitMode;
     }
 
+    /**
+     * Public constructor for the MapHelper Class. It is required that the class is instantiated.
+     * @param requestDirections The map with the directions.
+     * @param TransitMode The transit mode.
+     * @param c The application's context.
+     * @param language The result instructions' language.
+     */
     public MapHelper(Map<String, String> requestDirections, String TransitMode,String language, Context c){
         reqMap = requestDirections;
         this.c = c;
@@ -70,8 +98,11 @@ public class MapHelper {
         this.language = language;
     }
 
-
-    private String makeGet() throws InstantiationException {
+    /**
+     * Method used for making the final GET URL.
+     * @return The GET URL.
+     */
+    private String makeGet() {
 
         StringBuilder sb = new StringBuilder();
 
@@ -108,8 +139,15 @@ public class MapHelper {
         return sb.toString();
     }
 
+
     private class DirectionsGetter extends AsyncTask<URL, Void, String>{
 
+        /**
+         * Gets the final result string.
+         * @param reqURL The request's url.
+         * @return The result string in JSON.
+         * @throws IOException If the connection fails, or if it can't parse the result properly.
+         */
         private String getDirections(URL reqURL) throws IOException {
             InputStream is;
             String content = null;
@@ -143,7 +181,6 @@ public class MapHelper {
                 result = content;
                 return content;
             } catch (IOException e) {
-                //TODO whatever...
                 e.printStackTrace();
                 return  null;
             }
@@ -156,7 +193,16 @@ public class MapHelper {
 
         }
     }
-    private boolean getPolylinePoints() throws InstantiationException, MalformedURLException, ExecutionException, InterruptedException, TimeoutException {
+
+    /**
+     * Parses the final PolyLine points from the final string, along with the instructions and the travel duration.
+     * @return True on Success, False on failure.
+     * @throws MalformedURLException If no protocol is specified in the URL.
+     * @throws ExecutionException If the AsyncTask fails.
+     * @throws InterruptedException If the AsyncTask is interrupted.
+     * @throws TimeoutException If the connection times out.
+     */
+    private boolean getPolylinePoints() throws MalformedURLException, ExecutionException, InterruptedException, TimeoutException {
         String url = makeGet();
         Log.d("MapHelper", url);
         URL directionsURL = new URL(url);

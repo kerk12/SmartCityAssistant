@@ -14,9 +14,8 @@ import java.util.List;
 import static com.kerk12.smartcityassistant.SmartDevice.DeviceCategory.LIGHTING;
 
 /**
- * Created by kerk12 on 3/2/2017.
+ * Class used for modelling smart devices. Used in SmartHome.
  */
-
 public class SmartDevice {
 
     private String name;
@@ -29,11 +28,6 @@ public class SmartDevice {
     private DeviceCategory category = null;
 
     public enum DeviceCategory{LIGHTING, GENERIC, ENTERTAINMENT}
-//    public static final String LIGHTING = "lighting";
-//    public static final String GENERIC = "generic_appliance";
-//    public static final String ENTERTAINMENT = "entertainment";
-
-
 
     public SmartDevice(String name, boolean activated){
         this.name = name;

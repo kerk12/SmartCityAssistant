@@ -6,9 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by kerk12 on 3/2/2017.
+ * Class used for managing smart devices. Holds all the smart devices inside the house.
  */
-
 public class SmartDeviceManager {
     private static List<SmartDevice> deviceList = null;
 
@@ -26,17 +25,24 @@ public class SmartDeviceManager {
             DeviceExtraSetting volume = new DeviceExtraSetting("Ένταση", DeviceExtraSetting.SLIDER);
             DeviceExtraSetting channel = new DeviceExtraSetting("Κανάλι", DeviceExtraSetting.NUM_UP_DOWN);
 
+            SmartDevice sdev4 = new SmartDevice("Στερεοφωνικό", true, "Σαλόνι");
+            DeviceExtraSetting volume2 = new DeviceExtraSetting("Ένταση", DeviceExtraSetting.SLIDER);
+            sdev4.AddExtraSetting(volume2);
             sdev3.AddExtraSetting(volume);
             sdev3.AddExtraSetting(channel);
             sdev3.setCategory(SmartDevice.DeviceCategory.ENTERTAINMENT);
             addSmartDevice(sdev1);
             addSmartDevice(sdev2);
             addSmartDevice(sdev3);
-
+            addSmartDevice(sdev4);
         }
         return deviceList;
     }
 
+    /**
+     * Add a smart device to the list
+     * @param devNew The device to be added.
+     */
     public static void addSmartDevice(SmartDevice devNew){
         for(SmartDevice dev:deviceList){
             if (dev.getName() == devNew.getName()){
@@ -47,7 +53,10 @@ public class SmartDeviceManager {
         deviceList.add(devNew);
     }
 
-
+    /**
+     * Toggle the power of a device
+     * @param position The index of the device on the master list.
+     */
     public static void TogglePower(int position){
         SmartDevice devToActivate = deviceList.get(position);
         if (devToActivate.isActivated()){
@@ -59,6 +68,11 @@ public class SmartDeviceManager {
 
     }
 
+    /**
+     * Set the power of a device
+     * @param position The device's index.
+     * @param activated The power state.
+     */
     public static void SetPower(int position, boolean activated){
         SmartDevice devToActivate = deviceList.get(position);
         devToActivate.setActivated(activated);

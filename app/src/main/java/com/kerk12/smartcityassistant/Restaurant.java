@@ -4,9 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by kgiannakis on 13/2/2017.
+ * Class for modelling the restaurants used in EOrder.
  */
-
 public class Restaurant {
     private String name;
     private String phone_number;
