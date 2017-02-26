@@ -16,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,6 +29,7 @@ public class ElderMonitoringActivity extends AppCompatActivity {
 
     private List<Elder> ElderList = ElderManager.getElders();
     private int SelectedElder = -1;
+    private boolean SendingMessage = false;
 
     /**
      * Adapter for managing the elders in the recyclerview.
@@ -54,6 +56,10 @@ public class ElderMonitoringActivity extends AppCompatActivity {
             holder.layout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    if (SendingMessage){
+                        Toast.makeText(getApplicationContext(), "Γίνεται αποστολή μηνύματος, παρακαλώ περιμένετε...", Toast.LENGTH_LONG).show();
+                        return;
+                    }
                     SelectedElder = position;
                     UpdateUI();
                 }
@@ -110,6 +116,12 @@ public class ElderMonitoringActivity extends AppCompatActivity {
         } else {
             emergency_text.setVisibility(View.GONE);
         }
+        cam.setVisibility(View.VISIBLE);
+        if (e.getCondition() == Elder.Condition.GOOD){
+            cam.setImageResource(R.drawable.old_man);
+        } else {
+            cam.setImageResource(R.drawable.static_cam);
+        }
     }
 
     /**
@@ -155,10 +167,12 @@ public class ElderMonitoringActivity extends AppCompatActivity {
                     }
                 }).show();
         }
+        SendingMessage = false;
     }
     RecyclerView elderRecycler;
     ElderAdapter mAdapter;
     TextView name, location, sendingMsg, emergency_text;
+    ImageView cam;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_elder_monitoring);
@@ -186,6 +200,7 @@ public class ElderMonitoringActivity extends AppCompatActivity {
                 }
                 chatButton.setEnabled(false);
                 sendingMsg.setVisibility(View.VISIBLE);
+                SendingMessage = true;
                 CountDownTimer t = new CountDownTimer(7000,1000) {
                     @Override
                     public void onTick(long millisUntilFinished) {
@@ -203,6 +218,7 @@ public class ElderMonitoringActivity extends AppCompatActivity {
             }
         });
         emergency_text = (TextView) findViewById(R.id.message_sent);
+        cam = (ImageView) findViewById(R.id.camera_elder_mon);
     }
 
     /*

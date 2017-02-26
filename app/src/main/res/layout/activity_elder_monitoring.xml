@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_elder_monitoring"
     android:layout_width="match_parent"
@@ -94,7 +95,8 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/sending_message"
                     android:textColor="@android:color/holo_orange_dark"
-                    android:visibility="gone" />
+                    android:visibility="gone"
+                    android:padding="10dp"/>
 
                 <TextView
                     android:text="Έχουν ειδοποιηθεί οι κοινωνικές υπηρεσίες."
@@ -103,6 +105,15 @@
                     android:id="@+id/message_sent"
                     android:textColor="@color/device_disabled"
                     android:textSize="18sp"
+                    android:visibility="gone"
+                    android:padding="10dp"/>
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/old_man"
+                    android:id="@+id/camera_elder_mon"
+                    android:scaleType="fitCenter"
                     android:visibility="gone" />
 
             </LinearLayout>
