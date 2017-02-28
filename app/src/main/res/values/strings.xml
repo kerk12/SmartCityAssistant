@@ -106,4 +106,7 @@
     <string name="help_url">https://drive.google.com/open?id=0ByFo97YBQLLubFdIdkpFQ0JFR2c</string>
     <string name="waypoint_location">Τοποθεσία προορισμού/ενδιάμεσου σημείου:</string>
     <string name="device_status">Κατάσταση:</string>
+    <string name="copyright">Copyright &#169; Κυριάκος Γιαννάκης, Βασίλης Ζωγράφος 2016&#8211;2017 \n Η εφαρμογή υπόκειται στην άδεια MIT</string>
+    <string name="about_the_app">Σχετικά με την εφαρμογή</string>
+    <string name="github_link">https://github.com/kerk12/SmartCityAssistant</string>
 </resources>
